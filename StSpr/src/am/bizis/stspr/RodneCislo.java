@@ -54,7 +54,7 @@ public class RodneCislo {
 				if ((rok>=0)&&(rok<=rok_nyni)){
 					//kontrola spravnosti dne
 					int den=Integer.parseInt(dd);
-					if ((den>0)&&(den<32)){
+					if ((den!=0)&&(den<32)){
 						//kontrola spravnosti mesice, navic ziskame pohlavi
 						int mesic=Integer.parseInt(mm);
 						if((mesic>0)&&(mesic<13)){
@@ -87,8 +87,15 @@ public class RodneCislo {
 						}
 						
 						//kontrola delitelnosti jedenacti
-						int cislo=Integer.parseInt(yy+mm+dd+control);
-						if(cislo%11==0){
+						String cislo=yy+mm+dd+control;
+						int suda=0,licha=0;
+						for(int i=0;i<cislo.length();i=i+2){
+							licha=licha+Integer.parseInt(""+cislo.charAt(i));
+						}
+						for(int i=1;i<cislo.length();i=i+2){
+							suda=suda+Integer.parseInt(""+cislo.charAt(i));
+						}
+						if((Math.abs(suda-licha))%11==0){
 							this.RODNE_CISLO=rc;
 						} else{
 							this.RODNE_CISLO=CHYBA.toString();
