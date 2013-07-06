@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RodneCislo {
-	private static final String VZOR="([0-9]{2})([0-9]{2})([0-9]{2})/([0-9]{3,4})"; //TODO lomeno neni povinne
+	private static final String VZOR="([0-9]{2})([0-9]{2})([0-9]{2})/?([0-9]{3,4})";
 	private final String RODNE_CISLO;
 	private final Date NAROZENI;
 	private final Pohlavi POHLAVI;
@@ -97,7 +97,7 @@ public class RodneCislo {
 							suda=suda+Integer.parseInt(""+cislo.charAt(i));
 						}
 						if((Math.abs(suda-licha))%11==0){
-							this.RODNE_CISLO=rc;
+							this.RODNE_CISLO=yy+mm+dd+"/"+control;
 						} else{
 							this.RODNE_CISLO=CHYBA.toString();
 							throw new IllegalIDNumberException("Delitelnost 11");
