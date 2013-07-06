@@ -31,20 +31,26 @@ public class RodneCislo {
 		Pattern vzor=Pattern.compile(VZOR);
 		Matcher ma=vzor.matcher(rc);
 		if (ma.matches()){//dostali jsme neco, co pripomina rodne cislo
-			//rozstrihame na kousky
-			String yy=ma.group(0);
-			String mm=ma.group(1);
-			String dd=ma.group(2);
-			String control=ma.group(3);
+			//rozstrihame na kousky			
+			String yy=ma.group(1);
+			String mm=ma.group(2);
+			String dd=ma.group(3);
+			String control=ma.group(4);
 			
 			//soucasny rok
 			Date dnes=new Date();
-			DateFormat df=new SimpleDateFormat("yy");
+			DateFormat df=new SimpleDateFormat("yyyy");
 			int rok_nyni=Integer.parseInt(df.format(dnes));
 			
-			//try{
+			//udelame z yy yyyy
+			df=new SimpleDateFormat("yy");
+			Date d1;
+			try {
+				d1 = (Date)df.parse(yy);
+				df=new SimpleDateFormat("yyyy");
+				int rok=Integer.parseInt(df.format(d1));
+				
 				//kontrola spravnosti roku
-				int rok=Integer.parseInt(yy);
 				if ((rok>=0)&&(rok<=rok_nyni)){
 					//kontrola spravnosti dne
 					int den=Integer.parseInt(dd);
@@ -100,7 +106,9 @@ public class RodneCislo {
 					this.NAROZENI=CHYBA.getNarozeni();
 					throw new IllegalYearException();
 				}
-			//}	
+			} catch(ParseException e){
+				throw new IllegalYearException();
+			}
 		} else{
 			this.POHLAVI=CHYBA.getPohlavi();
 			this.RODNE_CISLO=CHYBA.toString();
