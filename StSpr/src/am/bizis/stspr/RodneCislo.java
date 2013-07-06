@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RodneCislo {
-	private static final String VZOR="([0-9]{2})([0-9]{2})([0-9]{2})/([0-9]{3,4})";
+	private static final String VZOR="([0-9]{2})([0-9]{2})([0-9]{2})/([0-9]{3,4})"; //TODO lomeno neni povinne
 	private final String RODNE_CISLO;
 	private final Date NAROZENI;
 	private final Pohlavi POHLAVI;
@@ -20,7 +20,7 @@ public class RodneCislo {
 		this.POHLAVI=Pohlavi.MUZ;
 	}
 	
-	public RodneCislo(String rc) throws IllegalDateException{
+	public RodneCislo(String rc) throws IllegalDateException,IllegalIDNumberException{
 		/* pomoci regulernich vyrazu se zjisti zda vstupni String ma
 		 * podobu rodneho cisla, dale se z nej vykousou jednotlive casti,
 		 * ktere se nasledne zvaliduji
@@ -45,7 +45,7 @@ public class RodneCislo {
 			//try{
 				//kontrola spravnosti roku
 				int rok=Integer.parseInt(yy);
-				if ((rok>=0)&&(rok<rok_nyni)){
+				if ((rok>=0)&&(rok<=rok_nyni)){
 					//kontrola spravnosti dne
 					int den=Integer.parseInt(dd);
 					if ((den>0)&&(den<32)){
@@ -58,11 +58,11 @@ public class RodneCislo {
 							this.POHLAVI=Pohlavi.MUZ;
 							mesic-=20;
 						}
-						else if ((mesic>50)&&(mesic<62)){
+						else if ((mesic>50)&&(mesic<63)){
 							this.POHLAVI=Pohlavi.ZENA;
 							mesic-=50;
 						}
-						else if ((mesic>70)&&(mesic<72)){
+						else if ((mesic>70)&&(mesic<83)){
 							this.POHLAVI=Pohlavi.ZENA;
 							mesic-=70;
 						} else{
@@ -86,7 +86,7 @@ public class RodneCislo {
 							this.RODNE_CISLO=rc;
 						} else{
 							this.RODNE_CISLO=CHYBA.toString();
-							throw new IllegalIDNumberException();
+							throw new IllegalIDNumberException("Delitelnost 11");
 						}
 					}else{
 						this.POHLAVI=CHYBA.getPohlavi();
@@ -151,8 +151,8 @@ public class RodneCislo {
 				if ((den>0)&&(den<32)){
 					//kontrola spravnosti mesice
 					int mesic=Integer.parseInt(mm);
-					if(!(((mesic>0)&&(mesic<13))||((mesic>20)&&(mesic<33))||((mesic>50)&&(mesic<62))||((mesic>70)&&(mesic<72))))
-						ret=false;
+					if(!(((mesic>0)&&(mesic<13))||((mesic>20)&&(mesic<33))||((mesic>50)&&(mesic<63))||
+							((mesic>70)&&(mesic<83)))) ret=false;
 					else{
 						//kontrola delitelnosti jedenacti
 						int cislo=Integer.parseInt(yy+mm+dd+control);

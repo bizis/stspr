@@ -10,5 +10,9 @@ public class IllegalIDNumberException extends IllegalArgumentException {
 	public IllegalIDNumberException(){
 		super("Neplatne rodne cislo");
 	}
+	
+	public IllegalIDNumberException(String msg){
+		super("Neplatne rodne cislo: "+msg);
+	}
 
 }
