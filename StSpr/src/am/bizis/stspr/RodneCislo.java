@@ -28,6 +28,7 @@ public class RodneCislo {
 		 * Je-li rodne cislo platne, naplnime kontejnery, jinak vyplivneme
 		 * vyjimku
 		 */
+		try{
 		Pattern vzor=Pattern.compile(VZOR);
 		Matcher ma=vzor.matcher(rc);
 		if (ma.matches()){//dostali jsme neco, co pripomina rodne cislo
@@ -122,7 +123,9 @@ public class RodneCislo {
 			this.NAROZENI=CHYBA.getNarozeni();
 			throw new IllegalIDNumberException();
 		}
-		
+		}catch(NullPointerException e){
+			throw new IllegalIDNumberException();
+		}
 	}
 	@Override
 	public String toString(){
@@ -144,38 +147,56 @@ public class RodneCislo {
 	 */
 	public static boolean jePlatne(String rc){
 		boolean ret=true;
+		if(rc==null) ret=false;
+		else{
 		Pattern vzor=Pattern.compile(VZOR);
 		Matcher ma=vzor.matcher(rc);
 		if (ma.matches()){//dostali jsme neco, co pripomina rodne cislo
-			//rozstrihame na kousky
-			String yy=ma.group(0);
-			String mm=ma.group(1);
-			String dd=ma.group(2);
-			String control=ma.group(3);
+			//rozstrihame na kousky			
+			String yy=ma.group(1);
+			String mm=ma.group(2);
+			String dd=ma.group(3);
+			String control=ma.group(4);
 			
 			//soucasny rok
 			Date dnes=new Date();
-			DateFormat df=new SimpleDateFormat("yy");
+			DateFormat df=new SimpleDateFormat("yyyy");
 			int rok_nyni=Integer.parseInt(df.format(dnes));
 			
-			//kontrola spravnosti roku
-			int rok=Integer.parseInt(yy);
-			if ((rok>=0)&&(rok<rok_nyni)){
-				//kontrola spravnosti dne
-				int den=Integer.parseInt(dd);
-				if ((den>0)&&(den<32)){
-					//kontrola spravnosti mesice
-					int mesic=Integer.parseInt(mm);
-					if(!(((mesic>0)&&(mesic<13))||((mesic>20)&&(mesic<33))||((mesic>50)&&(mesic<63))||
-							((mesic>70)&&(mesic<83)))) ret=false;
-					else{
+			//udelame z yy yyyy
+			df=new SimpleDateFormat("yy");
+			Date d1;
+			try {
+				d1 = (Date)df.parse(yy);
+				df=new SimpleDateFormat("yyyy");
+				int rok=Integer.parseInt(df.format(d1));
+				
+				//kontrola spravnosti roku
+				if ((rok>=0)&&(rok<=rok_nyni)){
+					//kontrola spravnosti dne
+					int den=Integer.parseInt(dd);
+					if ((den!=0)&&(den<32)){
+						//kontrola spravnosti mesice
+						int mesic=Integer.parseInt(mm);
+						if(!(((mesic>0)&&(mesic<13))||((mesic>20)&&(mesic<33))||((mesic>50)&&(mesic<63))||
+								((mesic>70)&&(mesic<83)))) ret=false;
 						//kontrola delitelnosti jedenacti
-						int cislo=Integer.parseInt(yy+mm+dd+control);
-						if(!(cislo%11==0))ret=false;						
-					}
+						String cislo=yy+mm+dd+control;
+						int suda=0,licha=0;
+						for(int i=0;i<cislo.length();i=i+2){
+							licha=licha+Integer.parseInt(""+cislo.charAt(i));
+						}
+						for(int i=1;i<cislo.length();i=i+2){
+							suda=suda+Integer.parseInt(""+cislo.charAt(i));
+						}
+						if(!((Math.abs(suda-licha))%11==0)) ret=false;
+					}else ret=false;
 				}else ret=false;
-			}else ret=false;
+			} catch(ParseException e){
+				ret=false;
+			}
 		} else ret=false;
+		}
 		return ret;
 	}
 }
