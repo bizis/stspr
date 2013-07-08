@@ -16,10 +16,13 @@ public class Osoba {
 	private final ISEOMistoOkres narozeni;
 	private HashSet<Titul> tituly;
 	private Vzdelani nejvyssiDosazene;
-	// stav, cislo OP, cislo pasu, cislo datove schranky
-	//pravni zpusobilost, opatrovnik
+	private int cisloOP;
+	private Stav stav;
+	private Osoba asociace;
+	private String datovaschrannka;
+	//cislo pasu, pravni zpusobilost, opatrovnik
 
-	/* KONSTRKTORY */
+	/* KONSTRUKTORY */
 	public Osoba(String jmeno,String prijmeni){
 		this(jmeno,prijmeni,"");
 	}
@@ -179,11 +182,18 @@ public class Osoba {
 		if(v.getLevel()<=Vzdelani.STREDNI.getLevel()) this.nejvyssiDosazene=v;
 		else throw new IllegalArgumentException("Vyssi nez stredni vzdelani se zadava pres titul!");
 	}
+		
+	/**
+	 * @return nejvyssi dosazene vzdelani
+	 */
+	public Vzdelani getNejvyssiVzdelani(){
+		return this.nejvyssiDosazene;
+	}
 	
-	@Override
 	/**
 	 * Plna podoba jmena vcetne titulu
 	 */
+	@Override
 	public String toString(){
 		String jmeno="";
 		for(Titul t:tituly){
@@ -196,5 +206,46 @@ public class Osoba {
 			if(!t.uvadenPredJmenem()) jmeno+=" "+t.getZkratka();
 		}
 		return jmeno;
+	}
+	
+	/**
+	 * Novy obcansky prukaz
+	 * @param OP cislo
+	 */
+	public void setCisloOP(int OP){
+		this.cisloOP=OP;
+	}
+	
+	/**
+	 * Cislo platneho OP
+	 * @return
+	 */
+	public int getCisloOP(){
+		return this.cisloOP;
+	}
+	
+	public void setStav(Stav s){
+		this.stav=s;
+	}
+	
+	public Stav getStav(){
+		return this.stav;
+	}
+	
+	public void setAsociace(Osoba o){//TODO exceptions
+		if((this.stav==Stav.MANZELSTVI)&&o.getPohlavi()!=this.getPohlavi()) this.asociace=o;
+		if((this.stav==Stav.PARTNERSTVI)&&o.getPohlavi()==this.getPohlavi()) this.asociace=o;
+	}
+	
+	public Osoba getAsociace(){
+		return this.asociace;
+	}
+
+	public void setDatovaSchranka(String ds){
+		this.datovaschrannka=ds;
+	}
+	
+	public String getDatovaSchranka(){
+		return this.datovaschrannka;
 	}
 }
