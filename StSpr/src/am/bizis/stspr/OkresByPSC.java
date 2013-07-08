@@ -9,6 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringEscapeUtils;
 
+import am.bizis.stspr.exception.IllegalContentTypeException;
+import am.bizis.stspr.exception.PostNotFoundException;
+
 public class OkresByPSC {
 	
 	/**

@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.exception;
 
 public class PostNotFoundException extends IllegalArgumentException {
 
