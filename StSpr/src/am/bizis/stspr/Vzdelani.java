@@ -1,8 +1,9 @@
 package am.bizis.stspr;
 
 public enum Vzdelani {
+	ZADNE(0),
 	ZAKLADNI(1), 
-	STREDNI(2), VYUCEN(2), MATURITA(2),
+	STREDNI(1.5), VYUCEN(1.7), MATURITA(2),
 	VYSSI_ODBORNE(2.5),
 	BAKALAR(3),
 	MAGISTR(4),RIGOROZA(4.5),
