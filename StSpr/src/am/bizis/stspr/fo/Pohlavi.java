@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 public enum Pohlavi {
 	MUZ, ZENA;

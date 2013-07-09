@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 import java.io.IOException;
 
@@ -37,7 +37,7 @@ public class Adresa extends ISEOMistoOkres{
 	}
 	
 	public Adresa(int popisne, String obec, String cast, int PSC) throws IllegalArgumentException,IOException{
-		super(obec,OkresByPSC.getOkresByPSC(PSC));
+		super(obec,PSCTools.getOkres(PSC));
 		if((PSC>=10000)&&(PSC<=99999))this.PSC=PSC; 
 		else throw new IllegalArgumentException("PSC ma 5 celosicelnych znaku");
 		this.POPISNE=popisne;
