@@ -13,7 +13,7 @@ public class ISEOOsoba extends Osoba {
 	private Stav stav;
 	private Osoba asociace;
 	private HashSet<String> cisloPasu;
-	//pravni zpusobilost, opatrovnik
+	//TODO: pravni zpusobilost, opatrovnik
 
 	public ISEOOsoba(String jmeno, String prijmeni, RodneCislo rc, ISEOMistoOkres narozeni) {
 		super(jmeno, prijmeni, rc);
@@ -154,17 +154,19 @@ public class ISEOOsoba extends Osoba {
 	 */
 	@Override
 	public String toString(){
-		String jmeno="";
-		if ((tituly.isEmpty())) for(Titul t:tituly){
-			if(t.uvadenPredJmenem()) jmeno+=t.getZkratka()+" "; 
+		String jmeno="",zajm="";
+		if (!(tituly.isEmpty())){
+			//TODO: srovnat tituly
+			for(Titul t:tituly){
+				if(t.uvadenPredJmenem()) jmeno+=t.getZkratka()+" ";
+				else zajm+=t.getZkratka();
+			}
 		}
 		jmeno+=this.jmeno+" ";
 		if(this.druhe!=null) jmeno+=this.druhe+" ";
 		jmeno+=this.prijmeni;
 		if(!this.prijmeni.equals(super.getRodnePrijmeni())) jmeno+=" roz. "+super.getRodnePrijmeni();
-		if (!tituly.isEmpty()) for(Titul t:tituly){
-			if(!t.uvadenPredJmenem()) jmeno+=" "+t.getZkratka();
-		}
+		if (zajm!="") jmeno+=", "+zajm;
 		return jmeno;
 	}
 
