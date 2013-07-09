@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 /**
  * Misto, jak je vedeno v Informacnim systemu evidence obyvatel (133/2000 Sb.)

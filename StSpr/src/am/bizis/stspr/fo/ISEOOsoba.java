@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 import java.util.HashSet;
 
@@ -18,22 +18,29 @@ public class ISEOOsoba extends Osoba {
 	public ISEOOsoba(String jmeno, String prijmeni, RodneCislo rc, ISEOMistoOkres narozeni) {
 		super(jmeno, prijmeni, rc);
 		this.NAROZENI=narozeni;
+		this.obcanstvi=new HashSet<CountryCode>();
+		this.cisloPasu=new HashSet<String>();
 	}
 
 	public ISEOOsoba(String jmeno, String druhe, String prijmeni, RodneCislo rc,ISEOMistoOkres narozeni) {
 		super(jmeno, druhe, prijmeni, rc);
 		this.NAROZENI=narozeni;
+		this.obcanstvi=new HashSet<CountryCode>();
+		this.cisloPasu=new HashSet<String>();
 	}
 
 	public ISEOOsoba(String jmeno, String druhe, String rodne, String prijmeni,
 			RodneCislo rc,ISEOMistoOkres narozeni) {
 		super(jmeno, druhe, rodne, prijmeni, rc);
 		this.NAROZENI=narozeni;
+		this.obcanstvi=new HashSet<CountryCode>();
+		this.cisloPasu=new HashSet<String>();
 	}
 
 	public ISEOMistoOkres getMistoNarozeni() {
 		return NAROZENI;
 	}
+	
 
 	/**
 	 * @return the obcanstvi
@@ -88,7 +95,7 @@ public class ISEOOsoba extends Osoba {
 	 * @param cisloOP the cisloOP to set
 	 */
 	public void setCisloOP(int cisloOP) {
-		this.cisloOP = cisloOP;
+		if(obcanstvi.contains(CountryCode.CZ)) this.cisloOP = cisloOP;
 	}
 
 	/**
@@ -168,6 +175,15 @@ public class ISEOOsoba extends Osoba {
 		if(!this.prijmeni.equals(super.getRodnePrijmeni())) jmeno+=" roz. "+super.getRodnePrijmeni();
 		if (zajm!="") jmeno+=", "+zajm;
 		return jmeno;
+	}
+	
+	public static ISEOOsoba toISEO(Osoba o,ISEOMistoOkres narozeni){
+		ISEOOsoba io = new ISEOOsoba(o.getKrestni(),o.getDruhe(),o.getRodnePrijmeni(),o.getPrijmeni(),o.getRodneCislo(),narozeni);
+		io.setDatovaSchranka(o.getDatovaSchranka());
+		for(Titul t:o.getTituly()){
+			io.addTitul(t);
+		}
+		return io;
 	}
 
 }

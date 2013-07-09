@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 public enum Titul {
 	DiS(Vzdelani.VYSSI_ODBORNE,"diplomovany specialista","DiS.",false),

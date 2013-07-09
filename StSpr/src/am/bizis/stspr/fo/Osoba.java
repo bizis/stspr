@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -97,6 +97,10 @@ public class Osoba {
 		if(t.getLevel().getLevel()<this.nejvyssiDosazene.getLevel()) this.nejvyssiDosazene=t.getLevel();
 	}
 	
+	public HashSet<Titul> getTituly(){
+		return this.tituly;
+	}
+	
 	/**
 	 * Slouzi k zadani zakladniho a stredniho vzdelani, vyssi urovne se zadavaji pres titul
 	 * @param v uroven nejvyssiho dosazeneho vzdelani
@@ -141,14 +145,14 @@ public class Osoba {
 	/**
 	 * @return the datovaschrannka
 	 */
-	public String getDatovaschrannka() {
+	public String getDatovaSchranka() {
 		return datovaschranka;
 	}
 
 	/**
 	 * @param datovaschrannka the datovaschrannka to set
 	 */
-	public void setDatovaschrannka(String datovaschranka) {
+	public void setDatovaSchranka(String datovaschranka) {
 		this.datovaschranka = datovaschranka;
 	}
 }

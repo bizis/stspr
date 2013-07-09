@@ -1,4 +1,4 @@
-package am.bizis.stspr;
+package am.bizis.stspr.fo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,13 +7,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import am.bizis.stspr.exception.IllegalContentTypeException;
 import am.bizis.stspr.exception.PostNotFoundException;
 
-public class OkresByPSC {
-	
+public class PSCTools {
 	/**
 	 * Nalezne okres k zadanemu PSC s vyuzitim stranek Ceske posty, s.p.
 	 * @param PSC Postovni smerovaci cislo
@@ -21,7 +21,7 @@ public class OkresByPSC {
 	 * @throws IOException chyba pri spojeni, nebo neplatny content-type (musi byt text/html; charset=UTF-8)
 	 * @throws PostNotFoundException posta s danym PSC nebyla nalezena
 	 */
-	public static String getOkresByPSC(int PSC) throws IOException,PostNotFoundException{
+	public static String getOkres(int PSC) throws IOException,PostNotFoundException{
 		String html=null;
 		
 		String zero;
@@ -54,4 +54,5 @@ public class OkresByPSC {
 		} else throw new IllegalContentTypeException(url+"\t"+c.getContentType());
 		return html;
 	}
+	
 }
