@@ -20,7 +20,8 @@ public class Osoba {
 	private Stav stav;
 	private Osoba asociace;
 	private String datovaschrannka;
-	//cislo pasu, pravni zpusobilost, opatrovnik
+	private HashSet<String> cisloPasu;
+	//pravni zpusobilost, opatrovnik
 
 	/* KONSTRUKTORY */
 	public Osoba(String jmeno,String prijmeni){
@@ -232,9 +233,10 @@ public class Osoba {
 		return this.stav;
 	}
 	
-	public void setAsociace(Osoba o){//TODO exceptions
+	public void setAsociace(Osoba o) throws IllegalArgumentException{
 		if((this.stav==Stav.MANZELSTVI)&&o.getPohlavi()!=this.getPohlavi()) this.asociace=o;
-		if((this.stav==Stav.PARTNERSTVI)&&o.getPohlavi()==this.getPohlavi()) this.asociace=o;
+		else if((this.stav==Stav.PARTNERSTVI)&&o.getPohlavi()==this.getPohlavi()) this.asociace=o;
+		else throw new IllegalArgumentException("Tyto osoby nemohou vstoupit v dany obcansky svazek");
 	}
 	
 	public Osoba getAsociace(){
@@ -247,5 +249,22 @@ public class Osoba {
 	
 	public String getDatovaSchranka(){
 		return this.datovaschrannka;
+	}
+	
+	public void addPas(String cislo){
+		cisloPasu.add(cislo);
+	}
+	
+	public boolean hasPas(String cislo){
+		if(cisloPasu.contains(cislo)) return true;
+		else return false;
+	}
+	
+	public HashSet<String> getPasy(){
+		return cisloPasu;
+	}
+	
+	public void remPas(String cislo){
+		cisloPasu.remove(cislo);
 	}
 }
