@@ -1,102 +1,113 @@
 package am.bizis.cds.ciselnik;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.lang.model.element.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import am.bizis.stspr.fo.Adresa;
 
 /**
  * Ciselnik Uzemni financni organy
- * 
- * Pri vytvoreni:
- * Stahne seznam ciselniku, nabidne pole financnich uradu
- * k dispozici metoda, ktera pro zvoleny UFO vrati c_ufo pro DPFDP4
  */
 public class UFO {
 	
 	private static final String URL_CISELNIK="http://adisepo.mfcr.cz/adistc/epo_ciselnik?C=ufo";
-	private static final String URL_CDS_UFO_LOOKUP="https://cds.mfcr.cz/cps/rde/xchg/cds/xsl/vyhledavani_ufo.html/papp/cds_general/?year=0";
+
+	/**
+	 * TODO funguje jen pro Prahu
+	 * @param a
+	 * @return
+	 */
+	public static int getUFO(Adresa a){
+		int c_ufo=0;
+		int p=a.getPSC()/100;
+		
+		//ujezd, seberov, 11, kunratice
+		if(p==148||p==149) c_ufo=2011;
+		//libus
+		else if((p==142&&a.getCast().equals("Libuš"))||p==143) c_ufo=2012;
+		//Benice, 22, Dolni mecholupy, kolovraty, kralovice, nedvezi, 15, petrovice, dubec, sterboholy
+		//10, kreslice
+		else if(p>=100&&p<110){
+			int d=p/10;
+			c_ufo=2000+d;
+		}
+		//PRAHA 1..20
+		else if(p>=110&&p<200){
+			int d=(p/10)-10;
+			c_ufo=2000+d;
+		}
+		else return 0;
+		return c_ufo;
+	}
 	
-	private final Document ciselnik;
-	private final String sidlo;
+	private static Document getCiselnik(){
+			Document XMLdoc=null;
+			try{
+				URL u=new URL(URL_CISELNIK);
+				URLConnection c=u.openConnection();
+				
+				DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
+				//TODO: validace
+				
+				DocumentBuilder db=dbf.newDocumentBuilder();
+				XMLdoc=db.parse(c.getInputStream());
+				XMLdoc.getDocumentElement().normalize();
+			}catch(MalformedURLException e){
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return XMLdoc;
+	}
 	
 	/**
-	 * Stahne XML z http://adisepo.mfcr.cz/adistc/epo_ciselnik?C=ufo
-	 * 		NEZvaliduje proti http://adisepo.mfcr.cz/adis/jepo/epo/ciselnik.xsd
-	 * 		NEPokud neni validni zvaliduje proti http://adisepo.mfcr.cz/adis/jepo/epo/chyby.xsd
-	 * 		NE-> Vrati chybu
-	 * Pokud je ciselnik validni, nacte jej do pameti
+	 * Pro zadane UFO vrati cufo do XML priznani
+	 * @param nazu_ufo
+	 * @return
 	 */
-	public UFO(Adresa a){
-		//this.ciselnik=getCiselnik();
-		this.ciselnik=null;
-		if(a.getObec().equals("Hlavní město Praha")) this.sidlo="Praha";
-		else this.sidlo=a.getObec();
-		getUFOname(sidlo);
-	}
-	
-	private Document getCiselnik(){
-		Document XMLdoc=null;
-		try{
-			URL u=new URL(URL_CISELNIK);
-			URLConnection c=u.openConnection();
-			
-			DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
-			//TODO: validace
-			
-			DocumentBuilder db=dbf.newDocumentBuilder();
-			XMLdoc=db.parse(c.getInputStream());
-			XMLdoc.getDocumentElement().normalize();
-		}catch(MalformedURLException e){
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static int getCUFO(String nazu_ufo){
+		int cufo=0;
+		Document ciselnik=getCiselnik();
+		NodeList vety=ciselnik.getElementsByTagName("Veta");
+		for(int i=0;i<vety.getLength();i++){
+			NamedNodeMap attr=vety.item(i).getAttributes();
+			if(attr.getNamedItem("nazu_ufo").getNodeValue().equals(nazu_ufo)) cufo=Integer.parseInt(attr.getNamedItem("c_ufo").getNodeValue());
 		}
-		return XMLdoc;
+		return cufo;
 	}
 	
-	public Document getDocument(){
-		return ciselnik;
-	}
-	
-	private String getUFOname(String sidlo){
-		String name=null;
-		try {
-			URL u=new URL(URL_CDS_UFO_LOOKUP);
-			HttpURLConnection c=(HttpURLConnection) u.openConnection();
-			c.setRequestMethod("POST");
-			c.setDoOutput(true);
-			c.setRequestProperty("txtSPD", sidlo);
-			BufferedReader r=new BufferedReader(new InputStreamReader(c.getInputStream()));
-			String line,content="";
-			while((line = r.readLine())!=null){
-				//content+=line;
-				System.out.print(line);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	/**
+	 * UI dostane pole pro vyber prislusneho UFO
+	 * @return
+	 */
+	public static String[] getNazuUFO(){
+		Document ciselnik=getCiselnik();
+		NodeList vety=ciselnik.getElementsByTagName("Veta");
+		String[] pole=new String[vety.getLength()];
+		for(int i=0;i<vety.getLength();i++){
+			NamedNodeMap attr=vety.item(i).getAttributes();
+			pole[i]=attr.getNamedItem("nazu_ufo").getNodeValue();
 		}
-		return name;
+		return pole;
 	}
 
 }
