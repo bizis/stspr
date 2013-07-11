@@ -5,11 +5,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import am.bizis.stspr.fo.Osoba;
 
 import taka.CountryCode;
 
-public class VetaD {
+public class VetaD implements IVeta{
 	
 	private final String DOKUMENT="DP4";
 	private final String K_ULADIS="DPF";
@@ -869,5 +876,14 @@ public class VetaD {
 	public String getZobdOd() throws ParseException{
 		zobd_od=DF.parse("1.1."+rok);
 		return DF.format(zobd_od);
+	}
+	@Override
+	public Element getElement() throws ParserConfigurationException {
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
+		Document EPO=docBuilder.newDocument();
+		Element VetaD=EPO.createElement("VetaD");
+		//TODO atributy
+		return VetaD;
 	}
 }
