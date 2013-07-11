@@ -18,7 +18,7 @@ import am.bizis.stspr.fo.Titul;
 import taka.CountryCode;
 
 /**
- * Vytvori element VetaD pisemnosti DPFDP4
+ * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o DAP
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#D
  * @author alex
  * @version 20130711

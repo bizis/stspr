@@ -1,9 +1,8 @@
 package am.bizis.cds.ciselnik;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -26,7 +25,8 @@ import am.bizis.stspr.fo.Adresa;
  */
 public class UFO {
 	
-	private static final String URL_CISELNIK="http://adisepo.mfcr.cz/adistc/epo_ciselnik?C=ufo";
+	//private static final String URL_CISELNIK="http://adisepo.mfcr.cz/adistc/epo_ciselnik?C=ufo";
+	private static final File CISELNIK=new File("/home/alex/ufo.xml");
 
 	/**
 	 * TODO funguje jen pro Prahu
@@ -59,14 +59,17 @@ public class UFO {
 	private static Document getCiselnik(){
 			Document XMLdoc=null;
 			try{
-				URL u=new URL(URL_CISELNIK);
-				URLConnection c=u.openConnection();
-				DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
-				DocumentBuilder db=dbf.newDocumentBuilder();
-				XMLdoc=db.parse(c.getInputStream());
+				//URL u=new URL(URL_CISELNIK);
+				//URLConnection c=u.openConnection();
+				//DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
+				//DocumentBuilder db=dbf.newDocumentBuilder();
+				//XMLdoc=db.parse(c.getInputStream());
+				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+				DocumentBuilder db = dbf.newDocumentBuilder();
+				XMLdoc = db.parse(CISELNIK);
 				XMLdoc.getDocumentElement().normalize();
 				SchemaFactory sf=SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-				URL schemaURL = new URL("http://adisepo.mfcr.cz/adis/jepo/epo/ciselnik.xsd");
+				File schemaURL = new File("/home/alex/ciselnik.xsd");
 				Schema schema = sf.newSchema(schemaURL);
 				Validator validator=schema.newValidator();
 				DOMSource source=new DOMSource(XMLdoc);
