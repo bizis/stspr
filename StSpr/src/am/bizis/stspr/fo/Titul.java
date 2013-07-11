@@ -12,9 +12,9 @@ public enum Titul {
 	Phd(Vzdelani.DOKTOR,"doktor","Ph.D.",false),Thd(Vzdelani.DOKTOR,"doktor teologie","Th.D.",false),
 	Doc(Vzdelani.AKADEMIA,"docent","Doc.",true), Prof(Vzdelani.AKADEMIA,"profesor","Prof.",true);
 	
-	private final Vzdelani level;
-	private final String titul,zkratka;
-	private final boolean predJmenem;
+	Vzdelani level;
+	String titul,zkratka;
+	boolean predJmenem;
 	
 	Titul(Vzdelani uroven,String titul,String zkratka, boolean predJmenem){
 		this.level=uroven;
@@ -23,19 +23,7 @@ public enum Titul {
 		this.predJmenem=predJmenem;
 	}
 	
-	Vzdelani getLevel(){
-		return this.level;
-	}
-	
-	String getTitul(){
-		return this.titul;
-	}
-	
-	String getZkratka(){
-		return this.zkratka;
-	}
-	
-	boolean uvadenPredJmenem(){
-		return this.predJmenem;
+	public String getZkratka(){
+		return zkratka;
 	}
 }
