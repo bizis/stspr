@@ -5,4 +5,6 @@ public interface IPodnik {
 	int getDIC();
 	String getJmeno();
 	OsobaTyp getTyp();
+	String getEmail();
+	int getTelefon();
 }

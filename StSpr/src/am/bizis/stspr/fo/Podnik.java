@@ -30,4 +30,16 @@ public class Podnik implements IPodnik {
 		return null;
 	}
 
+	@Override
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getTelefon() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

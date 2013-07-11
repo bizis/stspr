@@ -3,6 +3,9 @@ package am.bizis.stspr.fo;
 public class OSVC extends ISEOOsoba implements IPodnik {
 
 	private final int IC,DIC;
+	private String email;
+	private int telefon;
+	
 	public OSVC(String jmeno, String prijmeni, RodneCislo rc,
 			ISEOMistoOkres narozeni, int ic) {
 		super(jmeno, prijmeni, rc, narozeni);
@@ -51,4 +54,21 @@ public class OSVC extends ISEOOsoba implements IPodnik {
 		return OsobaTyp.FO;
 	}
 
+	public void setEmail(String email){
+		//TODO validate;
+		this.email=email;
+	}
+	@Override
+	public String getEmail(){
+		return email;
+	}
+	
+	public void setTelefon(int cislo){
+		//TODO validate
+		this.telefon=cislo;
+	}
+	@Override
+	public int getTelefon(){
+		return telefon;
+	}
 }
