@@ -26,4 +26,12 @@ public enum Titul {
 	public String getZkratka(){
 		return zkratka;
 	}
+	
+	public boolean uvadenPredJmenem(){
+		return predJmenem;
+	}
+	
+	public Vzdelani getLevel(){
+		return level;
+	}
 }

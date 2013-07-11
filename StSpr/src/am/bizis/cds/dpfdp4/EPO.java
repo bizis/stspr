@@ -37,7 +37,7 @@ public class EPO {
 		
 		//vety
 		for(IVeta v:content){
-			dpfdp4.appendChild(v.getElement());
+			dpfdp4.appendChild(EPO.adoptNode(v.getElement()));
 		}
 		return EPO;
 	}

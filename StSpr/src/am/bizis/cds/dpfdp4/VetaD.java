@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,21 +17,24 @@ import am.bizis.stspr.fo.Titul;
 
 import taka.CountryCode;
 
+/**
+ * Vytvori element VetaD pisemnosti DPFDP4
+ * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#D
+ * @author alex
+ * @version 20130711
+ */
 public class VetaD implements IVeta{
 	
-	private final String DOKUMENT="DP4";//Název dokumentu, musí být uvedeno DP4.
+	private final String DOKUMENT="DP4";
 	private final String K_ULADIS="DPF";
 	private final int KC_OP15_1A=24840;
-	private final DateFormat DF=new SimpleDateFormat("dd. MM. yyyy");
+	private final DateFormat DF=new SimpleDateFormat("dd.MM.yyyy");
 	private char audit;
-	private int c_ufo_cil,kc_dztrata,da_celod13,kc_csprij,kc_op15_1c,kc_op15_1d,kc_op15_1e1,
-	kc_op15_1e2,kc_pausal,kc_pzdp, kc_pzzt,m_cinvduch,m_deti,m_detiztpp,m_invduch,
-	m_manz,m_vyzmanzl,m_stud,m_ztpp, rok;
+	private int c_ufo_cil,m_cinvduch,m_deti,m_detiztpp,m_invduch, m_manz,m_vyzmanzl,m_stud,m_ztpp, rok;
 	private Date d_uv, d_duvpod, zdobd_do, zdobd_od, d_zjist;
-	private double da_slevy,da_slevy35ba,da_slevy35c,da_slezap,kc_danbonus,kc_dazvyhod,
-	kc_konkurs,kc_manztpp, kc_rozdbonus, kc_rozdil_zt,kc_slevy35c,kc_sraz367,kc_sraz3810,
-	kc_sraz385,kc_sraz_rezehp,kc_stud,kc_vyplbonus,kc_zalpred,kc_zalzavc,kc_zbyvpred,/*kc_zjidp,*/
-	/*kc_zjizt,*/sleva_rp,uhrn_slevy35ba,kc_rozdil_dp;
+	private double da_slevy,da_slevy35ba,da_slevy35c,da_slezap,kc_danbonus,kc_dazvyhod,kc_konkurs,kc_manztpp,kc_rozdbonus,kc_rozdil_zt,
+	kc_slevy35c,kc_sraz367,kc_sraz3810,kc_sraz385,kc_sraz_rezehp,kc_stud,kc_vyplbonus,kc_zalpred,kc_zalzavc,kc_zbyvpred,sleva_rp,uhrn_slevy35ba,
+	kc_rozdil_dp,kc_dztrata,da_celod13,kc_csprij,kc_op15_1c,kc_op15_1d,kc_op15_1e1,kc_op15_1e2,kc_pausal,kc_pzdp, kc_pzzt;
 	private CountryCode kod_popl;
 	private DAPTyp dap_typ;
 	private DAPDuvod duvodpoddapdpf;
@@ -50,12 +52,6 @@ public class VetaD implements IVeta{
 		zdobd_od=DF.parse("1.1."+rok);
 	}
 	/**
-	 * @return the audit
-	 */
-	public char getAudit() {
-		return audit;
-	}
-	/**
 	 * @param audit Zákonná povinnost ověření účetní závěrky auditorem
 	 * Hodnota může být pouze:
 	 * A - zákonná povinnost ověřit účetní závěrku auditorem, 
@@ -64,12 +60,6 @@ public class VetaD implements IVeta{
 	public void setAudit(char audit) {
 		if (audit=='A'|audit=='N') this.audit = audit;
 		else throw new IllegalArgumentException("Povolene hodnoty jsou 'A' a 'N'");
-	}
-	/**
-	 * @return the c_ufo_cil
-	 */
-	public int getC_ufo_cil() {
-		return c_ufo_cil;
 	}
 	/**
 	 * @param c_ufo_cil Sidlo mistne prislusneho spravce dane
@@ -86,7 +76,6 @@ public class VetaD implements IVeta{
 	public void setC_ufo_cil(int c_ufo_cil) {
 		this.c_ufo_cil = c_ufo_cil;
 	}
-
 	/**
 	 * @param d_uv Údaje ke dni:
 	 * Vyplňte datum, ke kterému se údaje tabulek vztahují.
@@ -96,35 +85,30 @@ public class VetaD implements IVeta{
 	public void setD_uv(Date d_uv) {
 		this.d_uv = d_uv;
 	}
-
 	/**
 	 * @param da_celod13 Daň celkem zaokrouhlená na celé Kč nahoru (ř. 58)
 	 */
 	public void setDa_celod13(double da_celod13) {
 		this.da_celod13 = (int)Math.round(da_celod13);
 	}
-
 	/**
 	 * @param da_slevy Slevy celkem podle § 35 odst. 1 zákona
 	 */
 	public void setDa_slevy(double da_slevy) {
 		this.da_slevy = da_slevy;
 	}
-
 	/**
 	 * @param da_slevy35ba Daň po uplatnění slev podle § 35, § 35a, 35b, a § 35ba zákona (ř. 60 - ř. 70)
 	 */
 	public void setDa_slevy35ba(double da_slevy35ba) {
 		this.da_slevy35ba = da_slevy35ba;
 	}
-
 	/**
 	 * @param da_slezap Daň podle § 16 zákona (ř. 57) nebo částka z ř. 330 přílohy č. 3 DAP
 	 */
 	public void setDa_slezap(double da_slezap) {
 		this.da_slezap = da_slezap;
 	}
-
 	/**
 	 * @param dap_typ DAP
 	 * Typ daňového přiznání.
@@ -136,19 +120,6 @@ public class VetaD implements IVeta{
 	 */
 	public void setDap_typ(DAPTyp dap_typ) {
 		this.dap_typ = dap_typ;
-	}
-	/**
-	 * @return 	Typ dokumentu
-	 * Název dokumentu, musí být uvedeno DP4.
-	 */
-	public String getDokument() {
-		return DOKUMENT;
-	}
-	/**
-	 * @return the duvodpoddapdpf
-	 */
-	public DAPDuvod getDuvodpoddapdpf() {
-		return duvodpoddapdpf;
 	}
 	/**
 	 * @param duvodpoddapdpf Kód rozlišení typu DAP
@@ -189,24 +160,11 @@ public class VetaD implements IVeta{
 		this.duvodpoddapdpf = duvodpoddapdpf;
 	}
 	/**
-	 * @return the d_duvpod
-	 */
-	public Date getD_duvpod() {
-		return d_duvpod;
-	}
-	/**
 	 * @param d_duvpod the d_duvpod to set
 	 */
 	public void setD_duvpod(Date d_duvpod) {
 		this.d_duvpod = d_duvpod;
 	}
-	/**
-	 * @return the kUladis
-	 */
-	public String getkUladis() {
-		return K_ULADIS;
-	}
-
 	/**
 	 * @param kc_csprij Výše celosvětových příjmů
 	 * Jste-li poplatníkem podle § 2 odst. 3 zákona a uplatňujete nezdanitelné části základu daně
@@ -218,8 +176,6 @@ public class VetaD implements IVeta{
 	public void setKc_csprij(double kc_csprij) {
 		this.kc_csprij = (int)Math.round(kc_csprij);
 	}
-
-
 	/**
 	 * @param kc_dazvyhod Daňové zvýhodnění na vyživované dítě
 	 * Uveďte výši daňového zvýhodnění podle § 35c zákona. Pokud byly splněny podmínky po celé 
@@ -232,14 +188,12 @@ public class VetaD implements IVeta{
 	public void setKc_dazvyhod(double kc_dazvyhod) {
 		this.kc_dazvyhod = kc_dazvyhod;
 	}
-
 	/**
 	 * @param kc_dztrata Daňová ztráta - zaokrouhlená na celé Kč nahoru bez znaménka mínus
 	 */
 	public void setKc_dztrata(double kc_dztrata) {
 		this.kc_dztrata = (int) Math.round(Math.abs(kc_dztrata));
 	}
-
 	/**
 	 * @param kc_konkurs Zaplacená daňová povinnost (záloha) podle § 38gb odst. 2 zákona
 	 * Uveďte, podáváte-li DAP, výši daně tvořící zálohu na daň daňové povinnosti podle podmínek
@@ -248,42 +202,36 @@ public class VetaD implements IVeta{
 	public void setKc_konkurs(double kc_konkurs) {
 		this.kc_konkurs = kc_konkurs;
 	}
-
 	/**
 	 * @param kc_manztpp b písm. b) zákona (na manželku/manžela, která/který je držitelem ZTP/P)
 	 */
 	public void setKc_manztpp(double kc_manztpp) {
 		this.kc_manztpp = kc_manztpp;
 	}
-
 	/**
 	 * @param kc_op15_1c a písm. b) zákona (na manželku/manžela)
 	 */
 	public void setKc_op15_1c(int kc_op15_1c) {
 		this.kc_op15_1c = kc_op15_1c;
 	}
-
 	/**
 	 * @param kc_op15_1d písm. c) zákona (na poživatele invalidního důchodu pro invaliditu prvního nebo druhého stupně
 	 */
 	public void setKc_op15_1d(int kc_op15_1d) {
 		this.kc_op15_1d = kc_op15_1d;
 	}
-
 	/**
 	 * @param kc_op15_1e1	písm. d) zákona (na poživatele invalidního důchodu pro invaliditu třetího stupně
 	 */
 	public void setKc_op15_1e1(int kc_op15_1e1) {
 		this.kc_op15_1e1 = kc_op15_1e1;
 	}
-
 	/**
 	 * @param kc_op15_1e2 písm. e) zákona (na držitele průkazu ZTP/P)
 	 */
 	public void setKc_op15_1e2(int kc_op15_1e2) {
 		this.kc_op15_1e2 = kc_op15_1e2;
 	}
-
 	/**
 	 * @param kc_pausal Zaplacená daň stanovená paušální částkou podle § 7a zákona
 	 * Uveďte částku daně stanovené paušální částkou podle § 7a zákona, kterou započtete na 
@@ -293,21 +241,18 @@ public class VetaD implements IVeta{
 	public void setKc_pausal(int kc_pausal) {
 		this.kc_pausal = kc_pausal;
 	}
-
 	/**
 	 * @param kc_pzdp Poslední známá daň
 	 */
 	public void setKc_pzdp(int kc_pzdp) {
 		this.kc_pzdp = kc_pzdp;
 	}
-
 	/**
 	 * @param kc_pzzt Poslední známá daň
 	 */
 	public void setKc_pzzt(int kc_pzzt) {
 		this.kc_pzzt = kc_pzzt;
 	}
-
 	/**
 	 * Sražená daň podle § 36 odst. 6 zákona (státní dluhopisy)
 	 * @param kc_sraz367 the kc_sraz367 to set
@@ -315,14 +260,12 @@ public class VetaD implements IVeta{
 	public void setKc_sraz367(double kc_sraz367) {
 		this.kc_sraz367 = kc_sraz367;
 	}
-
 	/**
 	 * @param kc_sraz3810 Sražená daň dle § 38f odst. 12 zákona
 	 */
 	public void setKc_sraz3810(double kc_sraz3810) {
 		this.kc_sraz3810 = kc_sraz3810;
 	}
-
 	/**
 	 * @param kc_sraz385 Zajištěná daň plátcem podle § 38e zákona
 	 * Uveďte částku, kterou Vám jako poplatníkovi podle § 2 odst. 3 zákona, plátce daně podle
@@ -336,21 +279,18 @@ public class VetaD implements IVeta{
 	public void setKc_sraz385(double kc_sraz385) {
 		this.kc_sraz385 = kc_sraz385;
 	}
-
 	/**
 	 * @param kc_sraz_rezehp a Sražená daň podle § 36 odst. 7 zákona
 	 */
 	public void setKc_sraz_rezehp(double kc_sraz_rezehp) {
 		this.kc_sraz_rezehp = kc_sraz_rezehp;
 	}
-
 	/**
 	 * @param kc_stud písm. f) zákona (studium)
 	 */
 	public void setKc_stud(double kc_stud) {
 		this.kc_stud = kc_stud;
 	}
-
 	/**
 	 * @param kc_vyplbonus Úhrn vyplacených měsíčních daňových bonusů podle § 35d zákona 
 	 * (včetně případného doplatku na daňovém bonusu)
@@ -363,7 +303,6 @@ public class VetaD implements IVeta{
 	public void setKc_vyplbonus(double kc_vyplbonus) {
 		this.kc_vyplbonus = kc_vyplbonus;
 	}
-
 	/**
 	 * @param kc_zalpred Na zbývajících zálohách zaplaceno poplatníkem celkem
 	 * Uveďte souhrn záloh, které jste zaplatil (zaplatila), v průběhu zdaňovacího období 2012
@@ -374,7 +313,6 @@ public class VetaD implements IVeta{
 	public void setKc_zalpred(double kc_zalpred) {
 		this.kc_zalpred = kc_zalpred;
 	}
-
 	/**
 	 * @param kc_zalzavc Úhrn sražených záloh na daň z příjmů fyzických osob ze závislé činnosti
 	 * a z funkčních požitků (po slevách na dani)
@@ -388,7 +326,6 @@ public class VetaD implements IVeta{
 	public void setKc_zalzavc(double kc_zalzavc) {
 		this.kc_zalzavc = kc_zalzavc;
 	}
-
 	/**
 	 * @param kod_popl Kód státu - vyplní jen daňový nerezident
 	 * Jste-li poplatníkem podle § 2 odst. 3 zákona, tj. daňový nerezident v České republice, 
@@ -401,28 +338,24 @@ public class VetaD implements IVeta{
 	public void setKod_popl(CountryCode kod_popl) {
 		if(kod_popl!=CountryCode.CZ) this.kod_popl = kod_popl;
 	}
-
 	/**
 	 * @param m_cinvduch Počet měsíců
 	 */
 	public void setM_cinvduch(int m_cinvduch) {
 		this.m_cinvduch = m_cinvduch;
 	}
-
 	/**
 	 * @param m_deti Celkem počet měsíců
 	 */
 	public void setM_deti(int m_deti) {
 		this.m_deti = m_deti;
 	}
-
 	/**
 	 * @param m_detiztpp Celkem počet měsíců se ZTP/P
 	 */
 	public void setM_detiztpp(int m_detiztpp) {
 		this.m_detiztpp = m_detiztpp;
 	}
-
 	/**
 	 * @param m_invduch Počet měsíců
 	 */
@@ -436,36 +369,31 @@ public class VetaD implements IVeta{
 	public void setM_manz(int m_manz) {
 		this.m_manz = m_manz;
 	}
-
 	/**
 	 * @param m_stud Počet měsíců
 	 */
 	public void setM_stud(int m_stud) {
 		this.m_stud = m_stud;
-	}
-	
+	}	
 	/**
 	 * @param manz Manzel/ka
 	 */
 	public void setManz(Osoba manz) {
 		this.manz = manz;
-	}
-	
+	}	
 	/**
 	 * manz_jmeno
 	 */
 	public String getManzJmeno(){
 		if (this.manz.hasDruhe()) return this.manz.getKrestni()+" "+this.manz.getDruhe();
 		else return this.manz.getKrestni();
-	}
-	
+	}	
 	/**
 	 * manz_prijmeni
 	 */
 	public String getManzPrijmeni(){
 		return this.manz.getPrijmeni();
-	}
-	
+	}	
 	/**
 	 * manz_titul
 	 * TODO nebo jenom nejvyssi?
@@ -479,16 +407,14 @@ public class VetaD implements IVeta{
 			tituly+=", "+set_tituly[i];
 		}
 		return tituly;
-	}
-	
+	}	
 	/**
 	 * manz_r_cislo
 	 * textová reprezentace čísla (nutno zachovat vodící nuly) TODO
 	 */
 	public String getManzRCislo(){
 		return this.manz.getRodneCislo().toString();
-	}
-	
+	}	
 	/**
 	 * @param pln_moc DAP zpracoval a předkládá daňový poradce na základě plné moci k 
 	 * zastupování, která byla podána správci daně před uplynutím neprodloužené lhůty
@@ -497,14 +423,12 @@ public class VetaD implements IVeta{
 	public void setPln_moc(boolean pln_moc) {
 		this.pln_moc = pln_moc;
 	}
-
 	/**
 	 * @param prop_zahr Spojení se zahraničními osobami
 	 */
 	public void setProp_zahr(boolean prop_zahr) {
 		this.prop_zahr = prop_zahr;
 	}
-
 	/**
 	 * @param rok Zdaňovací období
 	 * Uveďte rok, za který je DAP podáváno.
@@ -514,7 +438,6 @@ public class VetaD implements IVeta{
 	public void setRok(int rok) {
 		if(rok>=2009&&rok<=2013) this.rok = rok;
 	}
-
 	/**
 	 * @param sleva_rp Sleva podle § 35a nebo 35b zákona 
 	 * (2009: Sleva podle § 35 odst. 6 až 8, § 35a nebo § 35b zákona)
@@ -522,7 +445,6 @@ public class VetaD implements IVeta{
 	public void setSleva_rp(double sleva_rp) {
 		this.sleva_rp = sleva_rp;
 	}
-
 	/**
 	 * @param uv_podpis Osoba, jejíž podpisový záznam byl připojen k účetní závěrce, která byla
 	 * podkladem pro zpracování této přílohy
@@ -532,15 +454,13 @@ public class VetaD implements IVeta{
 	public void setUv_podpis(Osoba uv_podpis) {
 		this.uv_podpis = uv_podpis;
 	}
-
 	/**
 	 * @param uv_vyhl 	Vyhláška č.: Vyplňte číslo vyhlášky (první část), podle které byly 
 	 * účetní výkazy a následně vybrané údaje sestaveny.
 	 */
 	public void setUv_vyhl(UVVyhl uv_vyhl) {
 		this.uv_vyhl = uv_vyhl;
-	}
-	
+	}	
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		int MINDANBONUS=100;
@@ -593,7 +513,6 @@ public class VetaD implements IVeta{
 		}
 		da_slevy35c=da_slevy35ba-kc_slevy35c;
 		VetaD.setAttribute("da_slevy35c", da_slevy35c+"");
-		
 		if(kc_dztrata!=0) VetaD.setAttribute("kc_dztrata", kc_dztrata+"");
 		if(kc_konkurs!=0) VetaD.setAttribute("kc_konkurs", kc_konkurs+"");
 		if(kc_manztpp!=0){
@@ -645,9 +564,7 @@ public class VetaD implements IVeta{
 		if(kc_zbyvpred<0){
 			//TODO: zadost o preplatek
 		}
-		//kc_zjidp=da_slevy35c;
 		VetaD.setAttribute("kc_zjidp", da_slevy35c+"");
-		//kc_zjizt=kc_dztrata
 		VetaD.setAttribute("kc_zjizt", kc_dztrata+"");
 		if(m_deti!=0) VetaD.setAttribute("m_deti",m_deti+"");
 		if(m_detiztpp!=0) VetaD.setAttribute("m_detiztpp", m_detiztpp+"");
@@ -661,7 +578,8 @@ public class VetaD implements IVeta{
 			VetaD.setAttribute("uv_vyhl", uv_vyhl.vyhlaska+"");
 			VetaD.setAttribute("uv_podpis", uv_podpis.getPrijmeni()+", "+uv_podpis.getKrestni());
 		}
-		if(this.duvodpoddapdpf.equals(DAPDuvod.I)&&zdobd_do.before(d_duvpod)) VetaD.setAttribute("zdobd_do",DF.format(zdobd_do));
+		if(this.duvodpoddapdpf!=null&&duvodpoddapdpf.equals(DAPDuvod.I)&&zdobd_do.before(d_duvpod)) VetaD.setAttribute("zdobd_do",DF.format(zdobd_do));
+		else if(this.duvodpoddapdpf==null) VetaD.setAttribute("zdobd_do", DF.format(zdobd_do));
 		else{
 			//TODO problem
 		}
