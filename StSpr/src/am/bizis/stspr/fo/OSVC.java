@@ -1,8 +1,5 @@
 package am.bizis.stspr.fo;
 
-import am.bizis.stspr.IPodnik;
-import am.bizis.stspr.OsobaTyp;
-
 public class OSVC extends ISEOOsoba implements IPodnik {
 
 	private final int IC,DIC;
