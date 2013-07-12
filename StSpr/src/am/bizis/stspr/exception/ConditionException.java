@@ -6,24 +6,22 @@ public class ConditionException extends IllegalArgumentException {
 	 * 
 	 */
 	private static final long serialVersionUID = -1992906617538729940L;
+	private static String MSG="Nesplnena podminka";
 
 	public ConditionException() {
-		// TODO Auto-generated constructor stub
+		super(MSG);
 	}
 
 	public ConditionException(String s) {
-		super(s);
-		// TODO Auto-generated constructor stub
+		super(MSG+": "+s);
 	}
 
 	public ConditionException(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
+		super(MSG,cause);
 	}
 
 	public ConditionException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
+		super(MSG+": "+message, cause);
 	}
 
 }
