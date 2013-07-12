@@ -8,23 +8,21 @@ public class MultipleElementsOfSameTypeException extends
 	 */
 	private static final long serialVersionUID = -9084508920387580905L;
 
+	private static final String MSG="Element stejneho typu jiz je vlozen do EPO";
 	public MultipleElementsOfSameTypeException() {
-		// TODO Auto-generated constructor stub
+		super(MSG);
 	}
 
 	public MultipleElementsOfSameTypeException(String s) {
-		super(s);
-		// TODO Auto-generated constructor stub
+		super(s+": "+s);
 	}
 
 	public MultipleElementsOfSameTypeException(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
+		super(MSG,cause);
 	}
 
 	public MultipleElementsOfSameTypeException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
+		super(MSG+": "+message, cause);
 	}
 
 }
