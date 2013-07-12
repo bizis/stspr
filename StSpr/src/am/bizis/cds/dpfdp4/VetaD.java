@@ -462,6 +462,15 @@ public class VetaD implements IVeta{
 	public void setUv_vyhl(UVVyhl uv_vyhl) {
 		this.uv_vyhl = uv_vyhl;
 	}	
+	
+	/**
+	 * Element kc_zbyvpred (kolik zbyva doplatit)
+	 * @return pokud je zaporne, je zahodno vlozit vetu N (zadost o vraceni preplatku)
+	 */
+	public double getKc_zbyvpred(){
+		return this.kc_zbyvpred;
+	}
+	
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		int MINDANBONUS=100;
@@ -485,7 +494,7 @@ public class VetaD implements IVeta{
 		if(pln_moc) VetaD.setAttribute("pln_moc", "A");
 		else VetaD.setAttribute("pln_moc","N");
 		if(da_celod13!=0) VetaD.setAttribute("da_celod13", da_celod13+"");
-		if(da_slevy>0) VetaD.setAttribute("da_slevy", da_slevy+"");
+		if(da_slevy!=0) VetaD.setAttribute("da_slevy", da_slevy+"");
 		if(da_slevy35ba!=0) VetaD.setAttribute("da_slevy35ba",da_slevy35ba+"");
 		if(da_slezap!=0) VetaD.setAttribute("da_slezap", da_slezap+"");
 		if(kod_popl!=null&&kod_popl!=CountryCode.CZ) {
@@ -521,25 +530,25 @@ public class VetaD implements IVeta{
 			VetaD.setAttribute("m_vyzmanzl", m_vyzmanzl+"");
 		}
 		VetaD.setAttribute("kc_op15_1a", KC_OP15_1A+"");
-		if(kc_op15_1c!=0){
+		if(kc_op15_1c>0){
 			VetaD.setAttribute("kc_op15_1c", kc_op15_1c+"");
 			VetaD.setAttribute("m_manz", m_manz+"");
 		}
-		if(kc_op15_1c!=0||kc_manztpp!=0){
+		if(kc_op15_1c>0||kc_manztpp!=0){
 			VetaD.setAttribute("manz_jmeno",getManzJmeno());
 			VetaD.setAttribute("manz_prijmeni", getManzPrijmeni());
 			VetaD.setAttribute("manz_r_cislo", getManzRCislo());
 			VetaD.setAttribute("manz_titul", getManzTitul());
 		}
-		if(kc_op15_1d!=0&&m_cinvduch>0){
+		if(kc_op15_1d>0&&m_cinvduch>0){
 			VetaD.setAttribute("kc_op15_1d", kc_op15_1d+"");
 			VetaD.setAttribute("m_cinvduch", m_cinvduch+"");
 		}
-		if(kc_op15_1e1!=0){
+		if(kc_op15_1e1>0){
 			VetaD.setAttribute("kc_op15_1e1", kc_op15_1e1+"");
 			VetaD.setAttribute("m_invduch", m_invduch+"");
 		}
-		if(kc_op15_1e2!=0){
+		if(kc_op15_1e2>0){
 			VetaD.setAttribute("kc_op15_1e2", kc_op15_1e2+"");
 			VetaD.setAttribute("m_ztpp", m_ztpp+"");
 		}
@@ -567,6 +576,7 @@ public class VetaD implements IVeta{
 		VetaD.setAttribute("kc_zbyvpred",kc_zbyvpred+"");
 		if(kc_zbyvpred<0){
 			//TODO: zadost o preplatek
+			//vlozit VetaN do pole
 		}
 		VetaD.setAttribute("kc_zjidp", da_slevy35c+"");
 		VetaD.setAttribute("kc_zjizt", kc_dztrata+"");
