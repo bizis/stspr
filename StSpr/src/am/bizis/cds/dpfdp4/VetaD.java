@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.stspr.exception.ConditionException;
 import am.bizis.stspr.fo.Osoba;
 import am.bizis.stspr.fo.Titul;
 
@@ -70,7 +71,7 @@ public class VetaD implements IVeta{
 	 * předpisů. Vyplňte číslo FÚ podle registrace daňového přiznání, nebo výběrem ze seznamu.
 	 * Pro hodnotu této položky použijte číselník Územní finanční orgány (ufo). Z číselníku se 
 	 * vkládá položka c_ufo.
-	 * Položka obsahuje kritické kontroly: musí být vyplněno číslo existujícího FÚ, nesmí se 
+	 * Položka obsahuje kritické kontroly: musí být vyplněno číslo existujícího FÚ (-> beru z ciselniku), nesmí se 
 	 * jednat o zaniklý FÚ. TODO
 	 */
 	public void setC_ufo_cil(int c_ufo_cil) {
@@ -331,7 +332,7 @@ public class VetaD implements IVeta{
 	 * Jste-li poplatníkem podle § 2 odst. 3 zákona, tj. daňový nerezident v České republice, 
 	 * který má daňovou povinnost z příjmů ze zdrojů na území České republiky, uveďte písmenný 
 	 * kód státu, ve kterém jste rezidentem. Pro hodnotu této položky použijte číselník Země 
-	 * (zeme). Z číselníku se vkládá položka kod2. TODO
+	 * (zeme). Z číselníku se vkládá položka kod2 (CZ,CA).
 	 * Položka obsahuje kritické kontroly: hodnota musí obsahovat kód existujícího státu a nesmí
 	 * obsahovat kód CZ - Česko
 	 */
@@ -477,7 +478,7 @@ public class VetaD implements IVeta{
 		if(dap_typ.equals(DAPTyp.D)||dap_typ.equals(DAPTyp.E)) VetaD.setAttribute("d_zjist", DF.format(d_zjist));
 		if(duvodpoddapdpf!=null){
 			VetaD.setAttribute("duvodpoddapdpf", duvodpoddapdpf.duvodpoddapdpf);
-			if(this.duvodpoddapdpf.equals(DAPDuvod.G) && !d_duvpod.after(zdobd_do)) //TODO: CHYBA!
+			if(this.duvodpoddapdpf.equals(DAPDuvod.G) && !d_duvpod.after(zdobd_do)) throw new ConditionException("V případě DAP s kódem rozlišení G musí Datum spadat do období bezprostředně následujícího či vyššího než za které je DAP podáváno");
 			VetaD.setAttribute("d_duvpod", DF.format(d_duvpod));
 		}
 		VetaD.setAttribute("d_uv", DF.format(d_uv));
@@ -530,9 +531,9 @@ public class VetaD implements IVeta{
 			VetaD.setAttribute("manz_r_cislo", getManzRCislo());
 			VetaD.setAttribute("manz_titul", getManzTitul());
 		}
-		if(kc_op15_1d!=0){
+		if(kc_op15_1d!=0&&m_cinvduch>0){
 			VetaD.setAttribute("kc_op15_1d", kc_op15_1d+"");
-			VetaD.setAttribute("m_cinvduch", m_cinvduch+"");//TODO m_cinvduch>0?
+			VetaD.setAttribute("m_cinvduch", m_cinvduch+"");
 		}
 		if(kc_op15_1e1!=0){
 			VetaD.setAttribute("kc_op15_1e1", kc_op15_1e1+"");
@@ -543,13 +544,16 @@ public class VetaD implements IVeta{
 			VetaD.setAttribute("m_ztpp", m_ztpp+"");
 		}
 		if(kc_pausal!=0) VetaD.setAttribute("kc_pausal", kc_pausal+"");
-		//Dodatecne DAP - overit? popis struktury toto nebere jako podminku TODO
-		if(kc_pzdp!=0) VetaD.setAttribute("kc_pzdp", kc_pzdp+"");
-		if(kc_pzzt!=0) VetaD.setAttribute("kc_pzzt", kc_pzzt+"");
-		kc_rozdil_dp=da_slevy35c-kc_pzdp;
-		VetaD.setAttribute("kc_rozdil_dp", kc_rozdil_dp+"");
-		kc_rozdil_zt=kc_dztrata-kc_pzzt;
-		VetaD.setAttribute("kc_rozdil_zt", kc_rozdil_zt+"");
+		
+		//Dodatecne DAP - overit i presto, ze popis struktury toto nebere jako podminku
+		if(this.dap_typ==DAPTyp.D|this.dap_typ==DAPTyp.E){
+			if(kc_pzdp!=0) VetaD.setAttribute("kc_pzdp", kc_pzdp+"");
+			if(kc_pzzt!=0) VetaD.setAttribute("kc_pzzt", kc_pzzt+"");
+			kc_rozdil_dp=da_slevy35c-kc_pzdp;
+			VetaD.setAttribute("kc_rozdil_dp", kc_rozdil_dp+"");
+			kc_rozdil_zt=kc_dztrata-kc_pzzt;
+			VetaD.setAttribute("kc_rozdil_zt", kc_rozdil_zt+"");
+		}
 		if(kc_sraz367!=0) VetaD.setAttribute("kc_sraz367", kc_sraz367+"");
 		if(kc_sraz3810!=0) VetaD.setAttribute("kc_sraz3810", kc_sraz3810+"");
 		if(kc_sraz385!=0) VetaD.setAttribute("kc_sraz385", kc_sraz385+"");

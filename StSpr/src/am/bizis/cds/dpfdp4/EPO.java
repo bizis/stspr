@@ -7,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.stspr.exception.MultipleElementsOfSameTypeException;
+
 public class EPO {
 
 	public EPO() {
@@ -15,7 +17,7 @@ public class EPO {
 	
 	/**
 	 * Vytvori EPO xml dokument ze zadanych vet
-	 * @param content
+	 * @param content pole vet. Veta daneho typu se muze v poli vyskytovat nejvyse jednou, pri vicenasobnem 
 	 * @return
 	 * @throws ParserConfigurationException
 	 */
@@ -37,7 +39,11 @@ public class EPO {
 		
 		//vety
 		for(IVeta v:content){
-			dpfdp4.appendChild(EPO.adoptNode(v.getElement()));
+				if(v!=null){
+					Element n=(Element)EPO.adoptNode(v.getElement());
+					if(dpfdp4.getElementsByTagName(n.getTagName()).getLength()==0) dpfdp4.appendChild(n);
+					else throw new MultipleElementsOfSameTypeException(n.getTagName());
+				}
 		}
 		return EPO;
 	}
