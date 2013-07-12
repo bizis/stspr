@@ -7,7 +7,7 @@ public enum Vzdelani {
 	VYSSI_ODBORNE(2.5),
 	BAKALAR(3),
 	MAGISTR(4),RIGOROZA(4.5),
-	DOKTOR(5),AKADEMIA(5.5);
+	DOKTOR(5),AKADEMIA(5.5),AKADEMIA2(5.6);
 	
 	private final double level;
 	Vzdelani(double level){

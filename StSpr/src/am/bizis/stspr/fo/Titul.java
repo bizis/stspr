@@ -10,7 +10,7 @@ public enum Titul {
 	Rndr(Vzdelani.RIGOROZA,"doktor prirodnich ved","RNDr.",true),Pharmdr(Vzdelani.RIGOROZA,"doktor farmacie","PharmDr.",true),
 	ThLic(Vzdelani.RIGOROZA,"licenciat teologie","ThLic.",true), ThDr(Vzdelani.RIGOROZA,"doktor teologie","ThDr.",true),
 	Phd(Vzdelani.DOKTOR,"doktor","Ph.D.",false),Thd(Vzdelani.DOKTOR,"doktor teologie","Th.D.",false),
-	Doc(Vzdelani.AKADEMIA,"docent","Doc.",true), Prof(Vzdelani.AKADEMIA,"profesor","Prof.",true);
+	Doc(Vzdelani.AKADEMIA,"docent","Doc.",true), Prof(Vzdelani.AKADEMIA2,"profesor","Prof.",true);
 	
 	Vzdelani level;
 	String titul,zkratka;

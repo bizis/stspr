@@ -161,19 +161,15 @@ public class ISEOOsoba extends Osoba {
 	 */
 	@Override
 	public String toString(){
-		String jmeno="",zajm="";
-		if (!(tituly.isEmpty())){
-			//TODO: srovnat tituly
-			for(Titul t:tituly){
-				if(t.uvadenPredJmenem()) jmeno+=t.getZkratka()+" ";
-				else zajm+=t.getZkratka();
-			}
-		}
+		String jmeno="";
+		super.getTitul();
+		Titul nyni=getNyni();
+		if(nyni!=null&&nyni.predJmenem) jmeno+=nyni.zkratka+" ";
 		jmeno+=this.jmeno+" ";
 		if(this.druhe!=null) jmeno+=this.druhe+" ";
 		jmeno+=this.prijmeni;
 		if(!this.prijmeni.equals(super.getRodnePrijmeni())) jmeno+=" roz. "+super.getRodnePrijmeni();
-		if (zajm!="") jmeno+=", "+zajm;
+		
 		return jmeno;
 	}
 	

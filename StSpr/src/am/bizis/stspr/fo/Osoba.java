@@ -11,6 +11,7 @@ public class Osoba {
 	protected HashSet<Titul> tituly;
 	private Vzdelani nejvyssiDosazene;
 	private String datovaschranka;
+	private Titul nyni=null;
 
 	/* KONSTRUKTORY */
 	public Osoba(String jmeno, String prijmeni,RodneCislo rc){
@@ -123,18 +124,13 @@ public class Osoba {
 	 */
 	@Override
 	public String toString(){
-		String jmeno="",zajm="";
-		if (!(tituly.isEmpty())){
-			//TODO: srovnat tituly
-			for(Titul t:tituly){
-				if(t.uvadenPredJmenem()) jmeno+=t.getZkratka()+" ";
-				else zajm+=t.getZkratka();
-			}
-		}
+		String jmeno="";
+		getTitul();
+		if(nyni!=null&&nyni.predJmenem) jmeno+=nyni.zkratka+" ";
 		jmeno+=this.jmeno+" ";
 		if(this.druhe!=null) jmeno+=this.druhe+" ";
 		jmeno+=this.prijmeni;
-		if (zajm!="") jmeno+=", "+zajm;
+		if (nyni!=null&&!nyni.predJmenem) jmeno+=" "+nyni.zkratka;
 		return jmeno;
 	}
 
@@ -154,5 +150,26 @@ public class Osoba {
 	 */
 	public void setDatovaSchranka(String datovaschranka) {
 		this.datovaschranka = datovaschranka;
+	}
+	
+	/**
+	 * Vrati nejvyssi titul
+	 * @return nejvyssi titul dane osoby, v pripade vicero rigoroznich zkousek vsechny oddelene carkou
+	 */
+	public String getTitul(){
+		String tit=null;
+		for(Titul t:tituly){
+			if(t.level.getLevel()>nyni.level.getLevel()) {
+				nyni=t;
+				tit=t.zkratka;
+			} else if(t.level.getLevel()==nyni.level.getLevel()){
+				tit+=", "+t.zkratka;
+			}
+		}
+		return tit;
+	}
+	
+	public Titul getNyni(){
+		return nyni;
 	}
 }

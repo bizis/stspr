@@ -38,15 +38,14 @@ public class VetaNadresa implements IVeta {
 		if(OSOBA.hasDruhe()) VetaN.setAttribute("zvp_jmeno",OSOBA.getKrestni()+" "+OSOBA.getDruhe());
 		else VetaN.setAttribute("zvp_jmeno",OSOBA.getKrestni());
 		VetaN.setAttribute("zvp_prijmeni", OSOBA.getPrijmeni());
-		//TODO: titul
+		VetaN.setAttribute("zvp_titul", OSOBA.getTitul());
 		VetaN.setAttribute("zvp_c_obce", Obce.getObec(OSOBA.getAdresa())+"");
 		VetaN.setAttribute("zvp_c_orient", OSOBA.getAdresa().getOrientacni()+"");
 		VetaN.setAttribute("zvp_c_pop", OSOBA.getAdresa().getPopisne()+"");
 		VetaN.setAttribute("zvp_naz_obce", OSOBA.getAdresa().getObec());//TODO: mestska cast
 		if(OSOBA.getAdresa().getUlice()==null)VetaN.setAttribute("zvp_ulice", OSOBA.getAdresa().getCast());
 		else VetaN.setAttribute("zvp_ulice", OSOBA.getAdresa().getUlice());
-		VetaN.setAttribute("zvp_psc", OSOBA.getAdresa().getPSC()+"");
-		
+		VetaN.setAttribute("zvp_psc", OSOBA.getAdresa().getPSC()+"");	
 		return VetaN;
 	}
 

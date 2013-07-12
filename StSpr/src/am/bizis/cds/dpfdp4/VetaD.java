@@ -397,17 +397,9 @@ public class VetaD implements IVeta{
 	}	
 	/**
 	 * manz_titul
-	 * TODO nebo jenom nejvyssi?
 	 */
 	public String getManzTitul(){
-		String tituly="";
-		Titul[] set_tituly=(Titul[]) this.manz.getTituly().toArray();
-		int titul_count=set_tituly.length;
-		tituly=set_tituly[0].getZkratka();
-		for(int i=1;i<titul_count;i++){
-			tituly+=", "+set_tituly[i];
-		}
-		return tituly;
+		return manz.getTitul();
 	}	
 	/**
 	 * manz_r_cislo
@@ -574,10 +566,7 @@ public class VetaD implements IVeta{
 		VetaD.setAttribute("kc_zalpred", kc_zalpred+"");
 		kc_zbyvpred=da_slevy35c-kc_rozdbonus-kc_zalzavc-kc_zalpred-kc_pausal-kc_sraz_rezehp-kc_sraz367-kc_sraz385-kc_sraz3810-kc_konkurs;
 		VetaD.setAttribute("kc_zbyvpred",kc_zbyvpred+"");
-		if(kc_zbyvpred<0){
-			//TODO: zadost o preplatek
-			//vlozit VetaN do pole
-		}
+		//pokud je zaporne - zadost o preplatek - vykonava tvurce EPO
 		VetaD.setAttribute("kc_zjidp", da_slevy35c+"");
 		VetaD.setAttribute("kc_zjizt", kc_dztrata+"");
 		if(m_deti!=0) VetaD.setAttribute("m_deti",m_deti+"");
@@ -592,11 +581,11 @@ public class VetaD implements IVeta{
 			VetaD.setAttribute("uv_vyhl", uv_vyhl.vyhlaska+"");
 			VetaD.setAttribute("uv_podpis", uv_podpis.getPrijmeni()+", "+uv_podpis.getKrestni());
 		}
-		if(this.duvodpoddapdpf!=null&&duvodpoddapdpf.equals(DAPDuvod.I)&&zdobd_do.before(d_duvpod)) VetaD.setAttribute("zdobd_do",DF.format(zdobd_do));
-		else if(this.duvodpoddapdpf==null) VetaD.setAttribute("zdobd_do", DF.format(zdobd_do));
-		else{
-			//TODO problem
-		}
+		if(this.duvodpoddapdpf!=null&&duvodpoddapdpf.equals(DAPDuvod.I)){ 
+			if(zdobd_do.before(d_duvpod)) VetaD.setAttribute("zdobd_do",DF.format(zdobd_do));
+			else throw new ConditionException("datum konce zdaňovacího období nemůže být větší než datum úmrtí poplatníka");
+		}else VetaD.setAttribute("zdobd_do", DF.format(zdobd_do));
+		
 		VetaD.setAttribute("zdobd_od", DF.format(zdobd_od));
 		return VetaD;
 	}
