@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 
 import am.bizis.stspr.fo.Adresa;
 
-public class VetaNzahranici implements IVeta {
+public class VetaNzahranici extends VetaN implements IVeta {
 	private final double KC_PREPLATEK;
 	private final String IBAN,BIC,MENA,NAZ_ADR_BANKY,NAZEV_PRIJ,SYM_PLVMPV;
 	private final Adresa BANKA,PRIJEMCE;

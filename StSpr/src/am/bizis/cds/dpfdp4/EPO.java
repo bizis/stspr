@@ -7,17 +7,17 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.stspr.exception.MissingElementException;
 import am.bizis.stspr.exception.MultipleElementsOfSameTypeException;
 
 public class EPO {
 
 	public EPO() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
 	 * Vytvori EPO xml dokument ze zadanych vet
-	 * @param content pole vet. Veta daneho typu se muze v poli vyskytovat nejvyse jednou, pri vicenasobnem 
+	 * @param content pole vet. Kazda veta ma stanoveno, nejvyse a nejmene kolikrat se muze v dokumentu vyskytovat
 	 * @return
 	 * @throws ParserConfigurationException
 	 */
@@ -41,10 +41,21 @@ public class EPO {
 		for(IVeta v:content){
 				if(v!=null){
 					Element n=(Element)EPO.adoptNode(v.getElement());
-					if(dpfdp4.getElementsByTagName(n.getTagName()).getLength()==0) dpfdp4.appendChild(n);
+					//kontrola, ze pocet vet jednotlivych typu nepresahuje maximalni hodnoty
+					if(dpfdp4.getElementsByTagName(n.getTagName()).getLength()<v.getMaxPocet()) dpfdp4.appendChild(n);
 					else throw new MultipleElementsOfSameTypeException(n.getTagName());
 				}
 		}
+		
+		//kontrola, ze jsou pritomny vety, kde je minimalni pocet>0: obecne reseni
+		/*int MIN=1;
+		HashMap<String,Integer> min_pocet=new HashMap<String,Integer>(MIN);
+		min_pocet.put("VetaD", 1);
+		for(String s:min_pocet.keySet()){
+			if(dpfdp4.getElementsByTagName(s).getLength()<min_pocet.get(s)) throw new MissingElementException(s);
+		}*/
+		if(dpfdp4.getElementsByTagName("VetaD").getLength()<1) throw new MissingElementException("VetaD");
+		
 		return EPO;
 	}
 

@@ -16,7 +16,7 @@ import am.bizis.stspr.fo.ISEOOsoba;
  * @author alex
  * @version 20130712
  */
-public class VetaNadresa implements IVeta {
+public class VetaNadresa extends VetaN implements IVeta {
 
 	private final ISEOOsoba OSOBA;
 	private final double kc_preplatek;
@@ -39,13 +39,15 @@ public class VetaNadresa implements IVeta {
 		else VetaN.setAttribute("zvp_jmeno",OSOBA.getKrestni());
 		VetaN.setAttribute("zvp_prijmeni", OSOBA.getPrijmeni());
 		VetaN.setAttribute("zvp_titul", OSOBA.getTitul());
-		VetaN.setAttribute("zvp_c_obce", Obce.getObec(OSOBA.getAdresa())+"");
-		VetaN.setAttribute("zvp_c_orient", OSOBA.getAdresa().getOrientacni()+"");
-		VetaN.setAttribute("zvp_c_pop", OSOBA.getAdresa().getPopisne()+"");
-		VetaN.setAttribute("zvp_naz_obce", OSOBA.getAdresa().getObec());//TODO: mestska cast
-		if(OSOBA.getAdresa().getUlice()==null)VetaN.setAttribute("zvp_ulice", OSOBA.getAdresa().getCast());
-		else VetaN.setAttribute("zvp_ulice", OSOBA.getAdresa().getUlice());
-		VetaN.setAttribute("zvp_psc", OSOBA.getAdresa().getPSC()+"");	
+		if(OSOBA.getAdresa()!=null){
+			VetaN.setAttribute("zvp_c_obce", Obce.getObec(OSOBA.getAdresa())+"");
+			VetaN.setAttribute("zvp_c_orient", OSOBA.getAdresa().getOrientacni()+"");
+			VetaN.setAttribute("zvp_c_pop", OSOBA.getAdresa().getPopisne()+"");
+			VetaN.setAttribute("zvp_naz_obce", OSOBA.getAdresa().getObec());//TODO: mestska cast
+			if(OSOBA.getAdresa().getUlice()==null) VetaN.setAttribute("zvp_ulice", OSOBA.getAdresa().getCast());
+			else VetaN.setAttribute("zvp_ulice", OSOBA.getAdresa().getUlice());
+			VetaN.setAttribute("zvp_psc", OSOBA.getAdresa().getPSC()+"");
+		}	
 		return VetaN;
 	}
 

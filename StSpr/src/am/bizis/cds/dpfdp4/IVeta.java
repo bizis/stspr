@@ -6,4 +6,5 @@ import org.w3c.dom.Element;
 
 public interface IVeta {
 	Element getElement() throws ParserConfigurationException;
+	int getMaxPocet();
 }

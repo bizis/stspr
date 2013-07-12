@@ -24,10 +24,9 @@ import taka.CountryCode;
  * @version 20130711
  */
 public class VetaD implements IVeta{
-	
 	private final String DOKUMENT="DP4";
 	private final String K_ULADIS="DPF";
-	private final int KC_OP15_1A=24840;
+	private final int KC_OP15_1A=24840,MAX=1;
 	private final DateFormat DF=new SimpleDateFormat("dd.MM.yyyy");
 	private char audit;
 	private int c_ufo_cil,m_cinvduch,m_deti,m_detiztpp,m_invduch, m_manz,m_vyzmanzl,m_stud,m_ztpp, rok;
@@ -587,5 +586,9 @@ public class VetaD implements IVeta{
 		
 		VetaD.setAttribute("zdobd_od", DF.format(zdobd_od));
 		return VetaD;
+	}
+	@Override
+	public int getMaxPocet() {
+		return MAX;
 	}
 }

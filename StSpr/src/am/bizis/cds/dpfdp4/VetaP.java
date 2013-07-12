@@ -27,7 +27,7 @@ import am.bizis.stspr.fo.OSVC;
  * @version 20130711
  */
 public class VetaP implements IVeta {
-	private final int C_PRACUFO_UNINIT=-1;
+	private final int C_PRACUFO_UNINIT=-1,MAX=1;
 	private String opr_postaveni;
 	private final DateFormat DF=new SimpleDateFormat("dd.MM.yyyy");
 	/*
@@ -177,6 +177,11 @@ public class VetaP implements IVeta {
 			}
 		}
 		return VetaP;
+	}
+
+	@Override
+	public int getMaxPocet() {
+		return MAX;
 	}
 
 }
