@@ -76,8 +76,9 @@ public class VetaP implements IVeta {
 		if(osoba.getTelefon()!=0) VetaP.setAttribute("c_telef", osoba.getTelefon()+"");
 		if(osoba.getDIC()!=0) VetaP.setAttribute("dic",osoba.getDIC()+"");//TODO textova reprezentace nutno zachovat vodici nuly
 		if(osoba.getEmail()!=null) VetaP.setAttribute("email",osoba.getEmail());
-		if(osoba.getTyp().equals(OsobaTyp.PO)) VetaP.setAttribute("jmeno", osoba.getJmeno());//TODO toto asi ne
-		else{
+		//if(osoba.getTyp().equals(OsobaTyp.PO)) VetaP.setAttribute("jmeno", osoba.getJmeno());//TODO toto asi ne
+		//else{
+		if(osoba.getTyp().equals(OsobaTyp.FO)){
 			OSVC o=(OSVC)osoba;
 			//>jmeno<, prijmeni, rodne prijmeni
 		}
