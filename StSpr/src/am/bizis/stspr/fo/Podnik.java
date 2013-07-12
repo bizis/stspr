@@ -41,5 +41,16 @@ public class Podnik implements IPodnik {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public int getFax() {
+		return 0;
+	}
+
+	@Override
+	public Adresa getAdresa() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

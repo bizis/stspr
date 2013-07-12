@@ -4,7 +4,7 @@ public class OSVC extends ISEOOsoba implements IPodnik {
 
 	private final int IC,DIC;
 	private String email;
-	private int telefon;
+	private int telefon,fax;
 	
 	public OSVC(String jmeno, String prijmeni, RodneCislo rc,
 			ISEOMistoOkres narozeni, int ic) {
@@ -70,5 +70,14 @@ public class OSVC extends ISEOOsoba implements IPodnik {
 	@Override
 	public int getTelefon(){
 		return telefon;
+	}
+
+	public void setFax(int cislo){
+		//TODO validate
+		this.fax=cislo;
+	}
+	@Override
+	public int getFax() {
+		return this.fax;
 	}
 }

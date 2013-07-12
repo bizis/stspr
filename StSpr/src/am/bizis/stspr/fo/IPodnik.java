@@ -7,4 +7,6 @@ public interface IPodnik {
 	OsobaTyp getTyp();
 	String getEmail();
 	int getTelefon();
+	int getFax();
+	Adresa getAdresa();
 }
