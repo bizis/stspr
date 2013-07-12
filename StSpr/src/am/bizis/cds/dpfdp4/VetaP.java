@@ -1,5 +1,8 @@
 package am.bizis.cds.dpfdp4;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -7,12 +10,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import taka.CountryCode;
+
 import am.bizis.cds.ciselnik.Obce;
+import am.bizis.stspr.IPodnik;
+import am.bizis.stspr.OsobaTyp;
+import am.bizis.stspr.exception.ConditionException;
 import am.bizis.stspr.fo.Adresa;
-import am.bizis.stspr.fo.IPodnik;
+import am.bizis.stspr.fo.ISEOOsoba;
 import am.bizis.stspr.fo.OSVC;
-import am.bizis.stspr.fo.Osoba;
-import am.bizis.stspr.fo.OsobaTyp;
 
 /**
  * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o poplatnikovi
@@ -23,28 +29,63 @@ import am.bizis.stspr.fo.OsobaTyp;
 public class VetaP implements IVeta {
 	private final int C_PRACUFO_UNINIT=-1;
 	private String opr_postaveni;
-	private Adresa dorucovani;
-	private IPodnik osoba,zastupce;
+	private final DateFormat DF=new SimpleDateFormat("dd.MM.yyyy");
+	/*
+	 * krok ... Pobyt k poslednimu dni kalendarniho roku, za ktery se dan vymeruje (pokud ruzne od bydliste)
+	 * zdrz ... Adresa mista pobytu na uzemi CR, kde se poplatnik obvykle ve zdanovacim obdobi zdrzoval - pokud neni bydliste na uzemi CR
+	 */
+	private Adresa krok=null,zdrz=null;
+	private IPodnik zastupce;
+	private OSVC osoba;
 	private int c_pracufo=C_PRACUFO_UNINIT;
-	private Osoba opravnena;
+	private ISEOOsoba opravnena;
 	private ZastKod zast_kod;
-	//private ?? zast_ev_cislo
+	private String zast_ev_cislo=null;
 	
 	public VetaP() {
 		//zadne povinne polozky
 	}
 
-	public void setPoplatnik(IPodnik osoba){
+	public void setPoplatnik(OSVC osoba){
 		this.osoba=osoba;
+		this.krok=osoba.getAdresa();
+		this.zdrz=osoba.getAdresa();
 	}
 	
 	public void setCpracufo(int c_pracufo){
 		this.c_pracufo=c_pracufo;
 	}
 	
-	public void setOpravnena(Osoba o,String opr_postaveni){
+	/**
+	 * Osoba opravnena podat k subjektu - pokud neni zpusobily k pravnm ukonum
+	 * @param o
+	 * @param opr_postaveni
+	 */
+	public void setOpravnena(ISEOOsoba o,String opr_postaveni){
 		this.opravnena=o;
 		this.opr_postaveni=opr_postaveni;
+	}
+	
+	/**
+	 * @param Pobyt k poslednimu dni kalendarniho roku, za ktery se dan vymeruje (pokud ruzne od bydliste)
+	 */
+	public void setKrok(Adresa a){
+		this.krok=a;
+	}
+	
+	/**
+	 * @param Adresa mista pobytu na uzemi CR, kde se poplatnik obvykle ve zdanovacim obdobi zdrzoval - pokud neni bydliste na uzemi CR
+	 */
+	public void setZdrz(Adresa a){
+		this.zdrz=a;
+	}
+	
+	/**
+	 * Evidencni cislo osvedceni danoveho poradce
+	 * @param evc
+	 */
+	public void setEvCislo(String evc){
+		this.zast_ev_cislo=evc;
 	}
 	
 	@Override
@@ -57,36 +98,83 @@ public class VetaP implements IVeta {
 		if(osoba.getFax()!=0) VetaP.setAttribute("c_faxu", osoba.getFax()+"");
 		if(osoba.getAdresa()!=null){
 			VetaP.setAttribute("c_obce", Obce.getObec(osoba.getAdresa())+"");
-			VetaP.setAttribute("krok_c_obce", Obce.getObec(osoba.getAdresa())+"");
 			VetaP.setAttribute("c_orient", osoba.getAdresa().getOrientacni()+"");
-			VetaP.setAttribute("krok_c_orient",osoba.getAdresa().getOrientacni()+"");
-			VetaP.setAttribute("c_popisne",osoba.getAdresa().getPopisne()+"");
-			VetaP.setAttribute("krok_c_pop",osoba.getAdresa().getPopisne()+"");
+			VetaP.setAttribute("c_pop",osoba.getAdresa().getPopisne()+"");
 			VetaP.setAttribute("naz_obce",osoba.getAdresa().getObec());//TODO mestska cast
-			VetaP.setAttribute("krok_naz_obce", osoba.getAdresa().getObec());//TODO mestska cast
-			VetaP.setAttribute("krok_psc",osoba.getAdresa().getPSC()+"");
-			VetaP.setAttribute("krok_ulice",osoba.getAdresa().getUlice());
-			VetaP.setAttribute("k_stat", osoba.getAdresa().getStat().getAlpha2());
+			VetaP.setAttribute("stat", osoba.getAdresa().getStat().getAlpha2());
+			VetaP.setAttribute("psc",osoba.getAdresa().getPSC()+"");
+			VetaP.setAttribute("ulice",osoba.getAdresa().getUlice());
 		}
-		if(osoba.getTyp().equals(OsobaTyp.FO)){
-			OSVC o=(OSVC)osoba;
-			if(!o.getPasy().isEmpty()) VetaP.setAttribute("c_pasu",o.getPasy().toArray()[0]+"");//a co kdyz chce jiny? TODO
+		if(krok!=null&&krok!=osoba.getAdresa()){
+			VetaP.setAttribute("krok_c_obce",Obce.getObec(krok)+""); 
+			VetaP.setAttribute("krok_c_orient",krok.getOrientacni()+""); 
+			VetaP.setAttribute("krok_c_pop",krok.getPopisne()+"");
+			VetaP.setAttribute("krok_naz_obce",krok.getObec());//TODO mestska cast
+			VetaP.setAttribute("krok_psc",krok.getPSC()+"");
+			VetaP.setAttribute("krok_ulice",krok.getUlice());
+			VetaP.setAttribute("k_stat",krok.getStat().getAlpha2());
+		}
+		if(osoba.getAdresa().getStat()!=CountryCode.CZ){
+			if(zdrz==null) throw new ConditionException("Bydliste neni na uzemi CR a mista pobytu na uzemi CR, kde se poplatnik obvykle ve zdanovacim obdobi zdrzoval nani zadano");
+			else{
+				if(osoba.getFax()!=0)VetaP.setAttribute("z_c_faxu",osoba.getFax()+""); 
+				VetaP.setAttribute("z_c_obce",Obce.getObec(zdrz)+"");
+				VetaP.setAttribute("z_c_orient", zdrz.getOrientacni()+"");
+				VetaP.setAttribute("z_c_pop", zdrz.getPopisne()+"");
+				if(osoba.getTelefon()!=0) VetaP.setAttribute("z_c_telef",osoba.getTelefon()+""); 
+				if(osoba.getEmail()!=null)VetaP.setAttribute("z_email",osoba.getEmail()); 
+				VetaP.setAttribute("z_naz_obce", zdrz.getObec());
+				VetaP.setAttribute("z_psc",zdrz.getPSC()+""); 
+				VetaP.setAttribute("z_ulice",zdrz.getUlice()+"");
+			}
 		}
 		if(c_pracufo!=C_PRACUFO_UNINIT) VetaP.setAttribute("c_pracufo", c_pracufo+"");
 		if(osoba.getTelefon()!=0) VetaP.setAttribute("c_telef", osoba.getTelefon()+"");
 		if(osoba.getDIC()!=0) VetaP.setAttribute("dic",osoba.getDIC()+"");//TODO textova reprezentace nutno zachovat vodici nuly
 		if(osoba.getEmail()!=null) VetaP.setAttribute("email",osoba.getEmail());
-		//if(osoba.getTyp().equals(OsobaTyp.PO)) VetaP.setAttribute("jmeno", osoba.getJmeno());//TODO toto asi ne
-		//else{
-		if(osoba.getTyp().equals(OsobaTyp.FO)){
-			OSVC o=(OSVC)osoba;
-			//>jmeno<, prijmeni, rodne prijmeni
+		if(osoba.hasDruhe()) VetaP.setAttribute("jmeno", osoba.getKrestni()+" "+osoba.getDruhe());
+		else VetaP.setAttribute("jmeno",osoba.getKrestni());
+		VetaP.setAttribute("prijmeni", osoba.getPrijmeni());
+		VetaP.setAttribute("rodnepr",osoba.getRodnePrijmeni());
+		VetaP.setAttribute("rod_c",osoba.getRodneCislo().toString());//TODO Textová reprezentace čísla (nutno zachovat vodící nuly)
+		CountryCode obc;
+		if(osoba.getObcanstvi().contains(CountryCode.CZ)) {
+			VetaP.setAttribute("st_prislus","cz");
+			obc=CountryCode.CZ;
 		}
+		//TODO if(osoba.getObcanstvi().contains({EU}) -> primarni pravo EU
+		else if(osoba.getObcanstvi().contains(osoba.getAdresa().getStat())){//ma obcanstvi statu, ve kterem zije
+			obc=osoba.getAdresa().getStat();
+			VetaP.setAttribute("st_prislus", obc.getAlpha2());
+		}
+		else {
+			obc=(CountryCode)osoba.getObcanstvi().toArray()[0];//v dany moment je jedno, ktere obcanstvi zvolime
+			VetaP.setAttribute("st_prislus", obc.getAlpha2());
+		}
+		if(osoba.getAdresa().getStat()!=CountryCode.CZ){//nerezident vyplni cislo pasu
+			//cislo pasu odpovidajici statni prislusnosti
+		}
+		if(osoba.getTitul()!=null) VetaP.setAttribute("titul", osoba.getTitul());
 		if(opravnena!=null) {
 			if(opravnena.hasDruhe()) VetaP.setAttribute("opr_jmeno", opravnena.getKrestni()+" "+opravnena.getDruhe());
 			else VetaP.setAttribute("opr_jmeno", opravnena.getKrestni());
 			VetaP.setAttribute("opr_prijmeni", opravnena.getPrijmeni());
 			VetaP.setAttribute("opr_postaveni",opr_postaveni);
+		}
+		if(zastupce!=null){
+			VetaP.setAttribute("zast_kod", zast_kod.kod);
+			VetaP.setAttribute("zast_typ",zast_kod.typ.getTyp()+"");
+			if(zast_kod.typ.equals(OsobaTyp.FO)){
+				OSVC o=(OSVC)zastupce;
+				VetaP.setAttribute("zast_jmeno", zastupce.getJmeno());
+				if(zast_kod.kod.equals(ZastKod.FODAPOAD)){
+					if(zast_ev_cislo!=null)VetaP.setAttribute("zast_ev_cislo", zast_ev_cislo);
+					else VetaP.setAttribute("zast_dat_nar",DF.format(o.getNarozeni()));
+				}else VetaP.setAttribute("zast_dat_nar", DF.format(o.getNarozeni()));
+			}else{
+				VetaP.setAttribute("zast_nazev", zastupce.getJmeno());
+				VetaP.setAttribute("zast_ic",zastupce.getIC()+"");
+			}
 		}
 		return VetaP;
 	}

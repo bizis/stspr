@@ -49,9 +49,9 @@ public class OSVC extends ISEOOsoba implements IPodnik {
 
 	@Override
 	public String getJmeno() {
-		return super.jmeno+" "+super.prijmeni;
+		if(druhe!=null) return jmeno+" "+druhe+" "+prijmeni;//o.getKrestni()+" "+o.getDruhe());
+		else return jmeno+" "+prijmeni;
 	}
-
 	@Override
 	public OsobaTyp getTyp() {
 		return OsobaTyp.FO;

@@ -14,7 +14,6 @@ import org.w3c.dom.Element;
 
 import am.bizis.stspr.exception.ConditionException;
 import am.bizis.stspr.fo.Osoba;
-import am.bizis.stspr.fo.Titul;
 
 import taka.CountryCode;
 

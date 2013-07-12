@@ -1,6 +1,6 @@
 package am.bizis.cds.dpfdp4;
 
-import am.bizis.stspr.fo.OsobaTyp;
+import am.bizis.stspr.OsobaTyp;
 
 public enum ZastKod {
 	FOZAZA("1","Zakonny zastupce",OsobaTyp.FO), 
