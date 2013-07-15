@@ -2,6 +2,8 @@ package am.bizis.cds.dpfdp4;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,6 +30,7 @@ import am.bizis.stspr.fo.Zpusobilost;
  * @version 20130711
  */
 public class VetaP implements IVeta {
+	private final Set<CountryCode> EU=Collections.emptySet();
 	private final int C_PRACUFO_UNINIT=-1,MAX=1;
 	private final String ZZST="Zakonny zastupce";
 	private String opr_postaveni;
@@ -46,6 +49,35 @@ public class VetaP implements IVeta {
 	
 	public VetaP() {
 		//zadne povinne polozky
+		EU.add(CountryCode.BE);
+		EU.add(CountryCode.BG);
+		EU.add(CountryCode.CZ);
+		EU.add(CountryCode.DK);
+		EU.add(CountryCode.ES);
+		EU.add(CountryCode.FI);
+		EU.add(CountryCode.FR);
+		EU.add(CountryCode.CR);
+		EU.add(CountryCode.IR);
+		EU.add(CountryCode.IT);
+		EU.add(CountryCode.CR);
+		EU.add(CountryCode.LT);
+		EU.add(CountryCode.LA);
+		EU.add(CountryCode.LT);
+		EU.add(CountryCode.LU);
+		EU.add(CountryCode.HU);
+		EU.add(CountryCode.MT);
+		EU.add(CountryCode.DE);
+		EU.add(CountryCode.NL);
+		EU.add(CountryCode.PL);
+		EU.add(CountryCode.PG);
+		EU.add(CountryCode.AT);
+		EU.add(CountryCode.RO);
+		EU.add(CountryCode.GR);
+		EU.add(CountryCode.SK);
+		EU.add(CountryCode.SI);
+		EU.add(CountryCode.GB);
+		EU.add(CountryCode.ES);
+		EU.add(CountryCode.SE);
 	}
 
 	public void setPoplatnik(OSVC osoba){
@@ -150,7 +182,16 @@ public class VetaP implements IVeta {
 			VetaP.setAttribute("st_prislus","cz");
 			obc=CountryCode.CZ;
 		}
-		//TODO if(osoba.getObcanstvi().contains({EU}) -> primarni pravo EU
+		//ma obcanstvi EU a ma obcanstvi zeme, kde zije
+		else if(getResidence(osoba)!=null){
+			obc=getResidence(osoba);
+			VetaP.setAttribute("st_prislus", obc.getAlpha2()); 
+		}
+		//ma obcanstvi EU a nema obcanstvi zeme, kde zije - vezmu libovolne jine EU
+		else if(getEU(osoba)!=null){
+			obc=getResidence(osoba);
+			VetaP.setAttribute("st_prislus",obc.getAlpha2());
+		}
 		else if(osoba.getObcanstvi().contains(osoba.getAdresa().getStat())){//ma obcanstvi statu, ve kterem zije
 			obc=osoba.getAdresa().getStat();
 			VetaP.setAttribute("st_prislus", obc.getAlpha2());
@@ -190,6 +231,20 @@ public class VetaP implements IVeta {
 	@Override
 	public int getMaxPocet() {
 		return MAX;
+	}
+	
+	private CountryCode getEU(ISEOOsoba o){
+		for(CountryCode c:o.getObcanstvi()){
+			if (EU.contains(c)) return c;
+		}
+		return null;
+	}
+	
+	private CountryCode getResidence(ISEOOsoba o){
+		for(CountryCode c:o.getObcanstvi()){
+			if(o.getAdresa().getStat().equals(c)&&EU.contains(o)) return c;
+		}
+		return null;
 	}
 
 }
