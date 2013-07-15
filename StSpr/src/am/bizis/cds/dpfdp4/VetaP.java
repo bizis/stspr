@@ -100,7 +100,8 @@ public class VetaP implements IVeta {
 			VetaP.setAttribute("c_obce", Obce.getObec(osoba.getAdresa())+"");
 			VetaP.setAttribute("c_orient", osoba.getAdresa().getOrientacni()+"");
 			VetaP.setAttribute("c_pop",osoba.getAdresa().getPopisne()+"");
-			VetaP.setAttribute("naz_obce",osoba.getAdresa().getObec());//TODO mestska cast
+			if(osoba.getAdresa().getCast().equals(osoba.getAdresa().getObec())) VetaP.setAttribute("naz_obce",osoba.getAdresa().getCast());
+			else VetaP.setAttribute("naz_obce",osoba.getAdresa().getObec());
 			VetaP.setAttribute("stat", osoba.getAdresa().getStat().getAlpha2());
 			VetaP.setAttribute("psc",osoba.getAdresa().getPSC()+"");
 			VetaP.setAttribute("ulice",osoba.getAdresa().getUlice());
@@ -109,7 +110,8 @@ public class VetaP implements IVeta {
 			VetaP.setAttribute("krok_c_obce",Obce.getObec(krok)+""); 
 			VetaP.setAttribute("krok_c_orient",krok.getOrientacni()+""); 
 			VetaP.setAttribute("krok_c_pop",krok.getPopisne()+"");
-			VetaP.setAttribute("krok_naz_obce",krok.getObec());//TODO mestska cast
+			if(krok.getCast().equals(krok.getObec())) VetaP.setAttribute("krok_naz_obce",krok.getObec());
+			else VetaP.setAttribute("krok_naz_obce",krok.getCast());
 			VetaP.setAttribute("krok_psc",krok.getPSC()+"");
 			VetaP.setAttribute("krok_ulice",krok.getUlice());
 			VetaP.setAttribute("k_stat",krok.getStat().getAlpha2());

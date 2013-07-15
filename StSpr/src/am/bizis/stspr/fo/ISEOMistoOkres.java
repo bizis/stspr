@@ -12,7 +12,7 @@ public class ISEOMistoOkres extends ISEOMisto {
 
 	private final String OKRES;
 	private final CountryCode STAT;
-	private final String KOD_UZEMNIHO_PRVKU=null;//referencni vazba na referencni udaj v zakladnim registru uzemni identifikace, adres a nemovitosti
+	//private final String KOD_UZEMNIHO_PRVKU=null;//referencni vazba na referencni udaj v zakladnim registru uzemni identifikace, adres a nemovitosti
 	
 	/**
 	 * @param obec nazev obce

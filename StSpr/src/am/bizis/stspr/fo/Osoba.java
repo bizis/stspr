@@ -30,6 +30,7 @@ public class Osoba {
 		this.prijmeni=prijmeni;
 		this.tituly=new HashSet<Titul>();
 		this.nejvyssiDosazene=Vzdelani.ZADNE;
+		this.nyni=null;
 	}
 
 	/* metody */
@@ -158,12 +159,18 @@ public class Osoba {
 	 */
 	public String getTitul(){
 		String tit=null;
-		for(Titul t:tituly){
-			if(t.level.getLevel()>nyni.level.getLevel()) {
-				nyni=t;
-				tit=t.zkratka;
-			} else if(t.level.getLevel()==nyni.level.getLevel()){
-				tit+=", "+t.zkratka;
+		if(!tituly.isEmpty()){
+			for(Titul t:tituly){
+				if(nyni==null){
+					nyni=t;
+					tit=t.zkratka;
+				}
+				else if(t.level.getLevel()>nyni.level.getLevel()) {
+					nyni=t;
+					tit=t.zkratka;
+				} else if(t.level.getLevel()==nyni.level.getLevel()){
+					tit+=", "+t.zkratka;
+				}
 			}
 		}
 		return tit;

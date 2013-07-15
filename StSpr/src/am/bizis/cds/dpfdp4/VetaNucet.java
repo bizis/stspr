@@ -6,7 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class VetaNucet extends VetaN implements IVeta {
+public class VetaNucet extends VetaN implements IVeta{
 
 	private final String ZVP_NAZ_BANK,ZVP_SPEC_SYMB;
 	private final double KC_PREPLATEK;

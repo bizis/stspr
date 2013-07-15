@@ -11,7 +11,6 @@ public class Adresa extends ISEOMistoOkres{
 	private int orientacni;
 	private CountryCode stat;
 	private String cast, cizi_psc, cizi_stat;
-	private String kod_ulice, kod_adresniho_mista;//TODO ziskavani kodu z ciselniku dle zadanych udaju a jejich vraceni - nutne pro XML ficury
 	
 	public Adresa(String ulice, int popisne, String obec, String PSC, String stat,CountryCode zeme) throws IllegalArgumentException, IOException{
 		this(ulice,popisne,obec,PSC,zeme);
@@ -41,7 +40,8 @@ public class Adresa extends ISEOMistoOkres{
 		if((PSC>=10000)&&(PSC<=99999))this.PSC=PSC; 
 		else throw new IllegalArgumentException("PSC ma 5 celosicelnych znaku");
 		this.POPISNE=popisne;
-		this.cast=cast;
+		if(StatutM.getObec(cast).equals(StatutM.OBEC)) this.cast=obec;
+		else this.cast=cast;
 		this.stat=CountryCode.CZ;
 		this.ulice=null;
 		this.orientacni=Adresa.NULLINT;
