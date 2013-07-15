@@ -40,7 +40,7 @@ public class Adresa extends ISEOMistoOkres{
 		if((PSC>=10000)&&(PSC<=99999))this.PSC=PSC; 
 		else throw new IllegalArgumentException("PSC ma 5 celosicelnych znaku");
 		this.POPISNE=popisne;
-		if(StatutM.getObec(cast).equals(StatutM.OBEC)) this.cast=obec;
+		if(StatutM.getObec(obec).equals(StatutM.OBEC)) this.cast=obec;
 		else this.cast=cast;
 		this.stat=CountryCode.CZ;
 		this.ulice=null;

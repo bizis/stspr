@@ -15,8 +15,10 @@ public enum StatutM {
 	
 	public static StatutM getObec(String obec){
 		StatutM ret=StatutM.OBEC;
-		for(StatutM s:StatutM.values()){
-			if(s.obec.equals(obec)) ret=s;
+		if(!obec.equals(null)){
+			for(StatutM s:StatutM.values()){
+				if(s.obec!=null&&s.obec.equals(obec)) ret=s;
+			}
 		}
 		return ret;
 	}
