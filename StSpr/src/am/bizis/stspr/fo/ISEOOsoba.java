@@ -13,7 +13,7 @@ public class ISEOOsoba extends Osoba {
 	private Stav stav;
 	private Osoba asociace;
 	private HashSet<String> cisloPasu;
-	//TODO: pravni zpusobilost, opatrovnik
+	private Zpusobilost zp;
 
 	public ISEOOsoba(String jmeno, String prijmeni, RodneCislo rc, ISEOMistoOkres narozeni) {
 		super(jmeno, prijmeni, rc);
@@ -181,5 +181,12 @@ public class ISEOOsoba extends Osoba {
 		}
 		return io;
 	}
-
+	
+	public Zpusobilost getZpusobilost(){
+		return this.zp;
+	}
+	
+	public void setZpusobilost(Zpusobilost nova){
+		this.zp=nova;
+	}
 }

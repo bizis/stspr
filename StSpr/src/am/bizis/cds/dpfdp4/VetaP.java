@@ -19,6 +19,7 @@ import am.bizis.stspr.exception.ConditionException;
 import am.bizis.stspr.fo.Adresa;
 import am.bizis.stspr.fo.ISEOOsoba;
 import am.bizis.stspr.fo.OSVC;
+import am.bizis.stspr.fo.Zpusobilost;
 
 /**
  * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o poplatnikovi
@@ -28,6 +29,7 @@ import am.bizis.stspr.fo.OSVC;
  */
 public class VetaP implements IVeta {
 	private final int C_PRACUFO_UNINIT=-1,MAX=1;
+	private final String ZZST="Zakonny zastupce";
 	private String opr_postaveni;
 	private final DateFormat DF=new SimpleDateFormat("dd.MM.yyyy");
 	/*
@@ -50,6 +52,10 @@ public class VetaP implements IVeta {
 		this.osoba=osoba;
 		this.krok=osoba.getAdresa();
 		this.zdrz=osoba.getAdresa();
+		if(!this.osoba.getZpusobilost().equals(Zpusobilost.PLNA)){
+			this.opravnena=this.osoba.getZpusobilost().getZastupce();
+			this.opr_postaveni=ZZST;
+		}
 	}
 	
 	public void setCpracufo(int c_pracufo){
