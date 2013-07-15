@@ -160,7 +160,7 @@ public class VetaP implements IVeta {
 			VetaP.setAttribute("st_prislus", obc.getAlpha2());
 		}
 		if(osoba.getAdresa().getStat()!=CountryCode.CZ){//nerezident vyplni cislo pasu
-			//cislo pasu odpovidajici statni prislusnosti
+			VetaP.setAttribute("c_pasu",osoba.getPas(osoba.getAdresa().getStat()));
 		}
 		if(osoba.getTitul()!=null) VetaP.setAttribute("titul", osoba.getTitul());
 		if(opravnena!=null) {

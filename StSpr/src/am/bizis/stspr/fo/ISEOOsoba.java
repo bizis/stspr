@@ -1,5 +1,6 @@
 package am.bizis.stspr.fo;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import taka.CountryCode;
@@ -12,21 +13,22 @@ public class ISEOOsoba extends Osoba {
 	private int cisloOP;
 	private Stav stav;
 	private Osoba asociace;
-	private HashSet<String> cisloPasu;
+	//private HashSet<String> cisloPasu;
+	private HashMap<CountryCode, String> cisloPasu;
 	private Zpusobilost zp;
 
 	public ISEOOsoba(String jmeno, String prijmeni, RodneCislo rc, ISEOMistoOkres narozeni) {
 		super(jmeno, prijmeni, rc);
 		this.NAROZENI=narozeni;
 		this.obcanstvi=new HashSet<CountryCode>();
-		this.cisloPasu=new HashSet<String>();
+		this.cisloPasu=new HashMap<CountryCode,String>();
 	}
 
 	public ISEOOsoba(String jmeno, String druhe, String prijmeni, RodneCislo rc,ISEOMistoOkres narozeni) {
 		super(jmeno, druhe, prijmeni, rc);
 		this.NAROZENI=narozeni;
 		this.obcanstvi=new HashSet<CountryCode>();
-		this.cisloPasu=new HashSet<String>();
+		this.cisloPasu=new HashMap<CountryCode,String>();
 	}
 
 	public ISEOOsoba(String jmeno, String druhe, String rodne, String prijmeni,
@@ -34,7 +36,7 @@ public class ISEOOsoba extends Osoba {
 		super(jmeno, druhe, rodne, prijmeni, rc);
 		this.NAROZENI=narozeni;
 		this.obcanstvi=new HashSet<CountryCode>();
-		this.cisloPasu=new HashSet<String>();
+		this.cisloPasu=new HashMap<CountryCode,String>();
 	}
 
 	public ISEOMistoOkres getMistoNarozeni() {
@@ -131,29 +133,35 @@ public class ISEOOsoba extends Osoba {
 	/**
 	 * @return the cisloPasu
 	 */
-	public HashSet<String> getPasy() {
+	public HashMap<CountryCode,String> getPasy() {
 		return cisloPasu;
 	}
 
 	/**
 	 * @param cisloPasu the cisloPasu to set
 	 */
-	public void setCislaPasu(HashSet<String> cisloPasu) {
+	public void setCislaPasu(HashMap<CountryCode, String> cisloPasu) {
 		this.cisloPasu = cisloPasu;
 	}
 	
-	public void addPas(String cislo){
-		cisloPasu.add(cislo);
+	public void addPas(String cislo,CountryCode obcanstvi){
+		//cisloPasu.add(obcanstvi,cislo);
+		cisloPasu.put(obcanstvi,cislo);
 	}
 	
 	public boolean hasPas(String cislo){
-		if(cisloPasu.contains(cislo)) return true;
+		if(cisloPasu.containsValue(cislo)) return true;
 		else return false;
 	}
 	
 	
-	public void remPas(String cislo){
-		cisloPasu.remove(cislo);
+	/*public void remPas(String cislo){
+		//cisloPasu.remove(cislo);
+		cisloPasu.get(cislo);
+	}*/ //TODO spojit s HashMap
+	
+	public String getPas(CountryCode obcanstvi){
+		return cisloPasu.get(obcanstvi);
 	}
 	
 	/**
