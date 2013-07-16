@@ -15,19 +15,22 @@ public class Osoba {
 
 	/* KONSTRUKTORY */
 	public Osoba(String jmeno, String prijmeni,RodneCislo rc){
-		this(jmeno,null,prijmeni,prijmeni,rc);
+		this(jmeno,null,prijmeni,rc);
 	}
 	
 	public Osoba(String jmeno,String druhe,String prijmeni,RodneCislo rc){
-		this(jmeno,prijmeni,rc);
+		this(jmeno,druhe,prijmeni,prijmeni,rc);
 		this.druhe=druhe;
 	}
 	
-	public Osoba(String jmeno,String druhe,String rodne,String prijmeni,RodneCislo rc){
-		this.RODNE_CISLO=rc;
-		this.RODNE_PRIJMENI=rodne;
-		this.jmeno=jmeno;
-		this.prijmeni=prijmeni;
+	public Osoba(String jmeno,String druhe,String rodne,String prijmeni,RodneCislo rc) throws NullPointerException{
+		if(jmeno!=null&&rodne!=null&&prijmeni!=null&&rc!=null){
+			this.RODNE_CISLO=rc;
+			this.RODNE_PRIJMENI=rodne;
+			this.jmeno=jmeno;
+			this.prijmeni=prijmeni;
+		} else throw new NullPointerException("Jmeno, prijmeni, rodne prijmeni nebo rodne cislo je <null>");
+		this.druhe=druhe;
 		this.tituly=new HashSet<Titul>();
 		this.nejvyssiDosazene=Vzdelani.ZADNE;
 		this.nyni=null;

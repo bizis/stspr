@@ -27,7 +27,7 @@ import am.bizis.stspr.fo.Zpusobilost;
  * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o poplatnikovi
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#P
  * @author alex
- * @version 20130711
+ * @version 20130715
  */
 public class VetaP implements IVeta {
 	private final Set<CountryCode> EU=Collections.emptySet();

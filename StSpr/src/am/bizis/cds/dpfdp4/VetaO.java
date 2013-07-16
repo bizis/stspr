@@ -134,36 +134,6 @@ public class VetaO implements IVeta {
 		this.vynato710=vynato710;
 	}
 	
-	/**
-	 * Uplatňovaná výše ztráty - vzniklé a vyměřené za předcházející zdaňovací období maximálně do výše ř. 41a
-	 * Uveďte úhrn uplatňované ztráty (za zdaňovací období 2012 lze uplatnit ztrátu vzniklou a vyměřenou pouze za zdaňovací období 2006, 2007,
-	 * 2009, 2009, 2010, 2011; za zdaňovací období 2011 lze uplatnit ztrátu vzniklou a vyměřenou pouze za zdaňovací období 2006, 2007, 2009, 
-	 * 2009, 2010; za zdaňovací období 2010 lze uplatnit ztrátu vzniklou a vyměřenou pouze za zdaňovací období 2003, 2005, 2006, 2007, 2008 a 
-	 * 2009) maximálně však do výše částky uvedené na ř. 41a. Částka uplatňované ztráty, která převyšuje částku na ř. 41a, je část ztráty, 
-	 * kterou nelze uplatnit v tomto zdaňovacím období a tuto částku můžete uplatnit v následujících zdaňovacích obdobích v souladu s 
-	 * ustanovením § 34 odst. 1 zákona. Poplatník uplatňující ztrátu za předchozí zdaňovací období podle § 34 odst. 1 zákona uvede do 
-	 * samostatné přílohy následující údaje: 1. Zdaňovací období, ve kterém daňová ztráta vznikla / byla uplatněna, 2. Celkovou výši daňové 
-	 * ztráty vyměřené (vzniklé) nebo přiznané za zdaňovací období uvedené v bodu 1, 3. Část daňové ztráty odečtené v předcházejících 
-	 * zdaňovacích obdobích. 4. Část daňové ztráty uplatněné v tomto zdaňovacím období (ř. 44, 2. oddílu základní části DAP, str. 2), 5. Část 
-	 * daňové ztráty, kterou lze odečíst v následujících zdaňovacích obdobích. Doporučený vzor přílohy pro poplatníky uplatňující ztrátu z 
-	 * příjmů je uveden na internetových stránkách na adrese http://cds.mfcr.cz. TODO
-	 * 2009: Uveďte úhrn uplatňované ztráty (za zdaňovací období 2009 lze uplatnit ztrátu vzniklou a vyměřenou pouze za zdaňovací období 2002, 
-	 * 2003, 2004, 2005, 2006, 2007 a 2008) maximálně však do výše částky uvedené na ř. 41a. Částka uplatňované ztráty, která převyšuje částku 
-	 * na ř. 41a, je část ztráty, kterou nelze uplatnit v tomto zdaňovacím období a tuto částku můžete uplatnit v následujících zdaňovacích 
-	 * obdobích v souladu s ustanovením § 34 odst. 1 zákona. Poplatník uplatňující ztrátu za předchozí zdaňovací období podle § 34 odst. 1 
-	 * zákona uvede do samostatné přílohy následující údaje: 
-	 * 1. Zdaňovací období, ve kterém daňová ztráta vznikla / byla uplatněna, 
-	 * 2. Celkovou výši daňové ztráty vyměřené (vzniklé) nebo přiznané za zdaňovací období uvedené v bodu 1, 
-	 * 3. Část daňové ztráty odečtené v předcházejících zdaňovacích obdobích. 
-	 * 4. Část daňové ztráty uplatněné v tomto zdaňovacím období (ř. 44, 2. oddílu základní části DAP, str. 2), 
-	 * 5. Část daňové ztráty, kterou lze odečíst v následujících zdaňovacích obdobích. Doporučený vzor přílohy pro poplatníky uplatňující 
-	 * ztrátu z příjmů je uveden na internetových stránkách Ministerstva financí: http://www.mfcr.cz, v nabídce Daně a cla/Daně/Tiskopisy ke stažení.
-	 * @param kc_ztrata2
-	 */
-	private void setKcZtrata2(double kc_ztrata2){
-		this.kc_ztrata2=kc_ztrata2;
-	}
-	
 	public void setCelkSl4(double celk_sl4){
 		this.celk_sl4=celk_sl4;
 		this.kc_ztrata2=celk_sl4;

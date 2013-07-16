@@ -47,13 +47,6 @@ public class EPO {
 				}
 		}
 		
-		//kontrola, ze jsou pritomny vety, kde je minimalni pocet>0: obecne reseni
-		/*int MIN=1;
-		HashMap<String,Integer> min_pocet=new HashMap<String,Integer>(MIN);
-		min_pocet.put("VetaD", 1);
-		for(String s:min_pocet.keySet()){
-			if(dpfdp4.getElementsByTagName(s).getLength()<min_pocet.get(s)) throw new MissingElementException(s);
-		}*/
 		if(dpfdp4.getElementsByTagName("VetaD").getLength()<1) throw new MissingElementException("VetaD");
 		
 		return EPO;
