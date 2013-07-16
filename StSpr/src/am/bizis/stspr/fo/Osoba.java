@@ -4,10 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class Osoba {
-	
-	protected String jmeno,druhe,prijmeni;
 	private final String RODNE_PRIJMENI;
 	private final RodneCislo RODNE_CISLO;
+	protected String jmeno,druhe,prijmeni;
 	protected HashSet<Titul> tituly;
 	private Vzdelani nejvyssiDosazene;
 	private String datovaschranka;
@@ -23,14 +22,17 @@ public class Osoba {
 		this.druhe=druhe;
 	}
 	
-	public Osoba(String jmeno,String druhe,String rodne,String prijmeni,RodneCislo rc) throws NullPointerException{
-		if(jmeno!=null&&rodne!=null&&prijmeni!=null&&rc!=null){
-			this.RODNE_CISLO=rc;
-			this.RODNE_PRIJMENI=rodne;
-			this.jmeno=jmeno;
-			this.prijmeni=prijmeni;
+	public Osoba(String jmeno1,String druhe1,String rodne1,String prijmeni1,RodneCislo rc) throws NullPointerException{
+		if(jmeno1!=null||rodne1!=null||prijmeni1!=null||rc!=null){
+			if(jmeno1.equals("")||rodne1.equals("")||prijmeni1.equals("")) throw new NullPointerException("");
+			else{
+				this.RODNE_CISLO=rc;
+				this.RODNE_PRIJMENI=rodne1;
+				this.jmeno=jmeno1;
+				this.prijmeni=prijmeni1;
+			}
 		} else throw new NullPointerException("Jmeno, prijmeni, rodne prijmeni nebo rodne cislo je <null>");
-		this.druhe=druhe;
+		this.druhe=druhe1;
 		this.tituly=new HashSet<Titul>();
 		this.nejvyssiDosazene=Vzdelani.ZADNE;
 		this.nyni=null;
