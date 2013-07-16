@@ -23,16 +23,18 @@ public class Osoba {
 	}
 	
 	public Osoba(String jmeno1,String druhe1,String rodne1,String prijmeni1,RodneCislo rc) throws NullPointerException{
-		if((jmeno1!=null||rodne1!=null||prijmeni1!=null||rc!=null)&&(jmeno1.equals("")||rodne1.equals("")||prijmeni1.equals(""))){
+		if(jmeno1==null||rodne1==null||prijmeni1==null||rc==null||jmeno1.equals("")||rodne1.equals("")||prijmeni1.equals("")) throw new NullPointerException("Jmeno, prijmeni, rodne prijmeni nebo rodne cislo je <null> nebo prazdny retezec");
+		else{
 				this.RODNE_CISLO=rc;
 				this.RODNE_PRIJMENI=rodne1;
 				this.jmeno=jmeno1;
 				this.prijmeni=prijmeni1;
-		} else throw new NullPointerException("Jmeno, prijmeni, rodne prijmeni nebo rodne cislo je <null> nebo prazdny retezec");
-		this.druhe=druhe1;
-		this.tituly=new HashSet<Titul>();
-		this.nejvyssiDosazene=Vzdelani.ZADNE;
-		this.nyni=null;
+				
+				this.druhe=druhe1;
+				this.tituly=new HashSet<Titul>();
+				this.nejvyssiDosazene=Vzdelani.ZADNE;
+				this.nyni=null;
+		}
 	}
 
 	/* metody */
