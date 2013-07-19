@@ -1,5 +1,8 @@
 package am.bizis.stspr.fo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import am.bizis.stspr.IPodnik;
 import am.bizis.stspr.OsobaTyp;
 
@@ -58,9 +61,13 @@ public class OSVC extends ISEOOsoba implements IPodnik {
 	}
 
 	public void setEmail(String email){
-		//TODO validate;
-		this.email=email;
+		String pattern="[a-zA-Z0-9.-_]+@[a-zA-Z0-9]+.[a-z]+";
+		Pattern p=Pattern.compile(pattern);
+		Matcher m=p.matcher(email);
+		if(m.matches()) this.email=email;
+		else throw new IllegalArgumentException("Not a valid e-mail address: "+email);
 	}
+	
 	@Override
 	public String getEmail(){
 		return email;
