@@ -1,16 +1,27 @@
 package am.bizis.cds.dpfdp4;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import am.bizis.stspr.exception.ConditionException;
 
 public class VetaS implements IVeta {
 
-	private double da_dan16,kc_odcelk;
-	private double kc_dalvzd,kc_op15_12,kc_op15_13,kc_op15_14,kc_op15_8,kc_op28_5,kc_op34_4;
+	private final int MAX=1,MAXUROKY=300000;
+	private final double SAZBA=0.15;
+	private final double ZAKLAD,ZAKLAD23;
+	private double da_dan16,kc_odcelk,kc_zdsniz,kc_zdzaokr;
+	private double kc_dalsivzd,kc_op15_12,kc_op15_13,kc_op15_14,kc_op15_8,kc_op28_5,kc_op34_4,kc_op_dal;
+	private String text_op_dal;
+	private int m_uroky,m_dalsi, int_kc_zdzaokr;
 	
-	public VetaS(){
-		
+	public VetaS(double kc_zakldan,double kc_zakldan23){
+		this.ZAKLAD=kc_zakldan;
+		this.ZAKLAD23=kc_zakldan23;
 	}
 	/**
 	 * Odst. 8 zákona (úhrada za další vzdělávání)
@@ -19,8 +30,8 @@ public class VetaS implements IVeta {
 	 * 13 000 Kč a s těžším zdravotním postižením max. 15 000 Kč).
 	 * 
 	 */
-	public void setKcDalVzd(double kc){
-		this.kc_dalvzd=kc;
+	public void setKcDalsiVzd(double kc){
+		this.kc_dalsivzd=kc;
 	}
 	/**
 	 * 	Odst. 5 zákona (penzijní připojištění)
@@ -68,6 +79,7 @@ public class VetaS implements IVeta {
 	 */
 	public void setKcOp158(double kc){
 		if(kc<0) kc=0;
+		if(kc>ZAKLAD23) kc=ZAKLAD23;
 		this.kc_op15_8=kc;
 	}
 	/**
@@ -77,9 +89,14 @@ public class VetaS implements IVeta {
 	 * banky nebo pobočky zahraniční banky anebo zahraniční banky. Úhrnná částka úroků, o které lze snížit základ daně 
 	 * podle těchto odst. ze všech úvěrů u poplatníků v téže domácnosti nesmí překročit 300 000 Kč. Při placení úroků jen 
 	 * po část roku nesmí uplatňovaná částka překročit jednu dvanáctinu této maximální částky za každý měsíc placení úroků.
+	 * @param mesicu Počet měsíců: Uveďte počet měsíců placení úroků.
+	 * @throws ConditionException pokud je pocet mesicu vetsi nez 12 nebo mensi nez 0
 	 */
-	public void setKcOp285(double kc){
+	public void setKcOp285(double kc, int mesicu) throws ConditionException{
+		if((mesicu<0)||(mesicu>12)) throw new ConditionException("Pocet mesicu musi byt 0 az 12");
+		this.m_uroky=mesicu;
 		if(kc<0) kc=0;
+		if(kc>mesicu/12*MAXUROKY) kc=mesicu/12*MAXUROKY;
 		this.kc_op28_5=kc;
 	}
 	/**
@@ -91,16 +108,60 @@ public class VetaS implements IVeta {
 		this.kc_op34_4=kc;
 	}
 	
+	/**
+	 * Další částky
+	 * @param kc Uveďte např. uplatňovanou výši odpočtu podle § 34 odst. 9, 10 zákona. 
+	 * @param text Do bílého pole tohoto řádku uveďte název uplatňované částky. Další částky - název uplatňované částky
+	 * @param mesicu Počet měsíců.
+	 * @throws IllegalArgumentException pokud neni vyplnen nazev castky
+	 * @throws ConditionException pokud je pocet mesicu vetsi nez 12 nebo mensi nez 0
+	 */
+	public void setKcOpDal(double kc, String text, int mesicu){
+		this.kc_op_dal=kc;
+		if(text.equals(null)||text.equals("")) throw new IllegalArgumentException("Nazev castky musi byt vyplnen!");
+		else this.text_op_dal=text;
+		if((mesicu<0)||(mesicu>12)) throw new ConditionException("Pocet mesicu musi byt 0 az 12");
+		this.m_dalsi=mesicu;
+	}
+	
 	@Override
 	public Element getElement() throws ParserConfigurationException {
-		// TODO Auto-generated method stub
-		return null;
+		this.kc_odcelk=this.kc_op15_8+this.kc_op28_5+this.kc_op15_12+this.kc_op15_13+this.kc_op15_14+this.kc_dalsivzd+this.kc_op34_4+this.kc_op_dal;
+		this.kc_zdsniz=ZAKLAD-this.kc_odcelk;
+		if(this.kc_zdsniz<0) this.kc_zdsniz=0;
+		this.int_kc_zdzaokr=(int)Math.round(kc_zdsniz);
+		if(int_kc_zdzaokr%100>=50) this.int_kc_zdzaokr=(this.int_kc_zdzaokr/100+1)*100;
+		else this.kc_zdzaokr=(this.kc_zdzaokr/100);//TODO: TESTME
+		this.da_dan16=this.kc_zdzaokr*SAZBA;
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
+		Document EPO=docBuilder.newDocument();
+		Element VetaS=EPO.createElement("VetaS");
+		if(this.da_dan16!=0) VetaS.setAttribute("da_dan16", da_dan16+"");
+		if(this.kc_dalsivzd!=0) VetaS.setAttribute("kc_dalsivzd", kc_dalsivzd+"");
+		if(this.kc_odcelk!=0) VetaS.setAttribute("kc_odcelk", kc_odcelk+"");
+		if(this.kc_op15_12>0) VetaS.setAttribute("kc_op15_12", kc_op15_12+"");
+		if(this.kc_op15_13>0) VetaS.setAttribute("kc_op15_13", kc_op15_13+"");
+		if(this.kc_op15_14>0) VetaS.setAttribute("kc_op15_13", kc_op15_14+"");
+		if(this.kc_op15_8>0) VetaS.setAttribute("kc_op15_8", kc_op15_8+"");
+		if(this.kc_op28_5>0){
+			VetaS.setAttribute("kc_op28_5", kc_op28_5+"");
+			VetaS.setAttribute("m_uroky", m_uroky+"");
+		}
+		if(this.kc_op34_4>0)VetaS.setAttribute("kc_op34_4", kc_op34_4+"");
+		if(this.kc_op_dal!=0){
+			VetaS.setAttribute("kc_op_dal", kc_op_dal+"");
+			VetaS.setAttribute("m_dalsi", m_dalsi+"");
+			VetaS.setAttribute("text_op_dal", text_op_dal);
+		}
+		if(this.kc_zdsniz!=0)VetaS.setAttribute("kc_zdsniz", kc_zdsniz+"");
+		if(this.kc_zdzaokr!=0)VetaS.setAttribute("kc_zdzaokr", kc_zdzaokr+"");
+		return VetaS;
 	}
 
 	@Override
 	public int getMaxPocet() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.MAX;
 	}
 
 }
