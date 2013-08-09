@@ -14,20 +14,21 @@ import org.w3c.dom.Element;
 
 import am.bizis.stspr.exception.ConditionException;
 import am.bizis.stspr.fo.Osoba;
-
 import taka.CountryCode;
 
 /**
  * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o DAP
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#D
  * @author alex
- * @version 20130711
+ * @version 20130803
  */
 public class VetaD implements IVeta{
 	private final String DOKUMENT="DP4";
 	private final String K_ULADIS="DPF";
+	private final String ELEMENT="VetaD";
 	private final int KC_OP15_1A=24840,MAX=1;
 	private final DateFormat DF=new SimpleDateFormat("dd.MM.yyyy");
+	
 	private char audit;
 	private int c_ufo_cil,m_cinvduch,m_deti,m_detiztpp,m_invduch, m_manz,m_vyzmanzl,m_stud,m_ztpp, rok;
 	private Date d_uv, d_duvpod, zdobd_do, zdobd_od, d_zjist;
@@ -468,7 +469,8 @@ public class VetaD implements IVeta{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaD=EPO.createElement("VetaD");
+		Element VetaD=EPO.createElement(ELEMENT);
+		
 		VetaD.setAttribute("dokument", DOKUMENT);
 		VetaD.setAttribute("k_uladis", K_ULADIS);
 		VetaD.setAttribute("audit", audit+"");
@@ -590,5 +592,13 @@ public class VetaD implements IVeta{
 	@Override
 	public int getMaxPocet() {
 		return MAX;
+	}
+	@Override
+	public String[] getDependency() {
+		return null;
+	}
+	@Override
+	public String toString(){
+		return ELEMENT;
 	}
 }

@@ -6,6 +6,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Vytvori element VetaN pisemnosti DPFDP4 - Zadost o vraceni preplatku, pro vraceni preplatku na ucet
+ * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#N
+ * @author alex
+ * @version 20130803
+ */
 public class VetaNucet extends VetaN implements IVeta{
 
 	private final String ZVP_NAZ_BANK,ZVP_SPEC_SYMB;
@@ -26,7 +32,7 @@ public class VetaNucet extends VetaN implements IVeta{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaN=EPO.createElement("VetaN");
+		Element VetaN=EPO.createElement(super.toString());
 		VetaN.setAttribute("zp_vrac", "U");
 		VetaN.setAttribute("kc_preplatek",KC_PREPLATEK+"");
 		

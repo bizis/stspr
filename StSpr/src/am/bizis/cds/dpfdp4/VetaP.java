@@ -13,7 +13,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import taka.CountryCode;
-
 import am.bizis.cds.ciselnik.Obce;
 import am.bizis.stspr.IPodnik;
 import am.bizis.stspr.OsobaTyp;
@@ -24,15 +23,16 @@ import am.bizis.stspr.fo.OSVC;
 import am.bizis.stspr.fo.Zpusobilost;
 
 /**
- * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o poplatnikovi
+ * Vytvori element VetaP pisemnosti DPFDP4 - Zaznam o poplatnikovi
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#P
  * @author alex
- * @version 20130715
+ * @version 20130803
  */
 public class VetaP implements IVeta {
 	private final Set<CountryCode> EU=Collections.emptySet();
 	private final int C_PRACUFO_UNINIT=-1,MAX=1;
 	private final String ZZST="Zakonny zastupce";
+	private final String ELEMENT="VetaP";
 	private String opr_postaveni;
 	private final DateFormat DF=new SimpleDateFormat("dd.MM.yyyy");
 	/*
@@ -131,7 +131,7 @@ public class VetaP implements IVeta {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaP=EPO.createElement("VetaP");
+		Element VetaP=EPO.createElement(ELEMENT);
 		
 		if(osoba.getFax()!=0) VetaP.setAttribute("c_faxu", osoba.getFax()+"");
 		if(osoba.getAdresa()!=null){
@@ -176,7 +176,7 @@ public class VetaP implements IVeta {
 		else VetaP.setAttribute("jmeno",osoba.getKrestni());
 		VetaP.setAttribute("prijmeni", osoba.getPrijmeni());
 		VetaP.setAttribute("rodnepr",osoba.getRodnePrijmeni());
-		VetaP.setAttribute("rod_c",osoba.getRodneCislo().toString());//TODO Textová reprezentace čísla (nutno zachovat vodící nuly)
+		VetaP.setAttribute("rod_c",osoba.getRodneCislo().toString());//TODO Textov�� reprezentace ����sla (nutno zachovat vod��c�� nuly)
 		CountryCode obc;
 		if(osoba.getObcanstvi().contains(CountryCode.CZ)) {
 			VetaP.setAttribute("st_prislus","cz");
@@ -245,6 +245,16 @@ public class VetaP implements IVeta {
 			if(o.getAdresa().getStat().equals(c)&&EU.contains(o)) return c;
 		}
 		return null;
+	}
+
+	@Override
+	public String[] getDependency() {
+		return null;
+	}
+	
+	@Override
+	public String toString(){
+		return ELEMENT;
 	}
 
 }

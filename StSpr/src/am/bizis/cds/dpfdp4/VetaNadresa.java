@@ -14,7 +14,7 @@ import am.bizis.stspr.fo.ISEOOsoba;
  * Vytvori element VetaN pisemnosti DPFDP4 - Zadost o vraceni preplatku, pro vraceni preplatku na adresu
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#N
  * @author alex
- * @version 20130712
+ * @version 20130803
  */
 public class VetaNadresa extends VetaN implements IVeta {
 
@@ -31,7 +31,7 @@ public class VetaNadresa extends VetaN implements IVeta {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaN=EPO.createElement("VetaN");
+		Element VetaN=EPO.createElement(super.toString());
 		VetaN.setAttribute("zp_vrac", "A");
 		VetaN.setAttribute("kc_preplatek",kc_preplatek+"");
 		

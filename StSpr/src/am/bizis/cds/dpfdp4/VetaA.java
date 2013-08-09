@@ -10,9 +10,16 @@ import org.w3c.dom.Element;
 import am.bizis.stspr.exception.ConditionException;
 import am.bizis.stspr.fo.ISEOOsoba;
 
+/**
+ * Vytvori element VetaA pisemnosti DPFDP4 - Záznam o vyživovaném dítěti, na které je uplatňováno daňové zvýhodnění
+ * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#A
+ * @author alex
+ * @version 20130803
+ */
 public class VetaA implements IVeta {
 	
 	private final int MAX=99;
+	private final String ELEMENT="VetaA";
 	private final String vyzdite_jmeno, vyzdite_prijmeni, vyzdite_r_cislo;
 	private final int vyzdite_pocmes, vyzdite_ztpp;
 	
@@ -34,7 +41,7 @@ public class VetaA implements IVeta {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaA=EPO.createElement("VetaA");
+		Element VetaA=EPO.createElement(ELEMENT);
 		VetaA.setAttribute("vyzdite_jmeno", vyzdite_jmeno);
 		VetaA.setAttribute("vyzdite_prijmeni",vyzdite_prijmeni);
 		VetaA.setAttribute("vyzdite_r_cislo", vyzdite_r_cislo);
@@ -46,6 +53,16 @@ public class VetaA implements IVeta {
 	@Override
 	public int getMaxPocet() {
 		return MAX;
+	}
+
+	@Override
+	public String[] getDependency() {
+		return null;
+	}
+	
+	@Override
+	public String toString(){
+		return ELEMENT;
 	}
 
 }

@@ -7,9 +7,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Vytvori element VetaO pisemnosti DPFDP4 - Záznam II. Oddílu
+ * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#O
+ * @author alex
+ * @version 20130803
+ */
 public class VetaO implements IVeta {
 
 	private final int MAX=1;
+	private final String ELEMENT="VetaO";
 	
 	private double celk_sl4, celk_sl5, kc_dan_zah, kc_prij6, kc_prij6zahr, kc_zakldan8, kc_zd10, kc_zd7, kc_zd9, kc_ztrata2;
 	private int kc_poj6;
@@ -159,7 +166,7 @@ public class VetaO implements IVeta {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaO=EPO.createElement("VetaO");
+		Element VetaO=EPO.createElement(ELEMENT);
 		
 		if(celk_sl4!=0) VetaO.setAttribute("celk_sl4", celk_sl4+"");
 		if(celk_sl5!=0) VetaO.setAttribute("celk_sl5", celk_sl5+"");
@@ -187,6 +194,17 @@ public class VetaO implements IVeta {
 	@Override
 	public int getMaxPocet() {
 		return MAX;
+	}
+
+	@Override
+	public String[] getDependency() {
+		if(this.kc_zd7!=0) return new String[]{"VetaT"};
+		return null;
+	}
+	
+	@Override
+	public String toString(){
+		return ELEMENT;
 	}
 
 }

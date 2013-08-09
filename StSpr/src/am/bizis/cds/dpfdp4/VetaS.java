@@ -1,5 +1,7 @@
 package am.bizis.cds.dpfdp4;
 
+import java.util.HashSet;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,11 +11,19 @@ import org.w3c.dom.Element;
 
 import am.bizis.stspr.exception.ConditionException;
 
+/**
+ * Vytvori element VetaS pisemnosti DPFDP4 - Záznam III. Oddílu
+ * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#S
+ * @author alex
+ * @version 20130803
+ */
 public class VetaS implements IVeta {
 
-	private final int MAX=1,MAXUROKY=300000;
+	private final int MAX=1,MAXUROKY=300000,MAXZPPP=12000;
 	private final double SAZBA=0.15;
 	private final double ZAKLAD,ZAKLAD23;
+	private final String ELEMENT="VetaS";
+	
 	private double da_dan16,kc_odcelk,kc_zdsniz,kc_zdzaokr;
 	private double kc_dalsivzd,kc_op15_12,kc_op15_13,kc_op15_14,kc_op15_8,kc_op28_5,kc_op34_4,kc_op_dal;
 	private String text_op_dal;
@@ -44,6 +54,7 @@ public class VetaS implements IVeta {
 	public void setKcOp1512(double kc){
 		//penzijni pripojisteni
 		if(kc<0) kc=0;
+		if(kc>MAXZPPP) kc=MAXZPPP;
 		this.kc_op15_12=kc;
 	}
 	/**
@@ -57,6 +68,7 @@ public class VetaS implements IVeta {
 	public void setKcOp1513(double kc){
 		//zivotni pojisteni
 		if(kc<0) kc=0;
+		if(kc>MAXZPPP) kc=MAXZPPP;
 		this.kc_op15_13=kc;
 	}
 	/**
@@ -69,6 +81,7 @@ public class VetaS implements IVeta {
 	 */
 	public void setKcOp1514(double kc){
 		if(kc<0) kc=0;
+		//TODO: kontrola castky
 		this.kc_op15_14=kc;
 	}
 	/**
@@ -78,8 +91,8 @@ public class VetaS implements IVeta {
 	 * 1 000 Kč. V úhrnu lze odečíst nejvýše 10 % ze základu daně ř. 42.
 	 */
 	public void setKcOp158(double kc){
-		if(kc<0) kc=0;
-		if(kc>ZAKLAD23) kc=ZAKLAD23;
+		if((kc<1000)||(kc<(ZAKLAD23*0.02))) kc=0;
+		if(kc>(ZAKLAD23*0.1)) kc=(ZAKLAD23*0.1);
 		this.kc_op15_8=kc;
 	}
 	/**
@@ -136,7 +149,7 @@ public class VetaS implements IVeta {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaS=EPO.createElement("VetaS");
+		Element VetaS=EPO.createElement(ELEMENT);
 		if(this.da_dan16!=0) VetaS.setAttribute("da_dan16", da_dan16+"");
 		if(this.kc_dalsivzd!=0) VetaS.setAttribute("kc_dalsivzd", kc_dalsivzd+"");
 		if(this.kc_odcelk!=0) VetaS.setAttribute("kc_odcelk", kc_odcelk+"");
@@ -162,6 +175,30 @@ public class VetaS implements IVeta {
 	@Override
 	public int getMaxPocet() {
 		return this.MAX;
+	}
+	@Override
+	public String[] getDependency() {
+		/*
+		 * 													PredepsanaPriloha
+		 * posytnuty dar									PP_DAR
+		 * uhrada na dalsi vzdelavani						PP_DALSIVZ
+		 * penzijni pripojisteni							PP_POTPENZ
+		 * uver na bytove potereby a vyse uroku				PP_POTUVER
+		 * zaplacene castky na soukrome zivotni pojisteni	PP_POTZIVP
+		 * dalsi prilohy									ObecnaPriloha
+		 */
+		HashSet<String> dep=new HashSet<String>();
+		if(kc_op15_8>0) dep.add("PP_DAR");
+		if(kc_dalsivzd>0) dep.add("PP_DALSIVZ");
+		if(kc_op15_12>0) dep.add("PP_POTPENZ");
+		if(kc_op28_5>0) dep.add("PP_POTUVER");
+		if(kc_op15_13>0) dep.add("PP_POTZIVP");
+		if(kc_op_dal>0) dep.add("OBECNA PRILOHA: Dalsi odpocty");
+		return (String[]) dep.toArray();
+	}
+	@Override
+	public String toString(){
+		return ELEMENT;
 	}
 
 }

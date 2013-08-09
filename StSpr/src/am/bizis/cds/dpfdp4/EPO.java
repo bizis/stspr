@@ -1,5 +1,7 @@
 package am.bizis.cds.dpfdp4;
 
+import java.util.HashSet;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,6 +39,10 @@ public class EPO {
 		dpfdp4.setAttribute("verzePis", "04.01.01");
 		rootElement.appendChild(dpfdp4);
 		
+		//mnozina vet, ktere musi byt v dokumentu obsazeny
+		HashSet<String> reqs=new HashSet<String>();
+		reqs.add("VetaD");
+		
 		//vety
 		for(IVeta v:content){
 				if(v!=null){
@@ -44,10 +50,21 @@ public class EPO {
 					//kontrola, ze pocet vet jednotlivych typu nepresahuje maximalni hodnoty
 					if(dpfdp4.getElementsByTagName(n.getTagName()).getLength()<v.getMaxPocet()) dpfdp4.appendChild(n);
 					else throw new MultipleElementsOfSameTypeException(n.getTagName());
+					//pokud ma veta zavislosti, vlozime do seznamu
+					for(String dep:v.getDependency()){
+						reqs.add(dep.toString());
+					}
 				}
 		}
 		
-		if(dpfdp4.getElementsByTagName("VetaD").getLength()<1) throw new MissingElementException("VetaD");
+		//kontrola zavislosti
+		for(String s:reqs){
+			if(!PredepsanaPriloha.valueOf(s).equals(null)){
+				//TODO: Overit, ze je vlozena predepsana priloha
+			}
+			//TODO: Overit, ze jsou vlozeny pozadovane obecne prilohy
+			else if(dpfdp4.getElementsByTagName(s).getLength()<1) throw new MissingElementException(s);
+		}
 		
 		return EPO;
 	}

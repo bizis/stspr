@@ -9,6 +9,12 @@ import org.w3c.dom.Element;
 
 import am.bizis.stspr.fo.Adresa;
 
+/**
+ * Vytvori element VetaN pisemnosti DPFDP4 - Zadost o vraceni preplatku, pro vraceni preplatku na zahranicni ucet
+ * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#N
+ * @author alex
+ * @version 20130803
+ */
 public class VetaNzahranici extends VetaN implements IVeta {
 	private final double KC_PREPLATEK;
 	private final String IBAN,BIC,MENA,NAZ_ADR_BANKY,NAZEV_PRIJ,SYM_PLVMPV;
@@ -30,7 +36,7 @@ public class VetaNzahranici extends VetaN implements IVeta {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaN=EPO.createElement("VetaN");
+		Element VetaN=EPO.createElement(super.toString());
 		VetaN.setAttribute("zp_vrac", "Z");
 		VetaN.setAttribute("kc_preplatek",KC_PREPLATEK+"");
 		
