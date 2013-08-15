@@ -8,6 +8,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import am.bizis.stspr.exception.MissingElementException;
 import am.bizis.stspr.exception.MultipleElementsOfSameTypeException;
@@ -58,15 +60,44 @@ public class EPO {
 		}
 		
 		//kontrola zavislosti
+		int obecna=0;
 		for(String s:reqs){
-			if(!PredepsanaPriloha.valueOf(s).equals(null)){
-				//TODO: Overit, ze je vlozena predepsana priloha
+			if(!PredepsanaPriloha.valueOf(s).equals(null)){//zavislost je predepsana priloha
+				NodeList nl = dpfdp4.getElementsByTagName("PredepsanaPriloha");//vezmu vsechny PP z dpdpf4
+				boolean gotit=false;
+				int i=0;//TODO: prepsat!! casova slozitost!!
+				while((gotit==false)||(i<nl.getLength())){//projdu, kontroluji atribut kod
+					Node n=nl.item(i).getAttributes().getNamedItem("kod");
+					if(n!=null) if(n.getNodeValue().equals(s)) gotit=true;//nalezeno
+					i++;
+				}
+				if(!gotit) throw new MissingElementException(s);//nenalezeno
 			}
-			//TODO: Overit, ze jsou vlozeny pozadovane obecne prilohy
+			else if(s.equals("ObecnaPriloha")) obecna++;
 			else if(dpfdp4.getElementsByTagName(s).getLength()<1) throw new MissingElementException(s);
 		}
+		//kontrola dostatecneho poctu obecnych priloh, tady je problem, pokud se jedna OP pozaduje dvakrat
+		if(dpfdp4.getElementsByTagName("ObecnaPriloha").getLength()<obecna) throw new MissingElementException("ObecnaPriloha");
+
+		//TODO: VetaB
+		Element VetaB=getVetaB();
+		EPO.appendChild(VetaB);
 		
 		return EPO;
+	}
+
+	/**
+	 * Vytvori element VetaB zaznam o prilohach prikladanych k DAP DPF
+	 * @return
+	 * @throws ParserConfigurationException
+	 */
+	private Element getVetaB() throws ParserConfigurationException{
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
+		Document EPO=docBuilder.newDocument();
+		Element VetaB=EPO.createElement("VetaB");
+		
+		return VetaB;
 	}
 
 }
