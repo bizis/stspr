@@ -12,7 +12,14 @@ import taka.CountryCode;
  * @version 20130909
  */
 public interface IFormDataGrab {
-	//VETA D - povinne polozky
+	//technikalie
+	/**
+	 * Zobrazi uzivateli zpravu - pouzije se v pripade, ze doslo k chybe
+	 * @param msg zprava pro uzivatele
+	 */
+	public void showMessage(String msg);
+	
+	//VETA D - povinne polozkyList
 	/**
 	 * Vrati c_ufo_cil podle zadaneho financniho uradu/uzemniho pracoviste
 	 * @return c_ufo z ciselniku Uzemni financni organy
@@ -79,17 +86,17 @@ public interface IFormDataGrab {
 	
 	public double getManZTP() throws DataUnsetException;
 	
-	public double getManz() throws DataUnsetException;
+	public int getManz() throws DataUnsetException;
 	
-	public double getInvalid() throws DataUnsetException;
+	public int getInvalid() throws DataUnsetException;
 	
-	public double getInvalid3() throws DataUnsetException;
+	public int getInvalid3() throws DataUnsetException;
 	
-	public double getZTP() throws DataUnsetException;
+	public int getZTP() throws DataUnsetException;
 	
-	public double getPausal() throws DataUnsetException;
+	public int getPausal() throws DataUnsetException;
 	
-	public double getPosledni() throws DataUnsetException;
+	public int getPosledni() throws DataUnsetException;
 	
 	public double getDluhopisy() throws DataUnsetException;
 	

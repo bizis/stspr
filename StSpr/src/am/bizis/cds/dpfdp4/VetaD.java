@@ -276,7 +276,7 @@ public class VetaD implements IVeta{
 		this.kc_sraz385 = kc_sraz385;
 	}
 	/**
-	 * @param kc_sraz_rezehp a Sražená daň podle § 36 odst. 7 zákona
+	 * @param kc_sraz_rezehp Sražená daň podle § 36 odst. 7 zákona
 	 */
 	public void setKc_sraz_rezehp(double kc_sraz_rezehp) {
 		this.kc_sraz_rezehp = kc_sraz_rezehp;
