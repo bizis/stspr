@@ -1,9 +1,11 @@
 package am.bizis.cds.dpfdp4;
 
+import java.util.List;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +22,7 @@ import taka.CountryCode;
  * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o DAP
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#D
  * @author alex
- * @version 20130803
+ * @version 20130909
  */
 public class VetaD implements IVeta{
 	private final String DOKUMENT="DP4";
@@ -132,7 +134,7 @@ public class VetaD implements IVeta{
 	 * G. insolvence – za předcházející zdaňovací období, pokud nebylo DAP dosud podáno a lhůta 
 	 * pro jeho podání neuplynula (§ 245 daňového řádu)
 	 * H. pro roky 2010 až 2012 nelze uplatnit
-	 * I. úmrtí – do 6 měsícůpo úmrtí poplatníka podle § 239 odst. 3 daňového řádu a za předcházející 
+	 * I. úmrtí – do 6 měsíců po úmrtí poplatníka podle § 239 odst. 3 daňového řádu a za předcházející 
 	 * zdaňovací období, pokud DAP nebylo dosud podáno a lhůta pro jeho podání neuplynula, podle § 245 
 	 * daňového řádu
 	 * 
@@ -254,8 +256,7 @@ public class VetaD implements IVeta{
 		this.kc_pzzt = kc_pzzt;
 	}
 	/**
-	 * Sražená daň podle § 36 odst. 6 zákona (státní dluhopisy)
-	 * @param kc_sraz367 the kc_sraz367 to set
+	 * @param kc_sraz367 Sražená daň podle § 36 odst. 6 zákona (státní dluhopisy)
 	 */
 	public void setKc_sraz367(double kc_sraz367) {
 		this.kc_sraz367 = kc_sraz367;
@@ -595,7 +596,12 @@ public class VetaD implements IVeta{
 	}
 	@Override
 	public String[] getDependency() {
-		return null;
+		List<String> seznam=new LinkedList<String>();
+		if(this.kc_zbyvpred<0) seznam.add("VetaN");
+			
+		String[] ret=null;
+		if(!seznam.isEmpty()) ret=(String[])seznam.toArray();
+		return ret;
 	}
 	@Override
 	public String toString(){
