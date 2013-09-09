@@ -6,7 +6,7 @@ public class ConditionException extends IllegalArgumentException {
 	 * 
 	 */
 	private static final long serialVersionUID = -1992906617538729940L;
-	private static String MSG="Nesplnena podminka";
+	private static final String MSG="Nesplnena podminka";
 
 	public ConditionException() {
 		super(MSG);
