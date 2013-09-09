@@ -14,9 +14,9 @@ import org.w3c.dom.Element;
 
 import taka.CountryCode;
 import am.bizis.cds.ciselnik.Obce;
+import am.bizis.exception.ConditionException;
 import am.bizis.stspr.IPodnik;
 import am.bizis.stspr.OsobaTyp;
-import am.bizis.stspr.exception.ConditionException;
 import am.bizis.stspr.fo.Adresa;
 import am.bizis.stspr.fo.ISEOOsoba;
 import am.bizis.stspr.fo.OSVC;

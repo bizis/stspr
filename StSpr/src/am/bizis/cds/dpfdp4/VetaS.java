@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import am.bizis.stspr.exception.ConditionException;
+import am.bizis.exception.ConditionException;
 
 /**
  * Vytvori element VetaS pisemnosti DPFDP4 - Záznam III. Oddílu

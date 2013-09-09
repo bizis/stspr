@@ -1,4 +1,4 @@
-package am.bizis.stspr.exception;
+package am.bizis.exception;
 
 public class DataUnsetException extends Exception {
 

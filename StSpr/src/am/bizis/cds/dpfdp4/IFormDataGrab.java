@@ -2,7 +2,7 @@ package am.bizis.cds.dpfdp4;
 
 import java.util.Date;
 
-import am.bizis.stspr.exception.DataUnsetException;
+import am.bizis.exception.DataUnsetException;
 import am.bizis.stspr.fo.Osoba;
 import taka.CountryCode;
 

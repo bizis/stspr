@@ -11,8 +11,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import am.bizis.stspr.exception.MissingElementException;
-import am.bizis.stspr.exception.MultipleElementsOfSameTypeException;
+import am.bizis.exception.MissingElementException;
+import am.bizis.exception.MultipleElementsOfSameTypeException;
 
 public class EPO {
 

@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import am.bizis.stspr.exception.IllegalContentTypeException;
-import am.bizis.stspr.exception.PostNotFoundException;
+import am.bizis.exception.IllegalContentTypeException;
+import am.bizis.exception.PostNotFoundException;
 
 public class PSCTools {
 	/**

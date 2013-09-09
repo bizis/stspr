@@ -8,7 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 
-import am.bizis.stspr.exception.DataUnsetException;
+import am.bizis.exception.DataUnsetException;
 
 /**
  * Trida EPOFactory vytvori EPO na zaklade dat z uzivatelskeho rozhrani
@@ -58,7 +58,6 @@ public class EPOFactory {
 		try{
 			doc=EPOdoc.makeXML(content);
 		}catch(ParserConfigurationException e){
-			FORM.showMessage(e.getMessage());//TODO nejaka hezci msg
 			error("Stala se chyba pri vytvareni XML dokumentu","Stala se chyba pri vytvareni XML dokumentu\n"+e.getMessage()+"\n"+e.getStackTrace().toString());
 		}
 		return doc;

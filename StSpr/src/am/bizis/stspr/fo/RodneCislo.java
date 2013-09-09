@@ -7,11 +7,11 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import am.bizis.stspr.exception.IllegalDateException;
-import am.bizis.stspr.exception.IllegalDayException;
-import am.bizis.stspr.exception.IllegalIDNumberException;
-import am.bizis.stspr.exception.IllegalMonthException;
-import am.bizis.stspr.exception.IllegalYearException;
+import am.bizis.exception.IllegalDateException;
+import am.bizis.exception.IllegalDayException;
+import am.bizis.exception.IllegalIDNumberException;
+import am.bizis.exception.IllegalMonthException;
+import am.bizis.exception.IllegalYearException;
 
 public class RodneCislo {
 	private static final String VZOR="([0-9]{2})([0-9]{2})([0-9]{2})/?([0-9]{3,4})";
