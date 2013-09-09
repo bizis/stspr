@@ -161,12 +161,7 @@ public class VetaD implements IVeta{
 	public void setDuvodpoddapdpf(DAPDuvod duvodpoddapdpf, Date d_duvpod) {
 		this.duvodpoddapdpf = duvodpoddapdpf;
 	}
-	/**
-	 * @param d_duvpod the d_duvpod to set
-	 */
-	public void setD_duvpod(Date d_duvpod) {
-		this.d_duvpod = d_duvpod;
-	}
+	
 	/**
 	 * @param kc_csprij Výše celosvětových příjmů
 	 * Jste-li poplatníkem podle § 2 odst. 3 zákona a uplatňujete nezdanitelné části základu daně
