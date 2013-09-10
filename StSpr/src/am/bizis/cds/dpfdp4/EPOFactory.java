@@ -163,7 +163,16 @@ public class EPOFactory {
 			}catch(DataUnsetException e){
 				note("Neni srazena dan podle 36 odst. 7");
 			}
-			//setKc_stud
+			try{
+				d.setKc_stud(FORM.getStudium());
+			}catch(DataUnsetException e){
+				note("Neni sleva na studenta");
+			}
+			try{
+				d.setKc_vyplbonus(FORM.getBonusy());
+			}catch(DataUnsetException e){
+				note("Nejsou vyplacene zadne mesicni danove bonusy");
+			}
 			seznam.add(d);
 		}catch(ParseException e){
 			error("Neplatny rok: "+FORM.getRok(),e.getMessage()+"\n"+e.getStackTrace().toString());
