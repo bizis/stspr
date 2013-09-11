@@ -296,8 +296,36 @@ public class EPOFactory {
 				d.setKc_vyplbonus(FORM.getBonusy());
 			}catch(DataUnsetException e){
 				note("Nejsou vyplacene zadne mesicni danove bonusy");
+			}finally{
+				d=set17(d);
 			}
 		}
+		return d;
+	}
+	
+	private VetaD set17(VetaD d){
+		try{
+			d.setKc_zalpred(FORM.getZalohyZaplacene());
+		}catch(DataUnsetException e){
+			note("Nezaplaceny zadne zalohy");
+		}finally{
+			d=set18(d);
+		}
+		return d;
+	}
+	
+	private VetaD set18(VetaD d){
+		try{
+			d.setKc_zalzavc(FORM.getZalohySrazene());
+		}catch(DataUnsetException e){
+			note("Nebyly srazene zadne zalohy");
+		}finally{
+			d=set19(d);
+		}
+		return d;
+	}
+	
+	private VetaD set19(VetaD d){
 		return d;
 	}
 }
