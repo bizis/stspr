@@ -326,6 +326,37 @@ public class EPOFactory {
 	}
 	
 	private VetaD set19(VetaD d){
+		try{
+			d.setKod_popl(FORM.getKodPopl());
+		}catch(DataUnsetException e){
+			note("Kod statu nevyplnen - predpokladame danoveho rezidenta");
+		}finally{
+			d=set20(d);
+		}
+		return d;
+	}
+	private VetaD set20(VetaD d){
+		try{
+			d.setM_cinvduch(FORM.getCinDuch());
+		}catch(DataUnsetException e){
+			note("Pocet mesicu cinny v duchodu nevyplnen");//TODO: co to vlastne je??
+		}finally{
+			d=set21(d);
+		}
+		return d;
+	}
+	private VetaD set21(VetaD d){
+		try{
+			d.setM_deti(FORM.getDeti());
+			try{
+				d.setM_detiztpp(FORM.getDetiZTPP());
+				if(FORM.getDetiZTPP()>FORM.getDeti()) error("Pocet mesicu deti se ZTP/P vetsi nez pocet mesicu deti","Pocet mesicu deti se ZTP/P vetsi nez pocet mesicu deti");
+			}catch(DataUnsetException e){
+				note("Deti bez ZTP/P");
+			}
+		}catch(DataUnsetException e){
+			note("Bez deti");
+		}
 		return d;
 	}
 }
