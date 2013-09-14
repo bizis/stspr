@@ -197,6 +197,11 @@ public class EPOFactory {
 	private VetaD set7(VetaD d){
 		try{
 			d.setKc_op15_1d(FORM.getInvalid());
+			try{
+				d.setM_invduch(FORM.getInvDuch());
+			}catch(DataUnsetException e){
+				error("Neni vyplnen pocet mesicu v invalidnim duchodu",e.getMessage()+"\n"+e.getStackTrace());
+			}
 		}catch(DataUnsetException e){
 			note("Sleva na pozivatele invalidniho duchodu pro invaliditu prvniho nebo druheho stupne se neuplatnuje");
 		}
@@ -356,6 +361,48 @@ public class EPOFactory {
 			}
 		}catch(DataUnsetException e){
 			note("Bez deti");
+		}finally{
+			d=set22(d);
+		}
+		return d;
+	}
+	private VetaD set22(VetaD d){
+		try{
+			d.setManz(FORM.getManzID());
+			try{
+				d.setM_manz(FORM.getManzMes());
+			}catch(DataUnsetException e){
+				error("Neni vyplnen pocet mesicu manzelstvi",e.getMessage()+"\n"+e.getStackTrace());
+			}
+		}catch(DataUnsetException e){
+			note("Neni manzel(ka)");
+		}finally{
+			d=set23(d);
+		}
+		return d;
+	}
+	private VetaD set23(VetaD d){
+		//d.setPln_moc(FORM.getPlnMoc());
+		try{
+			d.setSleva_rp(FORM.getSlevaRP());
+		}catch(DataUnsetException e){
+			note("SlevaRP neni nastavena");//TODO wut?
+		}
+		finally{
+			d=set24(d);
+		}
+		return d;
+	}
+	private VetaD set24(VetaD d){
+		try{
+			d.setUv_vyhl(FORM.getVyhlaska());
+			try{
+				d.setUv_podpis(FORM.getUVpodpis());
+			}catch(DataUnsetException e){
+				error("Je vyplneno cislo vyhlasky, ale neni vyplnena osoba, jejiz podpisovy zaznam je k vyhlasce pripojen",e.getMessage()+"\n"+e.getStackTrace());
+			}
+		}catch(DataUnsetException e){
+			note("Neni cislo vyhlasky - nejspis nejde o OSVC");
 		}
 		return d;
 	}
