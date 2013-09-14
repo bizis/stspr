@@ -1,10 +1,19 @@
 package am.bizis.cds.dpfdp4;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
@@ -15,7 +24,7 @@ import am.bizis.exception.DataUnsetException;
  * pouziti: new EPOFactory(IFormDataGrab).getEPO(getContent()); vrati XML dokument -> ten poslat na CDS MF
  * 
  * @author alex
- * @version 20130911
+ * @version 20130914
  */
 
 /*
@@ -81,6 +90,10 @@ public class EPOFactory {
 		return doc;
 	}
 	
+	/**
+	 * Vytvori objekty IVeta na zaklade uzivatelem zadanych dat do GUI formulare, ze kterych lze vytvorit samotne EPO
+	 * @return pole vet pro getEPO
+	 */
 	public IVeta[] getContent(){
 		List<IVeta> seznam=new LinkedList<IVeta>();
 		try{
@@ -92,6 +105,30 @@ public class EPOFactory {
 			seznam.add(d);
 		}
 		return (IVeta[])seznam.toArray();
+	}
+	
+	/**
+	 * Zapise vytvoreny dokument do souboru
+	 * @param f soubor
+	 * @param epo vytvoreny dokument
+	 */
+	public void writeFile(File f,Document epo){
+		try {
+			FileWriter fw=new FileWriter(f);
+			TransformerFactory tf = TransformerFactory.newInstance();
+		    Transformer transformer = tf.newTransformer();
+		    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+		    transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+		    transformer.transform(new DOMSource(epo), 
+		         new StreamResult(fw));
+		} catch (IOException e) {
+			error("Chyba pri zapisu souboru",e.getMessage()+"\n"+e.getStackTrace());
+		} catch (TransformerException e) {
+			error("Chyba pri vytvareni XML dokumentu",e.getMessage()+"\n"+e.getStackTrace());
+		}
 	}
 	
 	private VetaD set0(VetaD d){
