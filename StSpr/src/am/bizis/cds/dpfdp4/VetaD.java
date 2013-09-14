@@ -478,7 +478,7 @@ public class VetaD implements IVeta{
 			if(this.duvodpoddapdpf.equals(DAPDuvod.G) && !d_duvpod.after(zdobd_do)) throw new ConditionException("V případě DAP s kódem rozlišení G musí Datum spadat do období bezprostředně následujícího či vyššího než za které je DAP podáváno");
 			VetaD.setAttribute("d_duvpod", DF.format(d_duvpod));
 		}
-		VetaD.setAttribute("d_uv", DF.format(d_uv));
+		if(d_uv!=null) VetaD.setAttribute("d_uv", DF.format(d_uv));
 		if(pln_moc) VetaD.setAttribute("pln_moc", "A");
 		else VetaD.setAttribute("pln_moc","N");
 		if(da_celod13!=0) VetaD.setAttribute("da_celod13", da_celod13+"");

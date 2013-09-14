@@ -53,7 +53,7 @@ public class EPO {
 					if(dpfdp4.getElementsByTagName(n.getTagName()).getLength()<v.getMaxPocet()) dpfdp4.appendChild(n);
 					else throw new MultipleElementsOfSameTypeException(n.getTagName());
 					//pokud ma veta zavislosti, vlozime do seznamu
-					for(String dep:v.getDependency()){
+					if (v.getDependency()!=null) for(String dep:v.getDependency()){
 						reqs.add(dep.toString());
 					}
 				}
@@ -61,6 +61,7 @@ public class EPO {
 		
 		//kontrola zavislosti
 		int obecna=0;
+		try{
 		for(String s:reqs){
 			if(!PredepsanaPriloha.valueOf(s).equals(null)){//zavislost je predepsana priloha
 				NodeList nl = dpfdp4.getElementsByTagName("PredepsanaPriloha");//vezmu vsechny PP z dpdpf4
@@ -76,12 +77,15 @@ public class EPO {
 			else if(s.equals("ObecnaPriloha")) obecna++;
 			else if(dpfdp4.getElementsByTagName(s).getLength()<1) throw new MissingElementException(s);
 		}
+		}catch(IllegalArgumentException e){
+			//no enum constant
+		}
 		//kontrola dostatecneho poctu obecnych priloh, tady je problem, pokud se jedna OP pozaduje dvakrat
 		if(dpfdp4.getElementsByTagName("ObecnaPriloha").getLength()<obecna) throw new MissingElementException("ObecnaPriloha");
 
 		//TODO: VetaB
 		Element VetaB=getVetaB();
-		EPO.appendChild(VetaB);
+		//EPO.appendChild(VetaB);
 		
 		return EPO;
 	}
