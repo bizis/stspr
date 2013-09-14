@@ -176,6 +176,7 @@ public interface IFormDataGrab {
 	
 	/**
 	 * Sražená daň dle § 38f odst. 12 zákona
+	 * kod 89 formulare danoveho priznani
 	 * @return (wtf?)
 	 * @throws DataUnsetException pokud se neuplatnuje
 	 */
@@ -196,7 +197,8 @@ public interface IFormDataGrab {
 	
 	/**
 	 * Sražená daň podle § 36 odst. 7 zákona
-	 * @return (wtf?)
+	 * kod 87 formulare danoveho priznani
+	 * @return (wut?)
 	 * @throws DataUnsetException pokud se neuplatnuje
 	 */
 	public double getSraz387() throws DataUnsetException;
@@ -216,33 +218,152 @@ public interface IFormDataGrab {
 	 */
 	public int getStudMes() throws DataUnsetException;
 	
+	/**
+	 * Úhrn vyplacených měsíčních daňových bonusů podle § 35d zákona 
+	 * (včetně případného doplatku na daňovém bonusu)
+	 * @return Uveďte úhrn měsíčních daňových bonusů, které Vám jako zaměstnanci byly zaměstnavatelem 
+	 * vyplaceny za zdaňovací období 2012, resp. 2011, 2010. Údaje zjistíte z „Potvrzení“ 
+	 * vystaveného jednotlivými zaměstnavateli. Pokud podáváte daňové přiznání a již Vám bylo 
+	 * provedeno roční zúčtování u zaměstnavatele, pak se v Potvrzení vzor č. 20 (2011: vzor č. 
+	 * 19; 2010: vzor č. 18) jedná o součet řádků 13 a doplatku na daňovém bonusu z řádku 17.
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public double getBonusy() throws DataUnsetException;
 	
+	/**
+	 * Na zbývajících zálohách zaplaceno poplatníkem celkem
+	 * @return Uveďte souhrn záloh, které jste zaplatil (zaplatila), v průběhu zdaňovacího období 2012
+	 * nebo části zdaňovacího období 2012, za něž je podáváno DAP, včetně přeplatku použitého
+	 * jako záloha na daň podle § 154 a § 155 daňového řádu. Obdobně se postupuje ve zdaňovacích
+	 * obdobích 2009, 2010 a 2011.
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public double getZalohyZaplacene() throws DataUnsetException;
 	
+	/**
+	 * Úhrn sražených záloh na daň z příjmů fyzických osob ze závislé činnosti
+	 * a z funkčních požitků (po slevách na dani)
+	 * @return Uveďte úhrn sražených záloh na daň z příjmů ze závislé činnosti a z funkčních požitků 
+	 * (po slevách na dani), které Vám byly sraženy všemi zaměstnavateli. Zálohy na daň z příjmů
+	 * ze závislé činnosti a z funkčních požitků uveďte v souladu s § 5 odst. 4 zákona (ve vzoru
+	 * Potvrzení č.20 (2011: č.19; 2010: č.18; 2009: č.17) se jedná o údaj uvedený na řádku 12). 
+	 * V případě, že Vám bylo provedeno roční zúčtování, uveďte částku sražených záloh sníženou 
+	 * o vrácený přeplatek z ročního zúčtování.
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public double getZalohySrazene() throws DataUnsetException;
 	
+	/**
+	 * Kód státu - vyplní jen daňový nerezident
+	 * Položka obsahuje kritické kontroly: hodnota musí obsahovat kód existujícího státu a nesmí
+	 * obsahovat kód CZ - Česko
+	 * Uzij vycet taka.CountryCode
+	 * @return Jste-li poplatníkem podle § 2 odst. 3 zákona, tj. daňový nerezident v České republice, 
+	 * který má daňovou povinnost z příjmů ze zdrojů na území České republiky, uveďte písmenný 
+	 * kód státu, ve kterém jste rezidentem.
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public CountryCode getKodPopl() throws DataUnsetException;
 	
+	/**
+	 * Kod 66 (na formulari danoveho priznani)
+	 * @return pocet mesicu
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public int getCinDuch() throws DataUnsetException;
 	
+	/**
+	 * Asi pocet mesicu deti (nejaka sleva)
+	 * @return celkem pocet mesicu
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public int getDeti() throws DataUnsetException;
 	
+	/**
+	 * Asi pocet mesicu deti se ZTP/P (nejaka sleva)
+	 * @return celkem pocet mesicu
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public int getDetiZTPP() throws DataUnsetException;
 	
+	/**
+	 * Kod 67 (na formulari danoveho priznani)
+	 * @return Pocet mesicu
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public int getInvDuch() throws DataUnsetException;
 	
+	/**
+	 * kod 65 na formulari danoveho priznani
+	 * @return b) pocet mesicu
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public int getManzMes() throws DataUnsetException;
 	
+	/**
+	 * Z tohoto se potom vytvori manz_jmeno, manz_prijmeni, manz_r_cislo, manz_titul
+	 * Udaje o manzelovi/manzelce
+	 * @return Objekt Osoba pro manzela/manzelku
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public Osoba getManzID() throws DataUnsetException;
 	
+	/**
+	 * Spojeni se zahranicnimi osobami
+	 * @return A|N
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public boolean getPropZahr() throws DataUnsetException;
 	
+	/**
+	 * Sleva podle § 35a nebo 35b zákona
+	 * Kod 63 na formulari danoveho priznani
+	 * @return nejaka konstanta?
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public double getSlevaRP() throws DataUnsetException;
 	
+	/**
+	 * Osoba, jejíž podpisový záznam byl připojen k účetní závěrce, která byla podkladem pro zpracování této přílohy
+	 * @return Objekt Osoba
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public Osoba getUVpodpis() throws DataUnsetException;
 	
+	/**
+	 * 	Vyhláška č.
+	 * Vyplňte číslo vyhlášky (první část), podle které byly účetní výkazy a následně vybrané údaje sestaveny. Uveďte následující označení:
+	 * 500 pro
+	 * Vyhlášku č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví, v platném znění.
+	 * 
+	 * 501 pro
+	 * Vyhlášku č.501/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou bankami a jinými finančními institucemi, v platném znění.
+	 * 
+	 * 502 pro
+	 * Vyhlášku č.502/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou pojišťovnami, v platném znění.
+	 * 
+	 * 503 pro
+	 * Vyhlášku č.503/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro zdravotní pojišťovny, v platném znění.
+	 * 
+	 * 504 pro
+	 * Vyhlášku č. 504/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, u kterých hlavním předmětem činnosti není podnikání, pokud účtují v soustavě podvojného účetnictví, v platném znění.
+	 * 
+	 * 507 pro
+	 * Vyhlášku č. 507/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky účtující v soustavě jednoduchého účetnictví, ve znění účinném do 31. prosince 2003, podle níž mohou doposud postupovat účetní jednotky vymezené § 38a zákona č. 563/1991 Sb., o účetnictví, v platném znění.
+	 * 
+	 * 410 pro
+	 * Vyhlášku č. 410/2009 Sb., pro vybrané účetní jednotky, v platném znění, nebo jste účetní jednotkou podle § 38a zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, která využívá možnost vést účetnictví podle zákona č. 563/1991 Sb., o účetnictví, ve znění zákona č. 117/1994 Sb., zákona č. 227/1997 Sb., zákona č. 492/2000 Sb., zákona č. 353/2001 Sb. a zákona č. 437/2003 Sb., a na kterou se vztahují ustanovení zákona č. 563/1991 Sb., o účetnictví, a jeho prováděcích právních předpisů, která upravují účtování v soustavě jednoduchého účetnictví, ve znění účinném k 31. prosinci 2003.
+	 * 
+	 * Položka obsahuje kritické kontroly: nesmí být vyplněn současně druhový a účelový výkaz zisků a ztrát, pokud je zadána hodnota musí odpovídat masce položky, může být použito pouze číslo vyhlášky korespondující s danou písemností, může být použito pouze číslo vyhlášky korespondující s daným typem subjektu, pro zadané číslo vyhlášky musí být použity odpovídající výkazy, pro vyhlášky kromě 500 musí být vyplněny všechny výkazy, číslo vyhlášky musí být vyplněno je-li zadán alespoň 1 výkaz.
+	 * @return objekt vyctu UVVyhl
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public UVVyhl getVyhlaska() throws DataUnsetException;
 	
+	/**
+	 * Zbývá doplatit (ř. 74 - ř. 77 - ř. 84 - ř. 85 - ř. 86 - ř. 87 - ř. 87a - ř. 88 - ř. 89 - ř. 90): (+) zbývá doplatit, (-) zaplaceno více.
+	 * @return Kladná částka znamená, že zbývá na dani doplatit vypočtenou částku. Záporná částka znamená, že bylo za zdaňovací období 2012 zaplaceno více. O přeplatek je možné požádat příslušného správce daně formou žádosti, která je součástí DAP. Obdobně se postupuje ve zdaňovacích obdobích 2011, 2010 a 2009.
+	 * @throws DataUnsetException pokud se neuplatnuje
+	 */
 	public double zbyva() throws DataUnsetException;
 }
