@@ -29,8 +29,11 @@ public class EPO {
 	 * @param content pole vet. Kazda veta ma stanoveno, nejvyse a nejmene kolikrat se muze v dokumentu vyskytovat
 	 * @return DPFDP4
 	 * @throws ParserConfigurationException
+	 * @throws MissingElementException nesplnena zavislost: jeden element pozaduje vlozeni jineho (napr. predepsane prilohy, 
+	 * obecne prilohy, ...) - pozadovany element ovsem nebyl vlozen
+	 * @throws MultipleElementsOfSameTypeException element se vystytuje vicekrat, nez je maximalni dovoleny pocet jeho vyskytu
 	 */
-	public Document makeXML(IVeta[] content) throws ParserConfigurationException{
+	public Document makeXML(IVeta[] content) throws ParserConfigurationException,MultipleElementsOfSameTypeException,MissingElementException{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();

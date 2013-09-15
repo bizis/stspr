@@ -18,6 +18,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
 import am.bizis.exception.DataUnsetException;
+import am.bizis.exception.MissingElementException;
+import am.bizis.exception.MultipleElementsOfSameTypeException;
 
 /**
  * Trida EPOFactory vytvori EPO na zaklade dat z uzivatelskeho rozhrani
@@ -100,6 +102,10 @@ public class EPOFactory {
 			d=new VetaD(FORM.getAudit(), FORM.getCufo(), FORM.getDap_typ(), FORM.getPlnMoc(), FORM.getRok());
 		}catch(ParseException e){
 			error("Neplatny rok: "+FORM.getRok(),e.getMessage()+"\n"+e.getStackTrace().toString());
+		}catch(MultipleElementsOfSameTypeException e){
+			error("Stala se chyba pri vytvareni XML dokumentu","Element se vyskytuje vicekrat nez je povoleno: "+e.getMessage()+"\n"+e.getStackTrace());
+		}catch(MissingElementException e){
+			error("Stala se chyba pri vytvareni XML dokumentu","Chybi element: "+e.getMessage()+"\n"+e.getStackTrace());
 		}finally{
 			d=set0(d);
 			seznam.add(d);
