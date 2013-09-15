@@ -59,26 +59,21 @@ public class EPO {
 				}
 		}
 		
+		//vytvorim mnozinu PredepsanychPriloh z dpfdp4
+		HashSet<String> pps=new HashSet<String>();
+		NodeList nl=dpfdp4.getElementsByTagName("PredepsanaPriloha");//vsechny predepsane prilohy
+		for(int i=0;i<nl.getLength();i++){
+			Node n=nl.item(i).getAttributes().getNamedItem("kod");//kod dane PP
+			if(n!=null) pps.add(n.getNodeValue());//vlozim do mnoziny
+		}
+		
 		//kontrola zavislosti
 		int obecna=0;
-		try{
 		for(String s:reqs){
-			if(!PredepsanaPriloha.valueOf(s).equals(null)){//zavislost je predepsana priloha
-				NodeList nl = dpfdp4.getElementsByTagName("PredepsanaPriloha");//vezmu vsechny PP z dpdpf4
-				boolean gotit=false;
-				int i=0;//TODO: prepsat!! casova slozitost!!
-				while((gotit==false)||(i<nl.getLength())){//projdu, kontroluji atribut kod
-					Node n=nl.item(i).getAttributes().getNamedItem("kod");
-					if(n!=null) if(n.getNodeValue().equals(s)) gotit=true;//nalezeno
-					i++;
-				}
-				if(!gotit) throw new MissingElementException(s);//nenalezeno
-			}
+			if(PredepsanaPriloha.getNazvy().contains(s)&&!pps.contains(s))//zavislost je predepsana priloha a dana PP neni v mnozine PP obsazenych v dpfdp4 
+				throw new MissingElementException(s);
 			else if(s.equals("ObecnaPriloha")) obecna++;
 			else if(dpfdp4.getElementsByTagName(s).getLength()<1) throw new MissingElementException(s);
-		}
-		}catch(IllegalArgumentException e){
-			//no enum constant
 		}
 		//kontrola dostatecneho poctu obecnych priloh, tady je problem, pokud se jedna OP pozaduje dvakrat
 		if(dpfdp4.getElementsByTagName("ObecnaPriloha").getLength()<obecna) throw new MissingElementException("ObecnaPriloha");
