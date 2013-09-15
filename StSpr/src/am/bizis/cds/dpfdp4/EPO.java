@@ -14,6 +14,11 @@ import org.w3c.dom.NodeList;
 import am.bizis.exception.MissingElementException;
 import am.bizis.exception.MultipleElementsOfSameTypeException;
 
+/**
+ * Trida EPO tvori z vet Pisemnost
+ * @author alex
+ * @version 20120915
+ */
 public class EPO {
 
 	public EPO() {
@@ -22,7 +27,7 @@ public class EPO {
 	/**
 	 * Vytvori EPO xml dokument ze zadanych vet
 	 * @param content pole vet. Kazda veta ma stanoveno, nejvyse a nejmene kolikrat se muze v dokumentu vyskytovat
-	 * @return
+	 * @return DPFDP4
 	 * @throws ParserConfigurationException
 	 */
 	public Document makeXML(IVeta[] content) throws ParserConfigurationException{
@@ -87,7 +92,12 @@ public class EPO {
 
 	/**
 	 * Vytvori element VetaB zaznam o prilohach prikladanych k DAP DPF
-	 * @return
+	 * 
+	 * vklada se "pocet listu dane prilohy"
+	 * udela se, az se v praxi otestuje, co se tu vlastne s tema prilohama dela
+	 * a vymysli se, jak ten pocet listu zjistit
+	 * 
+	 * @return VetaB
 	 * @throws ParserConfigurationException
 	 */
 	private Element getVetaB() throws ParserConfigurationException{
