@@ -82,6 +82,10 @@ public class VetaP implements IVeta {
 		EU.add(CountryCode.SE);
 	}
 
+	/**
+	 * Poplatnik dane z prijmu FO
+	 * @param osoba osobni udaje poplatnika
+	 */
 	public void setPoplatnik(OSVC osoba){
 		this.osoba=osoba;
 		this.krok=osoba.getAdresa();
@@ -93,7 +97,7 @@ public class VetaP implements IVeta {
 	}
 	
 	/**
-	 * 	Územní pracoviště v, ve, pro
+	 * Územní pracoviště v, ve, pro);
 	 * @param c_pracufo sídlo územního pracoviště, na němž je nebo bude umístěn spis daňového subjektu (§ 13 zákona o Finanční správě České republiky)
 	 */
 	public void setCpracufo(int c_pracufo){
@@ -102,6 +106,7 @@ public class VetaP implements IVeta {
 	
 	/**
 	 * Osoba opravnena podat k subjektu - pokud neni zpusobily k pravnm ukonum
+	 * Pokud ovsem OSVC neni zpusobily, opravnena osoba se nastavi v setPoplatnik automaticky
 	 * @param o opravnena osoba
 	 * @param opr_postaveni postaveni osoby k subjektu
 	 */

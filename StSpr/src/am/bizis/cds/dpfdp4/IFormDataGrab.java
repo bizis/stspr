@@ -3,6 +3,8 @@ package am.bizis.cds.dpfdp4;
 import java.util.Date;
 
 import am.bizis.exception.DataUnsetException;
+import am.bizis.stspr.fo.Adresa;
+import am.bizis.stspr.fo.OSVC;
 import am.bizis.stspr.fo.Osoba;
 import taka.CountryCode;
 
@@ -21,7 +23,7 @@ public interface IFormDataGrab {
 	 */
 	public void showMessage(String msg);
 	
-	//VETA D - povinne polozkyList
+	//VETA D - povinne polozky
 	/**
 	 * Vrati c_ufo_cil podle zadaneho financniho uradu/uzemniho pracoviste
 	 * @return c_ufo z ciselniku Uzemni financni organy
@@ -366,4 +368,41 @@ public interface IFormDataGrab {
 	 * @throws DataUnsetException pokud se neuplatnuje
 	 */
 	public double zbyva() throws DataUnsetException;
+	
+	//Veta P
+	/**
+	 * Poplatnik dane z prijmu FO
+	 * @return osoba osobni udaje poplatnika
+	 */
+	public OSVC getPoplatnik();
+	
+	/**
+	 * Územní pracoviště v, ve, pro)
+	 * Uzivatel vybere jedno ze seznamu
+	 * Seznam (stringy) se ziska zavolanim am.bizis.cds.ciselnik.UFO.getNazuUFO();
+	 * Z vybraneho stringu se ziska int zavolanim am.bizis.cds.ciselnik.UFO.getCUFO();
+	 * pokud getCUFO() vrati 0 nejspise doslo k chybe ...
+	 * @return sídlo územního pracoviště, na němž je nebo bude umístěn spis daňového subjektu (§ 13 zákona o Finanční správě České republiky)
+	 */
+	public int getCpracufo();
+	
+	/**
+	 * Pobyt k poslednimu dni kalendarniho roku, za ktery se dan vymeruje (pokud ruzne od bydliste!)
+	 * @return objekt Adresa pro dane misto pobytu
+	 * @throws DataUnsetException pokud neni nastaveno (k poslednimu dni roku bydlel na soucasne adrese bydliste)
+	 */
+	public Adresa getKrok() throws DataUnsetException;
+	
+	/**
+	 * Adresa mista pobytu na uzemi CR, kde se poplatnik obvykle ve zdanovacim obdobi zdrzoval - pokud neni bydliste na uzemi CR
+	 * @return objekt Adresa pro dane misto pobytu, kod statu nesmi byt CZ
+	 * @throws DataUnsetException pokud neni nastaveno (poplatnik ma bydliste v CR)
+	 */
+	public Adresa getZdrz() throws DataUnsetException;
+	
+	/**
+	 * @return evidencni cislo danoveho poradce
+	 * @throws DataUnsetException pokud neni nastaveno (nema danoveho poradce)
+	 */
+	public String getEVcislo() throws DataUnsetException;
 }
