@@ -23,10 +23,27 @@ import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.w3c.dom.Document;
 
+/**
+ * Odeslani elektronickeho podani na Generalni Financni Reditelstvi
+ * @author alex
+ * @version 20140914
+ */
 public class Submitter {
 
 	private static final String INTERFACE="https://adisepo.mfcr.cz/adistc/epo_podani";
 	
+	/**
+	 * Podepise a odesle EPO na server
+	 * @param epo XML dokument vytvoreny EPOFactory
+	 * @param cert kvalifikovany certifikat s identifikatorem MPSV
+	 * @param key soukromy klic
+	 * @throws TransformerConfigurationException chyba nastaveni prevadece Documentu na String
+	 * @throws TransformerException chyba pri vytvareni stringu z Documentu
+	 * @throws CertificateEncodingException
+	 * @throws OperatorCreationException
+	 * @throws CMSException chyba pri podpisu dat
+	 * @throws IOException chyba pri odesilani
+	 */
 	public static void submit(Document epo,X509CertificateHolder cert, PrivateKey key) throws TransformerConfigurationException, TransformerException, CertificateEncodingException, OperatorCreationException, CMSException, IOException{
 		//udelam z XML dokumentu String
 		String doc=convertDoc(epo);
@@ -44,6 +61,13 @@ public class Submitter {
 	
 	
 	//http://stackoverflow.com/questions/5456680/xml-document-to-string
+	/**
+	 * Prevede Document na String
+	 * @param epo XML Dokument idealne vytvoreny EPOFactory
+	 * @return Stringova reprezentace epo
+	 * @throws TransformerConfigurationException chyba v nastaveni prevadece
+	 * @throws TransformerException chyba pri prevodu
+	 */
 	private static String convertDoc(Document epo) throws TransformerConfigurationException, TransformerException{
 		String doc=new String();
  		TransformerFactory tf = TransformerFactory.newInstance();
@@ -59,6 +83,14 @@ public class Submitter {
 		return doc;
 	}
 	
+	/**
+	 * Nahraje data na server GFR MF CR
+	 * @param data podepsana data v PKCS7
+	 * @param mail volitelne - sem budou zaslany informace o stavu podani
+	 * @param test zapnout/vypnout testovaci rezim
+	 * @return odpoved serveru
+	 * @throws IOException chyba pri prenosu dat
+	 */
 	private static byte[] upload(byte[] data,String mail,boolean test) throws IOException{
 		String urlparams="";
 		if(mail!=null) urlparams+="&email="+mail;

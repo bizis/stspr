@@ -49,6 +49,8 @@ public class VetaP implements IVeta {
 	
 	public VetaP() {
 		//zadne povinne polozky
+		
+		//definujeme staty EU
 		EU.add(CountryCode.BE);
 		EU.add(CountryCode.BG);
 		EU.add(CountryCode.CZ);
@@ -90,14 +92,18 @@ public class VetaP implements IVeta {
 		}
 	}
 	
+	/**
+	 * 	Územní pracoviště v, ve, pro
+	 * @param c_pracufo sídlo územního pracoviště, na němž je nebo bude umístěn spis daňového subjektu (§ 13 zákona o Finanční správě České republiky)
+	 */
 	public void setCpracufo(int c_pracufo){
 		this.c_pracufo=c_pracufo;
 	}
 	
 	/**
 	 * Osoba opravnena podat k subjektu - pokud neni zpusobily k pravnm ukonum
-	 * @param o
-	 * @param opr_postaveni
+	 * @param o opravnena osoba
+	 * @param opr_postaveni postaveni osoby k subjektu
 	 */
 	public void setOpravnena(ISEOOsoba o,String opr_postaveni){
 		this.opravnena=o;
@@ -176,7 +182,7 @@ public class VetaP implements IVeta {
 		else VetaP.setAttribute("jmeno",osoba.getKrestni());
 		VetaP.setAttribute("prijmeni", osoba.getPrijmeni());
 		VetaP.setAttribute("rodnepr",osoba.getRodnePrijmeni());
-		VetaP.setAttribute("rod_c",osoba.getRodneCislo().toString());//TODO Textov�� reprezentace ����sla (nutno zachovat vod��c�� nuly)
+		VetaP.setAttribute("rod_c",osoba.getRodneCislo().toString());//TODO Textov������ reprezentace ������������sla (nutno zachovat vod������c������ nuly)
 		CountryCode obc;
 		if(osoba.getObcanstvi().contains(CountryCode.CZ)) {
 			VetaP.setAttribute("st_prislus","cz");
