@@ -471,8 +471,10 @@ public class VetaD implements IVeta{
 		VetaD.setAttribute("k_uladis", K_ULADIS);
 		VetaD.setAttribute("audit", audit+"");
 		VetaD.setAttribute("c_ufo_cil", c_ufo_cil+"");
-		VetaD.setAttribute("dap_typ", dap_typ.dap_typ);
-		if(dap_typ.equals(DAPTyp.D)||dap_typ.equals(DAPTyp.E)) VetaD.setAttribute("d_zjist", DF.format(d_zjist));
+		if(dap_typ!=null){
+			VetaD.setAttribute("dap_typ", dap_typ.dap_typ);
+			if(dap_typ.equals(DAPTyp.D)||dap_typ.equals(DAPTyp.E)) VetaD.setAttribute("d_zjist", DF.format(d_zjist));
+		}else throw new ConditionException("Neni zadan DAP typ");
 		if(duvodpoddapdpf!=null){
 			VetaD.setAttribute("duvodpoddapdpf", duvodpoddapdpf.duvodpoddapdpf);
 			if(this.duvodpoddapdpf.equals(DAPDuvod.G) && !d_duvpod.after(zdobd_do)) throw new ConditionException("V případě DAP s kódem rozlišení G musí Datum spadat do období bezprostředně následujícího či vyššího než za které je DAP podáváno");

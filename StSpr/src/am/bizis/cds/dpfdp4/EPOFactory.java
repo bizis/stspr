@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
 import taka.CountryCode;
+import am.bizis.exception.ConditionException;
 import am.bizis.exception.DataUnsetException;
 import am.bizis.exception.MissingElementException;
 import am.bizis.exception.MultipleElementsOfSameTypeException;
@@ -110,6 +111,8 @@ public class EPOFactory {
 			error("Stala se chyba pri vytvareni XML dokumentu","Element se vyskytuje vicekrat nez je povoleno: "+e.getMessage()+"\n"+e.getStackTrace());
 		}catch(MissingElementException e){
 			error("Stala se chyba pri vytvareni XML dokumentu","Chybi element: "+e.getMessage()+"\n"+e.getStackTrace());
+		}catch(ConditionException e){
+			error(e.getMessage(),e.getMessage()+"\n"+e.getStackTrace());
 		}finally{
 			d=setD0(d);
 			seznam.add(d);

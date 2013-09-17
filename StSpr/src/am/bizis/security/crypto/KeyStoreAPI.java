@@ -36,8 +36,9 @@ public class KeyStoreAPI {
 	 * @throws CertificateException
 	 * @throws IOException
 	 * @throws KeyStoreException
+	 * @throws NullPointerException
 	 */
-	public static KeyStore loadKS(String URI,char[] pass) throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException{
+	public static KeyStore loadKS(String URI,char[] pass) throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException, NullPointerException{
 		KeyStore ks=KeyStore.getInstance("JKS");
 		FileInputStream ksfis=new FileInputStream(URI);
 		BufferedInputStream ksbufin=new BufferedInputStream(ksfis);
@@ -72,8 +73,9 @@ public class KeyStoreAPI {
 	 * @param pkalias Alias klice
 	 * @return certifikat pro dany alias
 	 * @throws KeyStoreException
+	 * @throws NullPointerException
 	 */
-	public static X509Certificate getCertFromKS(KeyStore ks, String pkalias) throws KeyStoreException{
+	public static X509Certificate getCertFromKS(KeyStore ks, String pkalias) throws KeyStoreException,NullPointerException{
 		return (X509Certificate) ks.getCertificate(pkalias);
 	}
 }

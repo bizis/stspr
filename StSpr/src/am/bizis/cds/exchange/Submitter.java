@@ -89,9 +89,10 @@ public class Submitter {
 	 * @throws CMSException 
 	 * @throws TransformerException 
 	 * @throws OperatorCreationException 
-	 * @throws TransformerConfigurationException 
+	 * @throws TransformerConfigurationException
+	 * @throws NullPointerException 
 	 */
-	public static void submit(Document epo,String ksuri,char[] kspass,String alias,char[] pkpass) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, TransformerConfigurationException, OperatorCreationException, TransformerException, CMSException{
+	public static void submit(Document epo,String ksuri,char[] kspass,String alias,char[] pkpass) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, TransformerConfigurationException, OperatorCreationException, TransformerException, CMSException, NullPointerException{
 		//ziskam KeyStore
 		KeyStore ks=KeyStoreAPI.loadKS(ksuri, kspass);
 		//ziskam objekt X509Certificate od Oracle

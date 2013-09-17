@@ -11,6 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import am.bizis.exception.ConditionException;
 import am.bizis.exception.MissingElementException;
 import am.bizis.exception.MultipleElementsOfSameTypeException;
 
@@ -32,8 +33,9 @@ public class EPO {
 	 * @throws MissingElementException nesplnena zavislost: jeden element pozaduje vlozeni jineho (napr. predepsane prilohy, 
 	 * obecne prilohy, ...) - pozadovany element ovsem nebyl vlozen
 	 * @throws MultipleElementsOfSameTypeException element se vystytuje vicekrat, nez je maximalni dovoleny pocet jeho vyskytu
+	 * @ConditionException nesplnena podminka v nektere vete
 	 */
-	public Document makeXML(IVeta[] content) throws ParserConfigurationException,MultipleElementsOfSameTypeException,MissingElementException{
+	public Document makeXML(IVeta[] content) throws ParserConfigurationException,MultipleElementsOfSameTypeException,MissingElementException,ConditionException{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
