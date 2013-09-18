@@ -3,8 +3,8 @@ package am.bizis.stspr;
 import am.bizis.stspr.fo.Adresa;
 
 public interface IPodnik {
-	int getIC();
-	int getDIC();
+	IC getIC();
+	long getDIC();
 	String getJmeno();
 	OsobaTyp getTyp();
 	String getEmail();

@@ -37,7 +37,7 @@ public class UFO {
 	private static final File CISELNIK=new File("/home/alex/ufo.xml");
 	private static final DateFormat DF=new SimpleDateFormat("yyyy-MM-dd");
 	
-	public static Date getToday() throws ParseException{
+	private static Date getToday() throws ParseException{
 		return DF.parse(DF.format(Calendar.getInstance().getTime()));
 	}
 	private static Document getCiselnik(){

@@ -1,5 +1,6 @@
 package am.bizis.stspr.po;
 
+import am.bizis.stspr.IC;
 import am.bizis.stspr.IPodnik;
 import am.bizis.stspr.OsobaTyp;
 import am.bizis.stspr.fo.Adresa;
@@ -11,13 +12,13 @@ public class Podnik implements IPodnik {
 	}
 
 	@Override
-	public int getIC() {
+	public IC getIC() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public int getDIC() {
+	public long getDIC() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

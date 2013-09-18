@@ -3,50 +3,52 @@ package am.bizis.stspr.fo;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import am.bizis.stspr.IC;
 import am.bizis.stspr.IPodnik;
 import am.bizis.stspr.OsobaTyp;
 
 public class OSVC extends ISEOOsoba implements IPodnik {
 
-	private final int IC,DIC;
+	private final long DIC;
+	private final IC myIC;
 	private String email;
 	private int telefon,fax;
 	
 	public OSVC(String jmeno, String prijmeni, RodneCislo rc,
-			ISEOMistoOkres narozeni, int ic) {
+			ISEOMistoOkres narozeni, IC ic) {
 		super(jmeno, prijmeni, rc, narozeni);
-		this.IC=ic;
-		this.DIC=ic;
+		this.myIC=ic;
+		this.DIC=0;//TODO change
 	}
 
 	public OSVC(String jmeno, String druhe, String prijmeni, RodneCislo rc,
-			ISEOMistoOkres narozeni, int ic) {
+			ISEOMistoOkres narozeni, IC ic) {
 		super(jmeno, druhe, prijmeni, rc, narozeni);
-		this.IC=ic;
-		this.DIC=ic;
+		this.myIC=ic;
+		this.DIC=0;//TODO change
 	}
 
 	public OSVC(String jmeno, String druhe, String rodne, String prijmeni,
-			RodneCislo rc, ISEOMistoOkres narozeni, int ic) {
+			RodneCislo rc, ISEOMistoOkres narozeni, IC ic) {
 		super(jmeno, druhe, rodne, prijmeni, rc, narozeni);
-		this.IC=ic;
-		this.DIC=ic;
+		this.myIC=ic;
+		this.DIC=0;//TODO change
 	}
 	
 	public OSVC(String jmeno, String druhe, String rodne, String prijmeni,
-			RodneCislo rc, ISEOMistoOkres narozeni, int ic, int dic) {
+			RodneCislo rc, ISEOMistoOkres narozeni, IC ic, long dic) {
 		super(jmeno,druhe,rodne,prijmeni,rc,narozeni);
-		this.IC=ic;
-		this.DIC=dic;
+		this.myIC=ic;
+		this.DIC=0;//TODO 
 	}
 
 	@Override
-	public int getIC() {
-		return this.IC;
+	public IC getIC() {
+		return this.myIC;
 	}
 
 	@Override
-	public int getDIC() {
+	public long getDIC() {
 		return this.DIC;
 	}
 

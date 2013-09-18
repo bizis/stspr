@@ -54,6 +54,7 @@ public class EPO {
 		//mnozina vet, ktere musi byt v dokumentu obsazeny
 		HashSet<String> reqs=new HashSet<String>();
 		reqs.add("VetaD");
+		reqs.add("VetaP");//Pro danovy subjekt musi byt vuplneno DIC nebo RC/IC
 		
 		//vety
 		for(IVeta v:content){

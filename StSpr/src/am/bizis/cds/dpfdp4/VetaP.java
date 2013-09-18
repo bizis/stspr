@@ -41,14 +41,25 @@ public class VetaP implements IVeta {
 	 */
 	private Adresa krok=null,zdrz=null;
 	private IPodnik zastupce;
-	private OSVC osoba;
+	private final OSVC osoba;
 	private int c_pracufo=C_PRACUFO_UNINIT;
 	private ISEOOsoba opravnena;
 	private ZastKod zast_kod;
 	private String zast_ev_cislo=null;
 	
-	public VetaP() {
-		//zadne povinne polozky
+	/**
+	 * 
+	 * @param o Poplatnik dane z prijmu FO
+	 */
+	public VetaP(OSVC o) {
+		//Pro danovy subjekt musi byt vyplneno DIC nebo RC/IC
+		this.osoba=o;
+		this.krok=osoba.getAdresa();
+		this.zdrz=osoba.getAdresa();
+		if(!this.osoba.getZpusobilost().equals(Zpusobilost.PLNA)){
+			this.opravnena=this.osoba.getZpusobilost().getZastupce();
+			this.opr_postaveni=ZZST;
+		}
 		
 		//definujeme staty EU
 		EU.add(CountryCode.BE);
@@ -86,7 +97,7 @@ public class VetaP implements IVeta {
 	 * Poplatnik dane z prijmu FO
 	 * @param osoba osobni udaje poplatnika
 	 */
-	public void setPoplatnik(OSVC osoba){
+	/*public void setPoplatnik(OSVC osoba){
 		this.osoba=osoba;
 		this.krok=osoba.getAdresa();
 		this.zdrz=osoba.getAdresa();
@@ -94,7 +105,7 @@ public class VetaP implements IVeta {
 			this.opravnena=this.osoba.getZpusobilost().getZastupce();
 			this.opr_postaveni=ZZST;
 		}
-	}
+	}*/
 	
 	/**
 	 * Územní pracoviště v, ve, pro);
