@@ -3,7 +3,9 @@ package am.bizis.cds.exchange;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -19,6 +21,9 @@ import java.util.List;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -43,16 +48,19 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import am.bizis.exception.ResultException;
 import am.bizis.security.crypto.KeyStoreAPI;
 
 /**
  * Odeslani elektronickeho podani na Generalni Financni Reditelstvi
  * prozatimni pouziti: Submitter.submit(new EPOFactory(IFormDataGrab).getEPO(getContent()), <URI keystore>, <heslo keystore>, <alias klice>, <heslo klice>);
  * V KeyStoreAPI je popsano, jak uznavany certifikat (napr. Postsignum) ulozit do KeyStore  
- * toto se zavola na kliknuti cudliku >odeslat< (nebo podobne) v GUI
+ * toto se zavola mezirozhranim mezi formou a Submitterem - to overi odpoved a vrati zpravu uzivateli
  * @author alex
- * @version 20140917
+ * @version 20140918
  */
 public class Submitter {
 
@@ -78,7 +86,7 @@ public class Submitter {
 	 * @throws NoSuchAlgorithmException 
 	 * @throws KeyManagementException 
 	 */
-	public static void submit(Document epo,X509CertificateHolder cert, PrivateKey key,String ksuri,char[] kpass) throws TransformerConfigurationException, TransformerException, OperatorCreationException, CMSException, IOException, KeyManagementException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException{
+	public static Document submit(Document epo,X509CertificateHolder cert, PrivateKey key,String ksuri,char[] kpass) throws TransformerConfigurationException, TransformerException, OperatorCreationException, CMSException, IOException, KeyManagementException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException{
 		//udelam z XML dokumentu String
 		String doc=convertDoc(epo);
 		
@@ -89,8 +97,15 @@ public class Submitter {
 		//upload
 		String result=upload(signed,null,true,ksuri,kpass);
 		
-		//testovaci rezim
-		System.out.print(result);
+		//pokusim se vytvorit XML dokument
+		Document res=null;
+		try {
+			res=convertDoc(result);
+		} catch (ParserConfigurationException | SAXException e) {
+			//nejde o XML dokument - hodim vyjimku a prilozim vystup
+			throw new ResultException(result);
+		}
+		return res;
 	}
 	
 	/**
@@ -117,7 +132,7 @@ public class Submitter {
 	 * @throws NoSuchProviderException 
 	 * @throws KeyManagementException 
 	 */
-	public static void submit(Document epo,String ksuri,char[] kspass,String alias,char[] pkpass,String sslksuri,char[] sslkpass) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, TransformerConfigurationException, OperatorCreationException, TransformerException, CMSException, NullPointerException, KeyManagementException, NoSuchProviderException{
+	public static Document submit(Document epo,String ksuri,char[] kspass,String alias,char[] pkpass,String sslksuri,char[] sslkpass) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException, UnrecoverableKeyException, TransformerConfigurationException, OperatorCreationException, TransformerException, CMSException, NullPointerException, KeyManagementException, NoSuchProviderException{
 		//ziskam KeyStore
 		KeyStore ks=KeyStoreAPI.loadKS(ksuri, kspass);
 		//ziskam objekt X509Certificate od Oracle
@@ -127,7 +142,7 @@ public class Submitter {
 		//ziskam privatekey
 		PrivateKey pk=KeyStoreAPI.getPKfromKS(ks, alias, pkpass);
 		//submitnu epo
-		Submitter.submit(epo,cert,pk,sslksuri,sslkpass);
+		return Submitter.submit(epo,cert,pk,sslksuri,sslkpass);
 		
 	}
 	
@@ -155,6 +170,20 @@ public class Submitter {
 	}
 	
 	/**
+	 * Prevede String na Document
+	 * @param res dokument, vraceny podatelnou EPO
+	 * @return dokument, vraceny podatelnou epo jako instance tridy Document
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	private static Document convertDoc(String res) throws ParserConfigurationException, SAXException, IOException{
+		DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
+		DocumentBuilder db=dbf.newDocumentBuilder();
+		return db.parse(new InputSource(new StringReader(res)));
+	}
+	
+	/**
 	 * Nahraje data na server GFR MF CR
 	 * @param data podepsana data v PKCS7
 	 * @param mail volitelne - sem budou zaslany informace o stavu podani
@@ -169,13 +198,15 @@ public class Submitter {
 	 * @throws KeyManagementException 
 	 */
 	private static String upload(byte[] data,String mail,boolean test,String ksuri, char[] kspass) throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException, KeyManagementException{
+		//Content-Type application/pkcs7-signature
+		ContentType pkcs7sig=ContentType.create("application/pkcs7-signature",Charset.forName("UTF-8"));
 		//url parametry
 		List<NameValuePair> urlPar=new ArrayList<NameValuePair>();
 		if(mail!=null)urlPar.add(new BasicNameValuePair("email",mail));
 		if(test)urlPar.add(new BasicNameValuePair("test","1"));
 		
 		//HTTP POST request
-		ByteArrayEntity bae=new ByteArrayEntity(data,ContentType.APPLICATION_FORM_URLENCODED);
+		ByteArrayEntity bae=new ByteArrayEntity(data,pkcs7sig);
 		HttpPost post=new HttpPost(INTERFACE);
 		post.setEntity(new UrlEncodedFormEntity(urlPar));
 		post.setEntity(bae);
@@ -204,10 +235,6 @@ public class Submitter {
 			result+=line;
 			System.out.print(line);
 		}
-		//DataInputStream in= new DataInputStream(response.getEntity().getContent());
-		//byte[] inbuf=new byte[in.available()];
-		//in.read(inbuf);
-		//in.close();
 		return result;
 	}
 }
