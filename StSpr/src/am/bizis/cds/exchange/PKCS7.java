@@ -2,7 +2,6 @@ package am.bizis.cds.exchange;
 
 import java.io.IOException;
 import java.security.PrivateKey;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,9 @@
 package am.bizis.cds.exchange;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -15,8 +13,9 @@ import java.security.PrivateKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
@@ -28,6 +27,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.StrictHostnameVerifier;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cms.CMSException;
@@ -77,10 +87,10 @@ public class Submitter {
 		byte[] signed=podani.sign(doc.getBytes(), cert);
 		
 		//upload
-		byte[] result=upload(signed,null,true,ksuri,kpass);
+		String result=upload(signed,null,true,ksuri,kpass);
 		
 		//testovaci rezim
-		System.out.print(new String(result,Charset.forName("UTF-8")));
+		System.out.print(result);
 	}
 	
 	/**
@@ -158,11 +168,18 @@ public class Submitter {
 	 * @throws NoSuchProviderException 
 	 * @throws KeyManagementException 
 	 */
-	private static byte[] upload(byte[] data,String mail,boolean test,String ksuri, char[] kspass) throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException, KeyManagementException{
-		String urlparams="";
-		if(mail!=null) urlparams+="&email="+mail;
-		if(test) urlparams+="&test=1";
+	private static String upload(byte[] data,String mail,boolean test,String ksuri, char[] kspass) throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException, KeyManagementException{
+		//url parametry
+		List<NameValuePair> urlPar=new ArrayList<NameValuePair>();
+		if(mail!=null)urlPar.add(new BasicNameValuePair("email",mail));
+		if(test)urlPar.add(new BasicNameValuePair("test","1"));
 		
+		//HTTP POST request
+		ByteArrayEntity bae=new ByteArrayEntity(data,ContentType.APPLICATION_FORM_URLENCODED);
+		HttpPost post=new HttpPost(INTERFACE);
+		post.setEntity(new UrlEncodedFormEntity(urlPar));
+		post.setEntity(bae);
+
 		//Vytvorim SSLSocketFactory rucne a vlozim keystore s certifikatem adisepo
 		//http://stackoverflow.com/questions/859111/how-do-i-accept-a-self-signed-certificate-with-a-java-httpsurlconnection
 		KeyStore ks=KeyStoreAPI.loadKS(ksuri, kspass);
@@ -172,30 +189,25 @@ public class Submitter {
 		ctx.init(null, tmf.getTrustManagers(), null);
 		SSLSocketFactory sslFactory=ctx.getSocketFactory();
 		
-		//navazu spojeni
-		URL u=new URL(INTERFACE);
-		HttpsURLConnection c=(HttpsURLConnection)u.openConnection();
-		c.setSSLSocketFactory(sslFactory);
-		c.setDoOutput(true);
-		c.setDoInput(true);
-		c.setRequestMethod("POST");
-		c.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
-		c.setRequestProperty("charset", "utf-8");
-		c.setRequestProperty("Content-Length", "" + Integer.toString(urlparams.getBytes().length+data.length));
-		c.setUseCaches (false);
-
-		DataOutputStream out=new DataOutputStream(c.getOutputStream());
-		out.writeBytes(urlparams);
-		out.write(data);
-		out.flush();
-		out.close();
+		//vytvorim HTTP Clienta pres ktereho se pripojim k SSL Socketu, odeslu POST request a ziskam response
+		HttpClientBuilder hcb=HttpClientBuilder.create();
+		SSLConnectionSocketFactory scsf=new SSLConnectionSocketFactory(sslFactory,new StrictHostnameVerifier());
+		hcb.setSSLSocketFactory(scsf);
+		HttpClient client=hcb.build();
+		HttpResponse response=client.execute(post);
 		
-		DataInputStream in=new DataInputStream(c.getInputStream());
-		int contentLength=in.available();
-		byte[] inbuf=new byte[contentLength];
-		in.read(inbuf);
-		in.close();
+		//ctu response do Stringu
+		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+		String result="",line;
 
-		return inbuf;
+		while((line=rd.readLine())!=null){
+			result+=line;
+			System.out.print(line);
+		}
+		//DataInputStream in= new DataInputStream(response.getEntity().getContent());
+		//byte[] inbuf=new byte[in.available()];
+		//in.read(inbuf);
+		//in.close();
+		return result;
 	}
 }
