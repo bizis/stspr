@@ -3,6 +3,13 @@ package am.bizis.cds.ciselnik;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -13,10 +20,13 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import am.bizis.exception.IllegalCUFOException;
 
 /**
  * Ciselnik Uzemni financni organy
@@ -25,7 +35,11 @@ public class UFO {
 	
 	//private static final String URL_CISELNIK="http://adisepo.mfcr.cz/adistc/epo_ciselnik?C=ufo";
 	private static final File CISELNIK=new File("/home/alex/ufo.xml");
+	private static final DateFormat DF=new SimpleDateFormat("yyyy-MM-dd");
 	
+	public static Date getToday() throws ParseException{
+		return DF.parse(DF.format(Calendar.getInstance().getTime()));
+	}
 	private static Document getCiselnik(){
 			Document XMLdoc=null;
 			try{
@@ -55,14 +69,21 @@ public class UFO {
 	 * Pro zadane UFO vrati cufo do XML priznani
 	 * @param nazu_ufo
 	 * @return
+	 * @throws ParseException 
+	 * @throws DOMException 
+	 * @throws NumberFormatException 
 	 */
-	public static int getCUFO(String nazu_ufo){
-		int cufo=0;
+	public static int getCUFO(String nazu_ufo) throws NumberFormatException, DOMException, ParseException{
+		int cufo=-255;
 		Document ciselnik=getCiselnik();
 		NodeList vety=ciselnik.getElementsByTagName("Veta");
 		for(int i=0;i<vety.getLength();i++){
 			NamedNodeMap attr=vety.item(i).getAttributes();
-			if(attr.getNamedItem("nazu_ufo").getNodeValue().equals(nazu_ufo)) cufo=Integer.parseInt(attr.getNamedItem("c_ufo").getNodeValue());
+			if(attr.getNamedItem("nazu_ufo").getNodeValue().equals(nazu_ufo)&&
+					DF.parse(attr.getNamedItem("d_vzniku").getNodeValue()).before(getToday())&&
+					DF.parse(attr.getNamedItem("d_zaniku").getNodeValue()).after(getToday())) 
+				cufo=Integer.parseInt(attr.getNamedItem("c_ufo").getNodeValue());
+			else throw new IllegalCUFOException(nazu_ufo);
 		}
 		return cufo;
 	}
@@ -70,16 +91,24 @@ public class UFO {
 	/**
 	 * UI dostane pole pro vyber prislusneho UFO
 	 * @return
+	 * @throws ParseException 
+	 * @throws DOMException 
+	 * @throws NumberFormatException
 	 */
-	public static String[] getNazuUFO(){
+	public static String[] getNazuUFO() throws DOMException,ParseException{
 		Document ciselnik=getCiselnik();
 		NodeList vety=ciselnik.getElementsByTagName("Veta");
-		String[] pole=new String[vety.getLength()];
+		//String[] pole=new String[vety.getLength()];
+		List<String> seznam=new ArrayList<String>();
 		for(int i=0;i<vety.getLength();i++){
 			NamedNodeMap attr=vety.item(i).getAttributes();
-			pole[i]=attr.getNamedItem("nazu_ufo").getNodeValue();
+			if(DF.parse(attr.getNamedItem("d_vzniku").getNodeValue()).before(getToday())){
+				if(attr.getNamedItem("d_zaniku").getNodeValue().equals("")||DF.parse(attr.getNamedItem("d_zaniku").getNodeValue()).after(getToday())) 
+				seznam.add(attr.getNamedItem("nazu_ufo").getNodeValue());
+			}
+			//jinak se nejedna o aktivni UFO
 		}
-		return pole;
+		return seznam.toArray(new String[seznam.size()]);
 	}
 
 }
