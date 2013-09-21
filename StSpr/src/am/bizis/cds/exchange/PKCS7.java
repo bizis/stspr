@@ -3,6 +3,8 @@ package am.bizis.cds.exchange;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,10 @@ import org.bouncycastle.cms.CMSProcessableByteArray;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.CMSSignedDataGenerator;
 import org.bouncycastle.cms.CMSTypedData;
+import org.bouncycastle.cms.SignerInformation;
+import org.bouncycastle.cms.SignerInformationStore;
 import org.bouncycastle.cms.jcajce.JcaSignerInfoGeneratorBuilder;
+import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
@@ -63,5 +68,18 @@ public class PKCS7 {
 
 		CMSSignedData sigData = gen.generate(msg, true);
 		return sigData.getEncoded();
+	}
+	
+	/**
+	 * Overi podpis pole bajtu
+	 * @throws CMSException 
+	 * @throws CertificateException 
+	 * @throws OperatorCreationException 
+	 */
+	public static boolean verify(byte[] data,X509Certificate signCert) throws CMSException, OperatorCreationException, CertificateException{
+		CMSSignedData resp = new CMSSignedData(data);
+		SignerInformationStore signers = resp.getSignerInfos();
+		SignerInformation signer = (SignerInformation) signers.getSigners().iterator().next();
+		return signer.verify(new JcaSimpleSignerInfoVerifierBuilder().setProvider("BC").build(signCert.getPublicKey()));
 	}
 }

@@ -27,7 +27,7 @@ public class ResponseParser {
 	}
 	
 	/**
-	 * Vrati vyjimku s obsahev vsech chyb v podani
+	 * Vrati vyjimku s obsah vsech chyb v podani
 	 * @throws ResponseException chyby v podani naparsovane do jednoho stringu
 	 */
 	private void reportErr() throws ResponseException{

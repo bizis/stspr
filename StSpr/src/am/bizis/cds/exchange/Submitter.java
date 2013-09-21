@@ -15,8 +15,6 @@ import java.security.PrivateKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -33,16 +31,13 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.StrictHostnameVerifier;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cms.CMSException;
@@ -73,7 +68,7 @@ public class Submitter {
 	 * @param key soukromy klic - ziskam z am.bizis/security.crypto.KeyStoreAPI (viz komentar tridy)
 	 * @param ksuri URI keystore s ulozenym certifikatem adisepo.mfcr.cz - jelikoz prasata pouzivaji I.CA, ktera neni standardni
 	 * @param kpass heslo keystore
-	 * 
+	 *
 	 * @throws TransformerConfigurationException chyba nastaveni prevadece Documentu na String
 	 * @throws TransformerException chyba pri vytvareni stringu z Documentu
 	 * @throws OperatorCreationException
@@ -84,7 +79,7 @@ public class Submitter {
 	 * @throws KeyStoreException 
 	 * @throws CertificateException 
 	 * @throws NoSuchAlgorithmException 
-	 * @throws KeyManagementException 
+	 * @throws KeyManagementException  
 	 */
 	public static Document submit(Document epo,X509CertificateHolder cert, PrivateKey key,String ksuri,char[] kpass) throws TransformerConfigurationException, TransformerException, OperatorCreationException, CMSException, IOException, KeyManagementException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException{
 		//udelam z XML dokumentu String
@@ -96,6 +91,7 @@ public class Submitter {
 		
 		//upload
 		String result=upload(signed,null,true,ksuri,kpass);
+		System.out.println(result);
 		
 		//pokusim se vytvorit XML dokument
 		Document res=null;
@@ -104,7 +100,13 @@ public class Submitter {
 		} catch (ParserConfigurationException | SAXException e) {
 			//nejde o XML dokument - hodim vyjimku a prilozim vystup
 			throw new ResultException(result);
-		}
+		} /*finally{
+			//overeni podpisu
+			KeyStore ks=KeyStoreAPI.loadKS(ksuri, kpass);
+			X509Certificate mfcr=(X509Certificate) ks.getCertificate("mfcr");
+			if(PKCS7.verify(result.getBytes(), mfcr)) System.out.println("Podpis overen");
+			else System.out.print("Podpis neoveren");
+		}*/
 		return res;
 	}
 	
@@ -118,7 +120,7 @@ public class Submitter {
 	 * @param pkpass heslo soukromeho klice
 	 * @param sslksuri URI keystore s certifikatem adisepo
 	 * @param sslkpass heslo keystore s certifikatem adisepo
-	 * 
+	 *
 	 * @throws IOException 
 	 * @throws KeyStoreException 
 	 * @throws CertificateException 
@@ -197,21 +199,20 @@ public class Submitter {
 	 * @throws NoSuchProviderException 
 	 * @throws KeyManagementException 
 	 */
-	private static String upload(byte[] data,String mail,boolean test,String ksuri, char[] kspass) throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException, KeyManagementException{
+	private static String upload(byte[] data,String mail,boolean test,String ksuri, char[] kspass) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, IOException, KeyManagementException{
 		//Content-Type application/pkcs7-signature
 		ContentType pkcs7sig=ContentType.create("application/pkcs7-signature",Charset.forName("UTF-8"));
+
 		//url parametry
-		List<NameValuePair> urlPar=new ArrayList<NameValuePair>();
-		if(mail!=null)urlPar.add(new BasicNameValuePair("email",mail));
-		if(test)urlPar.add(new BasicNameValuePair("test","1"));
+		String url=INTERFACE;
+		if(test) url+="?test=1";
 		
 		//HTTP POST request
 		ByteArrayEntity bae=new ByteArrayEntity(data,pkcs7sig);
-		HttpPost post=new HttpPost(INTERFACE);
-		post.setEntity(new UrlEncodedFormEntity(urlPar));
+		HttpPost post=new HttpPost(url);
 		post.setEntity(bae);
 
-		//Vytvorim SSLSocketFactory rucne a vlozim keystore s certifikatem adisepo
+		//VytvorimKeyManagementException SSLSocketFactory rucne a vlozim keystore s certifikatem adisepo
 		//http://stackoverflow.com/questions/859111/how-do-i-accept-a-self-signed-certificate-with-a-java-httpsurlconnection
 		KeyStore ks=KeyStoreAPI.loadKS(ksuri, kspass);
 		TrustManagerFactory tmf=TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
