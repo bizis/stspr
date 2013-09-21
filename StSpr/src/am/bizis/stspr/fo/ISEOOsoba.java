@@ -17,26 +17,113 @@ public class ISEOOsoba extends Osoba {
 	private HashMap<CountryCode, String> cisloPasu;
 	private Zpusobilost zp;
 
-	public ISEOOsoba(String jmeno, String prijmeni, RodneCislo rc, ISEOMistoOkres narozeni) {
+	/**
+	 * Vytvori osobu s danym jmenem, prijmenim, rodnym cislem, mistem narozeni a adresou
+	 * Osoba bude mit nastaveno jedine obcanstvi a to Ceske republiky
+	 * @param jmeno Krestni jmeno
+	 * @param prijmeni Prijmeni
+	 * @param rc Rodne cislo
+	 * @param narozeni Misto a okres narozeni
+	 * @param adr Adresa trvaleho pobytu
+	 */
+	public ISEOOsoba(String jmeno, String prijmeni, RodneCislo rc, ISEOMistoOkres narozeni, Adresa adr) {
 		super(jmeno, prijmeni, rc);
 		this.NAROZENI=narozeni;
 		this.obcanstvi=new HashSet<CountryCode>();
 		this.cisloPasu=new HashMap<CountryCode,String>();
+		this.zp=Zpusobilost.PLNA;
+		this.adresa=adr;
+		obcanstvi.add(CountryCode.CZ);
+	}
+	
+	/**
+	 * Vytvori osobu s danym jmenem, prijmenim, rodnym cislem, mistem narozeni, adresou trvaleho pobytu, obcanstvim a cislem pasu
+	 * 
+	 * @param jmeno
+	 * @param prijmeni
+	 * @param rc
+	 * @param narozeni
+	 * @param adr
+	 * @param obc
+	 * @param pas
+	 */
+	public ISEOOsoba(String jmeno, String prijmeni, RodneCislo rc, ISEOMistoOkres narozeni, Adresa adr, CountryCode obc, String pas) {
+		super(jmeno, prijmeni, rc);
+		this.NAROZENI=narozeni;
+		this.obcanstvi=new HashSet<CountryCode>();
+		this.cisloPasu=new HashMap<CountryCode,String>();
+		this.zp=Zpusobilost.PLNA;
+		this.adresa=adr;
+		obcanstvi.add(obc);
+		cisloPasu.put(obc, pas);
 	}
 
-	public ISEOOsoba(String jmeno, String druhe, String prijmeni, RodneCislo rc,ISEOMistoOkres narozeni) {
+	/**
+	 * Vytvori osobu s danym jmenem, druhym jmenem, prijmenim, rodnym cislem, mistem narozeni a adresou trvaleho pobytu
+	 * Jako jedine obcanstvi nastavi Ceskou republiku
+	 * 
+	 * @param jmeno
+	 * @param druhe
+	 * @param prijmeni
+	 * @param rc
+	 * @param narozeni
+	 * @param adr
+	 */
+	public ISEOOsoba(String jmeno, String druhe, String prijmeni, RodneCislo rc,ISEOMistoOkres narozeni, Adresa adr) {
 		super(jmeno, druhe, prijmeni, rc);
 		this.NAROZENI=narozeni;
 		this.obcanstvi=new HashSet<CountryCode>();
 		this.cisloPasu=new HashMap<CountryCode,String>();
+		this.zp=Zpusobilost.PLNA;
+		this.adresa=adr;
+		obcanstvi.add(CountryCode.CZ);
+	}
+	
+	/**
+	 * Vytvori osobu s danym jmenem, druhym jmenem, prijmenim, rodnym cislem, mistem narozeni, adresou trvaleho pobytu obcanstvim
+	 * a cislem pasu
+	 *  
+	 * @param jmeno
+	 * @param druhe
+	 * @param prijmeni
+	 * @param rc
+	 * @param narozeni
+	 * @param adr
+	 * @param obc
+	 * @param pas
+	 */
+	public ISEOOsoba(String jmeno, String druhe, String prijmeni, RodneCislo rc,ISEOMistoOkres narozeni, Adresa adr, CountryCode obc,String pas) {
+		super(jmeno, druhe, prijmeni, rc);
+		this.NAROZENI=narozeni;
+		this.obcanstvi=new HashSet<CountryCode>();
+		this.cisloPasu=new HashMap<CountryCode,String>();
+		this.zp=Zpusobilost.PLNA;
+		this.adresa=adr;
+		obcanstvi.add(obc);
+		cisloPasu.put(obc, pas);
 	}
 
 	public ISEOOsoba(String jmeno, String druhe, String rodne, String prijmeni,
-			RodneCislo rc,ISEOMistoOkres narozeni) {
+			RodneCislo rc,ISEOMistoOkres narozeni, Adresa adr) {
 		super(jmeno, druhe, rodne, prijmeni, rc);
 		this.NAROZENI=narozeni;
 		this.obcanstvi=new HashSet<CountryCode>();
 		this.cisloPasu=new HashMap<CountryCode,String>();
+		this.zp=Zpusobilost.PLNA;
+		this.adresa=adr;
+		this.obcanstvi.add(CountryCode.CZ);
+	}
+	
+	public ISEOOsoba(String jmeno, String druhe, String rodne, String prijmeni,
+			RodneCislo rc,ISEOMistoOkres narozeni, Adresa adr, CountryCode obc, String pas) {
+		super(jmeno, druhe, rodne, prijmeni, rc);
+		this.NAROZENI=narozeni;
+		this.obcanstvi=new HashSet<CountryCode>();
+		this.cisloPasu=new HashMap<CountryCode,String>();
+		this.zp=Zpusobilost.PLNA;
+		this.adresa=adr;
+		this.obcanstvi.add(obc);
+		this.cisloPasu.put(obc, pas);
 	}
 
 	public ISEOMistoOkres getMistoNarozeni() {
@@ -181,8 +268,17 @@ public class ISEOOsoba extends Osoba {
 		return jmeno;
 	}
 	
-	public static ISEOOsoba toISEO(Osoba o,ISEOMistoOkres narozeni){
-		ISEOOsoba io = new ISEOOsoba(o.getKrestni(),o.getDruhe(),o.getRodnePrijmeni(),o.getPrijmeni(),o.getRodneCislo(),narozeni);
+	public static ISEOOsoba toISEO(Osoba o,ISEOMistoOkres narozeni,Adresa adr){
+		ISEOOsoba io = new ISEOOsoba(o.getKrestni(),o.getDruhe(),o.getRodnePrijmeni(),o.getPrijmeni(),o.getRodneCislo(),narozeni,adr);
+		io.setDatovaSchranka(o.getDatovaSchranka());
+		for(Titul t:o.getTituly()){
+			io.addTitul(t);
+		}
+		return io;
+	}
+	
+	public static ISEOOsoba toISEO(Osoba o,ISEOMistoOkres narozeni,Adresa adr,CountryCode obcan, String pas){
+		ISEOOsoba io = new ISEOOsoba(o.getKrestni(),o.getDruhe(),o.getRodnePrijmeni(),o.getPrijmeni(),o.getRodneCislo(),narozeni,adr,obcan,pas);
 		io.setDatovaSchranka(o.getDatovaSchranka());
 		for(Titul t:o.getTituly()){
 			io.addTitul(t);

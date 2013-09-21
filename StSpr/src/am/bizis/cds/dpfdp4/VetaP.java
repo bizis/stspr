@@ -2,7 +2,7 @@ package am.bizis.cds.dpfdp4;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,7 +29,7 @@ import am.bizis.stspr.fo.Zpusobilost;
  * @version 20130803
  */
 public class VetaP implements IVeta {
-	private final Set<CountryCode> EU=Collections.emptySet();
+	private final Set<CountryCode> EU;
 	private final int C_PRACUFO_UNINIT=-1,MAX=1;
 	private final String ZZST="Zakonny zastupce";
 	private final String ELEMENT="VetaP";
@@ -62,6 +62,7 @@ public class VetaP implements IVeta {
 		}
 		
 		//definujeme staty EU
+		EU=new HashSet<CountryCode>();
 		EU.add(CountryCode.BE);
 		EU.add(CountryCode.BG);
 		EU.add(CountryCode.CZ);

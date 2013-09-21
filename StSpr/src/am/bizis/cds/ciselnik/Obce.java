@@ -29,7 +29,7 @@ public class Obce {
 	public Obce() {
 	}
 	
-	public static int getObec(Adresa a){
+	public static int getObec(Adresa a) throws NullPointerException{
 		int obec=0;
 		String obecOkres=a.getObec().toUpperCase()+" (OKRES "+a.getOkres().toUpperCase()+")";
 		//int psc=a.getPSC();

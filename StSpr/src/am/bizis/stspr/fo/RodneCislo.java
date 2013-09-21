@@ -103,7 +103,7 @@ public class RodneCislo {
 							suda=suda+Integer.parseInt(""+cislo.charAt(i));
 						}
 						if((Math.abs(suda-licha))%11==0){
-							this.RODNE_CISLO=yy+mm+dd+"/"+control;
+							this.RODNE_CISLO=yy+mm+dd+control;
 						} else{
 							this.RODNE_CISLO=CHYBA.toString();
 							throw new IllegalIDNumberException("Delitelnost 11");

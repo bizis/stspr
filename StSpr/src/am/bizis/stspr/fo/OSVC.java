@@ -3,6 +3,7 @@ package am.bizis.stspr.fo;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import taka.CountryCode;
 import am.bizis.stspr.IC;
 import am.bizis.stspr.IPodnik;
 import am.bizis.stspr.OsobaTyp;
@@ -15,29 +16,50 @@ public class OSVC extends ISEOOsoba implements IPodnik {
 	private int telefon,fax;
 	
 	public OSVC(String jmeno, String prijmeni, RodneCislo rc,
-			ISEOMistoOkres narozeni, IC ic) {
-		super(jmeno, prijmeni, rc, narozeni);
+			ISEOMistoOkres narozeni, IC ic,Adresa adr) {
+		super(jmeno, prijmeni, rc, narozeni,adr);
+		this.myIC=ic;
+		this.DIC=0;//TODO change
+	}
+	
+	public OSVC(String jmeno, String prijmeni, RodneCislo rc,
+			ISEOMistoOkres narozeni, IC ic,Adresa adr,CountryCode obcanstvi,String pas) {
+		super(jmeno, prijmeni, rc, narozeni,adr,obcanstvi,pas);
 		this.myIC=ic;
 		this.DIC=0;//TODO change
 	}
 
 	public OSVC(String jmeno, String druhe, String prijmeni, RodneCislo rc,
-			ISEOMistoOkres narozeni, IC ic) {
-		super(jmeno, druhe, prijmeni, rc, narozeni);
+			ISEOMistoOkres narozeni, IC ic, Adresa adr) {
+		super(jmeno, druhe, prijmeni, rc, narozeni,adr);
+		this.myIC=ic;
+		this.DIC=0;//TODO change
+	}
+	
+	public OSVC(String jmeno, String druhe, String prijmeni, RodneCislo rc,
+			ISEOMistoOkres narozeni, IC ic, Adresa adr,CountryCode obcanstvi,String pas) {
+		super(jmeno, druhe, prijmeni, rc, narozeni,adr,obcanstvi,pas);
 		this.myIC=ic;
 		this.DIC=0;//TODO change
 	}
 
 	public OSVC(String jmeno, String druhe, String rodne, String prijmeni,
-			RodneCislo rc, ISEOMistoOkres narozeni, IC ic) {
-		super(jmeno, druhe, rodne, prijmeni, rc, narozeni);
+			RodneCislo rc, ISEOMistoOkres narozeni, IC ic,Adresa adr) {
+		super(jmeno, druhe, rodne, prijmeni, rc, narozeni,adr);
 		this.myIC=ic;
 		this.DIC=0;//TODO change
 	}
 	
 	public OSVC(String jmeno, String druhe, String rodne, String prijmeni,
-			RodneCislo rc, ISEOMistoOkres narozeni, IC ic, long dic) {
-		super(jmeno,druhe,rodne,prijmeni,rc,narozeni);
+			RodneCislo rc, ISEOMistoOkres narozeni, IC ic,Adresa adr,CountryCode obcanstvi,String pas) {
+		super(jmeno, druhe, rodne, prijmeni, rc, narozeni,adr,obcanstvi,pas);
+		this.myIC=ic;
+		this.DIC=0;//TODO change
+	}
+	
+	public OSVC(String jmeno, String druhe, String rodne, String prijmeni,
+			RodneCislo rc, ISEOMistoOkres narozeni, IC ic, long dic,Adresa adr,CountryCode obcanstvi,String pas) {
+		super(jmeno,druhe,rodne,prijmeni,rc,narozeni,adr,obcanstvi,pas);
 		this.myIC=ic;
 		this.DIC=0;//TODO 
 	}
