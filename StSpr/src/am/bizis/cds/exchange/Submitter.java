@@ -85,15 +85,12 @@ public class Submitter {
 		//udelam z XML dokumentu String
 		String doc=convertDoc(epo);
 		
-		System.out.println(doc);
-		
 		//vytvorim PKCS7 podepsanou zpravu
 		PKCS7 podani=new PKCS7(key);
 		byte[] signed=podani.sign(doc.getBytes(), cert);
 		
 		//upload
 		String result=upload(signed,null,true,ksuri,kpass);
-		System.out.println(result);
 		
 		//pokusim se vytvorit XML dokument
 		Document res=null;
