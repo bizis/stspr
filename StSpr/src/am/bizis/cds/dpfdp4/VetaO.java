@@ -198,8 +198,8 @@ public class VetaO implements IVeta {
 
 	@Override
 	public String[] getDependency() {
-		if(this.kc_zd7!=0) return new String[]{"VetaT"};
-		return null;
+		if(this.kc_zd7!=0) return new String[]{"VetaT","VetaV"};
+		return new String[]{"VetaV"};
 	}
 	
 	@Override
