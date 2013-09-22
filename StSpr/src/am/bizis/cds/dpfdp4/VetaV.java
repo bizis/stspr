@@ -16,11 +16,37 @@ import org.w3c.dom.Element;
  */
 public class VetaV implements IVeta {
 
-	private int kc_prij10, kc_prij9, kc_rezerv_k, kc_rezerv_z, kc_rozdil9, kc_snizukon9, kc_vyd10, kc_vyd9, kc_zd10p, kc_zd9p, kc_zvysukon9, uhrn_prijmy10, uhrn_rozdil10, uhrn_vydaje10;
+	private final double kc_prij10, kc_snizukon9, kc_zvysukon9,kc_prij9, kc_vyd9;
+	private double kc_rozdil9,kc_vyd10,kc_rezerv_k, kc_rezerv_z, kc_zd10p, kc_zd9p, uhrn_prijmy10, uhrn_rozdil10, uhrn_vydaje10;
 	private boolean vyd9proc=false, spol_jm_manz=false;
 	
-	public VetaV() {
-		// zadne povinne polozky
+	/**
+	 * @param kc_prij10 Příjmy podle § 10 zákona
+	 * Uveďte součet částek z tabulky ze sloupce 2 podle jednotlivých druhů příjmů.
+	 * @param kc_snizukon9 Úhrn částek podle § 5, § 23 zákona a ostatní úpravy podle zákona snižující rozdíl mezi příjmy a 
+	 * výdaji nebo výsledkem hospodaření před zdaněním - (zisk, ztráta)
+	 * Uveďte úhrn částek snižujících rozdíl mezi příjmy a výdaji nebo výsledek hospodaření před zdaněním.
+	 * @param kc_zvysukon9 Úhrn částek podle § 5, § 23 zákona a ostatní úpravy podle zákona zvyšující rozdíl mezi příjmy a 
+	 * výdaji nebo výsledek hospodaření před zdaněním - (zisk, ztráta)
+	 * Uveďte úhrn částek zvyšujících rozdíl mezi příjmy a výdaji nebo výsledek hospodaření před zdaněním.
+	 * @param kc_prij9 Příjmy podle § 9 zákona
+	 * Uveďte na ř. 201 příjmy z pronájmu evidované podle § 9 odst. 6 zákona v záznamech o příjmech a výdajích případně v 
+	 * účetnictví.
+	 * @param kc_vyd9 Výdaje podle § 9 zákona
+	 * Uveďte na ř. 202 výdaje z pronájmu evidované podle § 9 odst. 6 zákona v záznamech o příjmech a výdajích případně v 
+	 * účetnictví.
+	 * V případě, že se jedná o příjmy dosažené dvěma a více poplatníky z titulu spoluvlastnictví k věci, potom společné 
+	 * výdaje vynaložené na jejich dosažení, zajištění a udržení se rozdělují mezi poplatníky podle jejich 
+	 * spoluvlastnických podílů nebo podle poměru dohodnutého ve smlouvě. Pokud příjmy z pronájmu plynou manželům ze 
+	 * společného jmění manželů, zdaňují se jen u jednoho z nich a ten je uvede ve svém DAP. Údaje se uvádějí před úpravou 
+	 * o položky podle § 5, § 23 zákona a ostatní úpravy podle zákona.
+	 */
+	public VetaV(double kc_prij10,double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9) {
+		this.kc_prij10=kc_prij10;
+		this.kc_snizukon9=kc_snizukon9;
+		this.kc_zvysukon9=kc_zvysukon9;
+		this.kc_prij9=kc_prij9;
+		this.kc_vyd9=kc_vyd9;
 	}
 	
 	
@@ -35,21 +61,21 @@ public class VetaV implements IVeta {
 		Document EPO=docBuilder.newDocument();
 		Element VetaV=EPO.createElement("VetaV");
 		
-		if(kc_prij10!=0) VetaV.setAttribute("kc_prij10",kc_prij10+"");
-		if(kc_prij9!=0) VetaV.setAttribute("kc_prij9",kc_prij9+""); 
+		VetaV.setAttribute("kc_prij10",kc_prij10+"");
+		VetaV.setAttribute("kc_prij9",kc_prij9+""); 
 		if(kc_rezerv_k!=0) VetaV.setAttribute("kc_rezerv_k",kc_rezerv_k+"");
 		if(kc_rezerv_z!=0) VetaV.setAttribute("kc_rezerv_z",kc_rezerv_z+"");
 		kc_rozdil9=kc_prij9-kc_vyd9;
-		if(kc_rozdil9!=0) VetaV.setAttribute("kc_rozdil9",kc_rozdil9+"");
-		if(kc_snizukon9!=0) VetaV.setAttribute("kc_snizukon9",kc_snizukon9+"");
+		VetaV.setAttribute("kc_rozdil9",kc_rozdil9+"");
+		VetaV.setAttribute("kc_snizukon9",kc_snizukon9+"");
 		if (kc_vyd10>kc_prij10) kc_vyd10=kc_prij10;
-		if(kc_vyd10!=0) VetaV.setAttribute("kc_vyd10",kc_vyd10+"");
-		if(kc_vyd9!=0) VetaV.setAttribute("kc_vyd9",kc_vyd9+"");
-		kc_zd10p=kc_prij10-kc_vyd10;
+		VetaV.setAttribute("kc_vyd10",kc_vyd10+"");
+		VetaV.setAttribute("kc_vyd9",kc_vyd9+"");
+		kc_zd10p=kc_prij10-kc_vyd10;//soucet kladnych rozdilu prijmu a vydaju
 		VetaV.setAttribute("kc_zd10p",kc_zd10p+"");
 		kc_zd9p=kc_rozdil9+kc_zvysukon9-kc_snizukon9;
 		VetaV.setAttribute("kc_zd9p",kc_zd9p+"");
-		if(kc_zvysukon9!=0) VetaV.setAttribute("kc_zvysukon9",kc_zvysukon9+"");
+		VetaV.setAttribute("kc_zvysukon9",kc_zvysukon9+"");
 		if(uhrn_prijmy10!=0) VetaV.setAttribute("uhrn_prijmy10",uhrn_prijmy10+"");
 		if(uhrn_rozdil10!=0) VetaV.setAttribute("uhrn_rozdil10",uhrn_rozdil10+"");
 		if(uhrn_vydaje10!=0) VetaV.setAttribute("uhrn_vydaje10",uhrn_vydaje10+"");
@@ -75,20 +101,6 @@ public class VetaV implements IVeta {
 	}
 
 	/**
-	 * @param kc_vyd9 Výdaje podle § 9 zákona
-	 * Uveďte na ř. 202 výdaje z pronájmu evidované podle § 9 odst. 6 zákona v záznamech o příjmech a výdajích případně v 
-	 * účetnictví.
-	 * V případě, že se jedná o příjmy dosažené dvěma a více poplatníky z titulu spoluvlastnictví k věci, potom společné 
-	 * výdaje vynaložené na jejich dosažení, zajištění a udržení se rozdělují mezi poplatníky podle jejich 
-	 * spoluvlastnických podílů nebo podle poměru dohodnutého ve smlouvě. Pokud příjmy z pronájmu plynou manželům ze 
-	 * společného jmění manželů, zdaňují se jen u jednoho z nich a ten je uvede ve svém DAP. Údaje se uvádějí před úpravou 
-	 * o položky podle § 5, § 23 zákona a ostatní úpravy podle zákona.
-	 */
-	public void setKc_vyd9(int kc_vyd9) {
-		this.kc_vyd9 = kc_vyd9;
-	}
-
-	/**
 	 * @param spol_jm_manz Dosáhl jsem příjmů ze společného jmění manželů
 	 * Máte-li příjmy z pronájmu, které jste dosáhl ze společného jmění manželů (bez podílového spoluvlastnictví manželů),
 	 * označte křížkem v předtištěném rámečku. V opačném případě nevyplňujte.
@@ -109,14 +121,14 @@ public class VetaV implements IVeta {
 	/**
 	 * @param uhrn_vydaje10 Úhrn jednotlivých výdajů dle § 10 zákona
 	 */
-	public void setUhrn_vydaje10(int uhrn_vydaje10) {
+	public void setUhrn_vydaje10(double uhrn_vydaje10) {
 		this.uhrn_vydaje10 = uhrn_vydaje10;
 	}
 
 	/**
 	 * @param uhrn_rozdil10 Úhrn kladných rozdílů jednotlivých druhů příjmů
 	 */
-	public void setUhrn_rozdil10(int uhrn_rozdil10) {
+	public void setUhrn_rozdil10(double uhrn_rozdil10) {
 		this.uhrn_rozdil10 = uhrn_rozdil10;
 	}
 
@@ -125,16 +137,8 @@ public class VetaV implements IVeta {
 	 * Vypočtěte částku podle pokynů na řádku. Rozdíl menší než nula je dílčí ztrátou podle § 9 zákona. 
 	 * Údaj přeneste na ř. 39, 2. oddílu, základní části DAP na str. 2.
 	 */
-	public int getKc_zd9p() {
+	public double getKc_zd9p() {
 		return this.kc_zd9p;
-	}
-
-	/**
-	 * @param kc_prij10 Příjmy podle § 10 zákona
-	 * Uveďte součet částek z tabulky ze sloupce 2 podle jednotlivých druhů příjmů.
-	 */
-	public void setKc_prij10(int kc_prij10) {
-		this.kc_prij10 = kc_prij10;
 	}
 
 	/**
@@ -142,21 +146,21 @@ public class VetaV implements IVeta {
 	 * Proveďte výpočet podle údajů v tiskopisu, uvedená částka by se měla rovnat úhrnu kladných rozdílů jednotlivých 
 	 * příjmů v tabulce ve sloupci 4. Údaj přeneste do ř. 40, 2. oddílu, základní části DAP na str. 2
 	 */
-	public int getKc_zd10p() {
+	public double getKc_zd10p() {
 		return this.kc_zd10p;
 	}
 
 	/**
 	 * @param uhrn_prijmy10 Úhrn jednotlivých příjmů dle § 10 zákona
 	 */
-	public void setUhrn_prijmy10(int uhrn_prijmy10) {
+	public void setUhrn_prijmy10(double uhrn_prijmy10) {
 		this.uhrn_prijmy10 = uhrn_prijmy10;
 	}
 	
 	/**
 	 * @param kc_rezerv_k Rezervy na konci zdaňovacího období
 	 */
-	public void setKc_rezerv_k(int kc_rezerv_k) {
+	public void setKc_rezerv_k(double kc_rezerv_k) {
 		this.kc_rezerv_k = kc_rezerv_k;
 	}
 	
@@ -173,26 +177,8 @@ public class VetaV implements IVeta {
 	/**
 	 * @param kc_rezerv_z Rezervy na začátku zdaňovacího období
 	 */
-	public void setKc_rezerv_z(int kc_rezerv_z) {
+	public void setKc_rezerv_z(double kc_rezerv_z) {
 		this.kc_rezerv_z = kc_rezerv_z;
-	}
-	
-	/**
-	 * @param kc_snizukon9 Úhrn částek podle § 5, § 23 zákona a ostatní úpravy podle zákona snižující rozdíl mezi příjmy a 
-	 * výdaji nebo výsledkem hospodaření před zdaněním - (zisk, ztráta)
-	 * Uveďte úhrn částek snižujících rozdíl mezi příjmy a výdaji nebo výsledek hospodaření před zdaněním.
-	 */
-	public void setKc_snizukon9(int kc_snizukon9) {
-		this.kc_snizukon9 = kc_snizukon9;
-	}
-	
-	/**
-	 * @param kc_prij9 Příjmy podle § 9 zákona
-	 * Uveďte na ř. 201 příjmy z pronájmu evidované podle § 9 odst. 6 zákona v záznamech o příjmech a výdajích případně v 
-	 * účetnictví.
-	 */
-	public void setKc_prij9(int kc_prij9) {
-		this.kc_prij9 = kc_prij9;
 	}
 	
 	/**
@@ -201,16 +187,7 @@ public class VetaV implements IVeta {
 	 * převyšují výdaje příjmy, zahrňte do součtu výdaje maximálně do výše příjmů. Jsou-li výdaje spojené s jednotlivým 
 	 * druhem příjmů (kategorie „ostatní příjmy“) vyšší než příjem, k rozdílu se podle § 10 odst. 4 zákona nepřihlíží.
 	 */
-	public void setKc_vyd10(int kc_vyd10) {
+	public void setKc_vyd10(double kc_vyd10) {
 		this.kc_vyd10 = kc_vyd10;
-	}
-
-	/**
-	 * @param kc_zvysukon9 Úhrn částek podle § 5, § 23 zákona a ostatní úpravy podle zákona zvyšující rozdíl mezi příjmy a 
-	 * výdaji nebo výsledek hospodaření před zdaněním - (zisk, ztráta)
-	 * Uveďte úhrn částek zvyšujících rozdíl mezi příjmy a výdaji nebo výsledek hospodaření před zdaněním.
-	 */
-	public void setKc_zvysukon9(int kc_zvysukon9) {
-		this.kc_zvysukon9 = kc_zvysukon9;
 	}
 }
