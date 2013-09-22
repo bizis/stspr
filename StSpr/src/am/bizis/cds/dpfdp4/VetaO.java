@@ -156,7 +156,7 @@ public class VetaO implements IVeta {
 		double kc_vynprij=kc_uhrn-vynato710;
 		double kc_zakldan23;
 		if(kc_vynprij>0) kc_zakldan23=kc_vynprij_6+kc_vynprij;
-		else kc_zakldan23=kc_vynprij;
+		else kc_zakldan23=kc_vynprij_6;
 		if(kc_ztrata2>kc_vynprij){
 			kc_ztrata2=kc_vynprij;
 			celk_sl5=celk_sl4-kc_ztrata2;
@@ -176,11 +176,11 @@ public class VetaO implements IVeta {
 		if(kc_prij6zahr!=0) VetaO.setAttribute("kc_prij6zahr", kc_prij6zahr+"");
 		VetaO.setAttribute("kc_uhrn", kc_uhrn+"");
 		VetaO.setAttribute("kc_vynprij", kc_vynprij+"");
-		VetaO.setAttribute("kc_vynprij_6", kc_vynprij_6+"");
+		if(kc_vynprij_6!=0)VetaO.setAttribute("kc_vynprij_6", kc_vynprij_6+"");
 		VetaO.setAttribute("kc_zakldan", kc_zakldan+"");
-		VetaO.setAttribute("kc_zakldan23", kc_zakldan23+"");
+		VetaO.setAttribute("kc_zakldan23", kc_zakldan23+"");//zaklad dane ma byt vyplnen
 		VetaO.setAttribute("kc_zakldan8",kc_zakldan8+"");
-		VetaO.setAttribute("kc_zd10", kc_zd10+"");
+		if(kc_zd10!=0)VetaO.setAttribute("kc_zd10", kc_zd10+"");
 		if(kc_zd6p!=0){
 			VetaO.setAttribute("kc_zd6", kc_zd6p+"");
 			VetaO.setAttribute("kc_zd6p",kc_zd6p+"");
@@ -199,7 +199,7 @@ public class VetaO implements IVeta {
 	@Override
 	public String[] getDependency() {
 		//if(this.kc_zd7!=0) return new String[]{"VetaT","VetaV"};
-		return new String[]{"VetaV","VetaT"};
+		return new String[]{"VetaV"};
 	}
 	
 	@Override
