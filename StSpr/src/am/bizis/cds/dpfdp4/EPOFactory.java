@@ -104,7 +104,7 @@ public class EPOFactory {
 		VetaP p=null;
 		try{
 			d=new VetaD(FORM.getAudit(), FORM.getCufo(), FORM.getDap_typ(), FORM.getPlnMoc(), FORM.getRok());
-			p=new VetaP(FORM.getPoplatnik());
+			p=new VetaP(FORM.getPoplatnik(),FORM.getCpracufo());
 		}catch(ParseException e){
 			error("Neplatny rok: "+FORM.getRok(),e.getMessage()+"\n"+e.getStackTrace().toString());
 		}catch(MultipleElementsOfSameTypeException e){
@@ -451,7 +451,7 @@ public class EPOFactory {
 	}
 	private VetaP setP(VetaP p){
 		//p.setPoplatnik(FORM.getPoplatnik());
-		p.setCpracufo(FORM.getCpracufo());
+		//p.setCpracufo(FORM.getCpracufo());
 		try{
 			p.setKrok(FORM.getKrok());
 		}catch(DataUnsetException e){

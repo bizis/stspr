@@ -30,7 +30,7 @@ import am.bizis.stspr.fo.Zpusobilost;
  */
 public class VetaP implements IVeta {
 	private final Set<CountryCode> EU;
-	private final int C_PRACUFO_UNINIT=-1,MAX=1;
+	private final int MAX=1,C_PRAC_UFO;
 	private final String ZZST="Zakonny zastupce";
 	private final String ELEMENT="VetaP";
 	private String opr_postaveni;
@@ -42,7 +42,6 @@ public class VetaP implements IVeta {
 	private Adresa krok=null,zdrz=null;
 	private IPodnik zastupce;
 	private final OSVC osoba;
-	private int c_pracufo=C_PRACUFO_UNINIT;
 	private ISEOOsoba opravnena;
 	private ZastKod zast_kod;
 	private String zast_ev_cislo=null;
@@ -51,7 +50,7 @@ public class VetaP implements IVeta {
 	 * 
 	 * @param o Poplatnik dane z prijmu FO
 	 */
-	public VetaP(OSVC o) {
+	public VetaP(OSVC o,int c_prac_ufo) {
 		//Pro danovy subjekt musi byt vyplneno DIC nebo RC/IC
 		this.osoba=o;
 		this.krok=osoba.getAdresa();
@@ -60,7 +59,8 @@ public class VetaP implements IVeta {
 			this.opravnena=this.osoba.getZpusobilost().getZastupce();
 			this.opr_postaveni=ZZST;
 		}
-		
+		//Musi byt vyplneno cislo uzemniho pracoviste
+		this.C_PRAC_UFO=c_prac_ufo;
 		//definujeme staty EU
 		EU=new HashSet<CountryCode>();
 		EU.add(CountryCode.BE);
@@ -112,9 +112,9 @@ public class VetaP implements IVeta {
 	 * Územní pracoviště v, ve, pro);
 	 * @param c_pracufo sídlo územního pracoviště, na němž je nebo bude umístěn spis daňového subjektu (§ 13 zákona o Finanční správě České republiky)
 	 */
-	public void setCpracufo(int c_pracufo){
+	/*public void setCpracufo(int c_pracufo){
 		this.c_pracufo=c_pracufo;
-	}
+	}*/
 	
 	/**
 	 * Osoba opravnena podat k subjektu - pokud neni zpusobily k pravnm ukonum
@@ -191,7 +191,7 @@ public class VetaP implements IVeta {
 				VetaP.setAttribute("z_ulice",zdrz.getUlice()+"");
 			}
 		}
-		if(c_pracufo!=C_PRACUFO_UNINIT) VetaP.setAttribute("c_pracufo", c_pracufo+"");
+		VetaP.setAttribute("c_pracufo", this.C_PRAC_UFO+"");
 		if(osoba.getTelefon()!=0) VetaP.setAttribute("c_telef", osoba.getTelefon()+"");
 		if(osoba.getDIC()!=0) VetaP.setAttribute("dic",osoba.getDIC()+"");//TODO textova reprezentace nutno zachovat vodici nuly
 		if(osoba.getEmail()!=null) VetaP.setAttribute("email",osoba.getEmail());

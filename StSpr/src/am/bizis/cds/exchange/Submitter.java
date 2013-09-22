@@ -84,6 +84,7 @@ public class Submitter {
 	public static Document submit(Document epo,X509CertificateHolder cert, PrivateKey key,String ksuri,char[] kpass) throws TransformerConfigurationException, TransformerException, OperatorCreationException, CMSException, IOException, KeyManagementException, NoSuchAlgorithmException, CertificateException, KeyStoreException, NullPointerException, NoSuchProviderException{
 		//udelam z XML dokumentu String
 		String doc=convertDoc(epo);
+		System.out.println(doc);
 		
 		//vytvorim PKCS7 podepsanou zpravu
 		PKCS7 podani=new PKCS7(key);

@@ -155,7 +155,7 @@ public class VetaO implements IVeta {
 		double kc_uhrn=kc_zd7+kc_zakldan8+kc_zd9+kc_zd10;
 		double kc_vynprij=kc_uhrn-vynato710;
 		double kc_zakldan23;
-		if(kc_vynprij>0) kc_zakldan23=kc_vynprij_6-kc_vynprij;
+		if(kc_vynprij>0) kc_zakldan23=kc_vynprij_6+kc_vynprij;
 		else kc_zakldan23=kc_vynprij;
 		if(kc_ztrata2>kc_vynprij){
 			kc_ztrata2=kc_vynprij;
@@ -174,19 +174,19 @@ public class VetaO implements IVeta {
 		if(kc_poj6!=0) VetaO.setAttribute("kc_poj6", kc_poj6+"");
 		if(kc_prij6!=0) VetaO.setAttribute("kc_prij5", kc_prij6+"");
 		if(kc_prij6zahr!=0) VetaO.setAttribute("kc_prij6zahr", kc_prij6zahr+"");
-		if(kc_uhrn!=0) VetaO.setAttribute("kc_uhrn", kc_uhrn+"");
-		if(kc_vynprij!=0) VetaO.setAttribute("kc_vynprij", kc_vynprij+"");
-		if(kc_vynprij_6>0) VetaO.setAttribute("kc_vynprij_6", kc_vynprij_6+"");
-		if(kc_zakldan!=0) VetaO.setAttribute("kc_zakldan", kc_zakldan+"");
-		if(kc_zakldan23!=0) VetaO.setAttribute("kc_zakldan23", kc_zakldan23+"");
-		if(kc_zakldan8!=0) VetaO.setAttribute("kc_zakldan8",kc_zakldan8+"");
-		if(kc_zd10!=0) VetaO.setAttribute("kc_zd10", kc_zd10+"");
+		VetaO.setAttribute("kc_uhrn", kc_uhrn+"");
+		VetaO.setAttribute("kc_vynprij", kc_vynprij+"");
+		VetaO.setAttribute("kc_vynprij_6", kc_vynprij_6+"");
+		VetaO.setAttribute("kc_zakldan", kc_zakldan+"");
+		VetaO.setAttribute("kc_zakldan23", kc_zakldan23+"");
+		VetaO.setAttribute("kc_zakldan8",kc_zakldan8+"");
+		VetaO.setAttribute("kc_zd10", kc_zd10+"");
 		if(kc_zd6p!=0){
 			VetaO.setAttribute("kc_zd6", kc_zd6p+"");
 			VetaO.setAttribute("kc_zd6p",kc_zd6p+"");
 		}
-		if(kc_zd7!=0) VetaO.setAttribute("kc_zd7",kc_zd7+"");
-		if(kc_zd9!=0) VetaO.setAttribute("kc_zd9", kc_zd9+"");
+		VetaO.setAttribute("kc_zd7",kc_zd7+"");
+		VetaO.setAttribute("kc_zd9", kc_zd9+"");
 		if(kc_ztrata2!=0) VetaO.setAttribute("kc_ztrata2", kc_ztrata2+"");
 		return VetaO;
 	}

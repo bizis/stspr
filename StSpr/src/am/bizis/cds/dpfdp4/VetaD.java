@@ -513,7 +513,7 @@ public class VetaD implements IVeta{
 		}
 		da_slevy35c=da_slevy35ba-kc_slevy35c;
 		VetaD.setAttribute("da_slevy35c", da_slevy35c+"");
-		if(kc_dztrata!=0) VetaD.setAttribute("kc_dztrata", kc_dztrata+"");
+		VetaD.setAttribute("kc_dztrata", kc_dztrata+"");
 		if(kc_konkurs!=0) VetaD.setAttribute("kc_konkurs", kc_konkurs+"");
 		if(kc_manztpp!=0){
 			VetaD.setAttribute("kc_manztpp", kc_manztpp+"");
