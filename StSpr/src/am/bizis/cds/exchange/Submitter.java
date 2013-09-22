@@ -85,6 +85,8 @@ public class Submitter {
 		//udelam z XML dokumentu String
 		String doc=convertDoc(epo);
 		
+		System.out.println(doc);
+		
 		//vytvorim PKCS7 podepsanou zpravu
 		PKCS7 podani=new PKCS7(key);
 		byte[] signed=podani.sign(doc.getBytes(), cert);
@@ -234,7 +236,6 @@ public class Submitter {
 
 		while((line=rd.readLine())!=null){
 			result+=line;
-			System.out.print(line);
 		}
 		return result;
 	}

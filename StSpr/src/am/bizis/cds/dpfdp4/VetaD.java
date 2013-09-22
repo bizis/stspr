@@ -483,10 +483,10 @@ public class VetaD implements IVeta{
 		if(d_uv!=null) VetaD.setAttribute("d_uv", DF.format(d_uv));
 		if(pln_moc) VetaD.setAttribute("pln_moc", "A");
 		else VetaD.setAttribute("pln_moc","N");
-		if(da_celod13!=0) VetaD.setAttribute("da_celod13", da_celod13+"");
+		VetaD.setAttribute("da_celod13", da_celod13+"");
 		if(da_slevy!=0) VetaD.setAttribute("da_slevy", da_slevy+"");
-		if(da_slevy35ba!=0) VetaD.setAttribute("da_slevy35ba",da_slevy35ba+"");
-		if(da_slezap!=0) VetaD.setAttribute("da_slezap", da_slezap+"");
+		VetaD.setAttribute("da_slevy35ba",da_slevy35ba+"");
+		VetaD.setAttribute("da_slezap", da_slezap+"");
 		if(kod_popl!=null&&kod_popl!=CountryCode.CZ) {
 			VetaD.setAttribute("kc_csprij",kc_csprij+"");
 			VetaD.setAttribute("kod_popl", kod_popl.getAlpha2());
@@ -496,7 +496,7 @@ public class VetaD implements IVeta{
 			if(this.kc_dazvyhod>this.da_slevy35ba) this.kc_slevy35c=this.da_slevy35ba;
 			else this.kc_slevy35c=this.da_slevy35ba;
 			
-			if (kc_slevy35c>0) VetaD.setAttribute("kc_slevy35c", kc_slevy35c+"");
+			VetaD.setAttribute("kc_slevy35c", kc_slevy35c+"");
 			this.kc_danbonus=this.kc_dazvyhod-this.kc_slevy35c;
 			if(kc_danbonus>MINDANBONUS){
 				if(kc_danbonus>MAXDANBONUS) {
@@ -565,8 +565,10 @@ public class VetaD implements IVeta{
 		kc_zbyvpred=da_slevy35c-kc_rozdbonus-kc_zalzavc-kc_zalpred-kc_pausal-kc_sraz_rezehp-kc_sraz367-kc_sraz385-kc_sraz3810-kc_konkurs;
 		VetaD.setAttribute("kc_zbyvpred",kc_zbyvpred+"");
 		//pokud je zaporne - zadost o preplatek - vykonava tvurce EPO
-		VetaD.setAttribute("kc_zjidp", da_slevy35c+"");
-		VetaD.setAttribute("kc_zjizt", kc_dztrata+"");
+		if(dap_typ.equals(DAPTyp.D)||dap_typ.equals(DAPTyp.E)){
+			VetaD.setAttribute("kc_zjidp", da_slevy35c+"");
+			VetaD.setAttribute("kc_zjizt", kc_dztrata+"");
+		}
 		if(m_deti!=0) VetaD.setAttribute("m_deti",m_deti+"");
 		if(m_detiztpp!=0) VetaD.setAttribute("m_detiztpp", m_detiztpp+"");
 		if(prop_zahr) VetaD.setAttribute("prop_zahr", "A");

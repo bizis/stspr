@@ -163,7 +163,7 @@ public class VetaP implements IVeta {
 			VetaP.setAttribute("c_pop",osoba.getAdresa().getPopisne()+"");
 			if(osoba.getAdresa().getCast().equals(osoba.getAdresa().getObec())) VetaP.setAttribute("naz_obce",osoba.getAdresa().getCast());
 			else VetaP.setAttribute("naz_obce",osoba.getAdresa().getObec());
-			VetaP.setAttribute("stat", osoba.getAdresa().getStat().getAlpha2());
+			if(osoba.getAdresa().getStat()!=CountryCode.CZ) VetaP.setAttribute("stat", osoba.getAdresa().getStat().getAlpha2());
 			VetaP.setAttribute("psc",osoba.getAdresa().getPSC()+"");
 			VetaP.setAttribute("ulice",osoba.getAdresa().getUlice());
 		}
@@ -175,7 +175,7 @@ public class VetaP implements IVeta {
 			else VetaP.setAttribute("krok_naz_obce",krok.getCast());
 			VetaP.setAttribute("krok_psc",krok.getPSC()+"");
 			VetaP.setAttribute("krok_ulice",krok.getUlice());
-			VetaP.setAttribute("k_stat",krok.getStat().getAlpha2());
+			if(krok.getStat()!=CountryCode.CZ) VetaP.setAttribute("k_stat",krok.getStat().getAlpha2());
 		}
 		if(osoba.getAdresa().getStat()!=CountryCode.CZ){
 			if(zdrz==null) throw new ConditionException("Bydliste neni na uzemi CR a mista pobytu na uzemi CR, kde se poplatnik obvykle ve zdanovacim obdobi zdrzoval nani zadano");
