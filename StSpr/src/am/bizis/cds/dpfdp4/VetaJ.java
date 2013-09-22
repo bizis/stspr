@@ -13,8 +13,12 @@ public class VetaJ implements IVeta {
 	private Kod10 kod10;
 	private KodDrPrij10 kod_dr_prij10;
 	private double prijmy10, rozdil10, vydaje10;
-	public VetaJ() {
-		// TODO Auto-generated constructor stub
+	public VetaJ(String druh_prij10,KodDrPrij10 kod_dr_prij10,double prijmy10,double vydaje10) throws IllegalArgumentException{
+		if(druh_prij10.length()>50) throw new IllegalArgumentException("maximalni povolena velikost pro druh_prij10 je 50");
+		this.druh_prij10=druh_prij10;
+		this.kod_dr_prij10=kod_dr_prij10;
+		this.prijmy10=prijmy10;
+		this.vydaje10=vydaje10;
 	}
 
 	/**
@@ -78,7 +82,7 @@ public class VetaJ implements IVeta {
 		Document EPO=docBuilder.newDocument();
 		Element VetaJ=EPO.createElement("VetaJ");
 		VetaJ.setAttribute("druh_prij10", druh_prij10);
-		VetaJ.setAttribute("kod10",kod10.kod);
+		if(kod10!=null)VetaJ.setAttribute("kod10",kod10.kod);
 		VetaJ.setAttribute("kod_dr_prij10", kod_dr_prij10.kod);
 		VetaJ.setAttribute("prijmy10",prijmy10+"");
 		rozdil10=prijmy10-vydaje10;

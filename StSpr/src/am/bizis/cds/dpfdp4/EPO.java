@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -68,6 +69,29 @@ public class EPO {
 						reqs.add(dep.toString());
 					}
 				}
+		}
+		
+		//kontrola: Priloha c. 2
+		double prijmy=0,vydaje=0,rozdil=0;
+		NodeList j=dpfdp4.getElementsByTagName("VetaJ");
+		for(int i=0;i<j.getLength();i++){
+			NamedNodeMap nnm=j.item(i).getAttributes();
+			try{
+				prijmy+=Double.parseDouble(nnm.getNamedItem("prijmy10").getNodeValue());
+				vydaje+=Double.parseDouble(nnm.getNamedItem("vydaje10").getNodeValue());
+				double rozdil10=Double.parseDouble(nnm.getNamedItem("rozdil10").getNodeValue());
+				if(rozdil10>0) rozdil+=rozdil10;
+			}catch(NullPointerException e){
+				
+			}
+		}
+		NamedNodeMap nnm=dpfdp4.getElementsByTagName("VetaV").item(0).getAttributes();
+		try{ 
+			double vydaje10=Double.parseDouble(nnm.getNamedItem("uhrn_vydaje10").getNodeValue());
+			double prijmy10=Double.parseDouble(nnm.getNamedItem("uhrn_prijmy10").getNodeValue());
+			double rozdil10=Double.parseDouble(nnm.getNamedItem("uhrn_rozdil10").getNodeValue());
+		}catch(NullPointerException e){
+			
 		}
 		
 		//vytvorim mnozinu PredepsanychPriloh z dpfdp4

@@ -76,9 +76,9 @@ public class VetaV implements IVeta {
 		kc_zd9p=kc_rozdil9+kc_zvysukon9-kc_snizukon9;
 		VetaV.setAttribute("kc_zd9p",kc_zd9p+"");
 		VetaV.setAttribute("kc_zvysukon9",kc_zvysukon9+"");
-		if(uhrn_prijmy10!=0) VetaV.setAttribute("uhrn_prijmy10",uhrn_prijmy10+"");
-		if(uhrn_rozdil10!=0) VetaV.setAttribute("uhrn_rozdil10",uhrn_rozdil10+"");
-		if(uhrn_vydaje10!=0) VetaV.setAttribute("uhrn_vydaje10",uhrn_vydaje10+"");
+		VetaV.setAttribute("uhrn_prijmy10",uhrn_prijmy10+"");
+		VetaV.setAttribute("uhrn_rozdil10",uhrn_rozdil10+"");
+		VetaV.setAttribute("uhrn_vydaje10",uhrn_vydaje10+"");
 		if(vyd9proc) VetaV.setAttribute("vyd9proc", "A");
 		if(spol_jm_manz) VetaV.setAttribute("spol_jm_manz","A");
 		return VetaV;
