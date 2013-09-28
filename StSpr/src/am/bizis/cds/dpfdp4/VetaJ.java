@@ -100,5 +100,17 @@ public class VetaJ implements IVeta {
 	public String[] getDependency() {
 		return null;
 	}
+	
+	public double getPrijmy10(){
+		return this.prijmy10;
+	}
+	
+	public double getVydaje10(){
+		return this.vydaje10;
+	}
+	
+	public double getRozdil10(){
+		return this.prijmy10-this.vydaje10;
+	}
 
 }

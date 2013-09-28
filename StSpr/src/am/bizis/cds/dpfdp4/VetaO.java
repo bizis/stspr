@@ -17,6 +17,7 @@ public class VetaO implements IVeta {
 
 	private final int MAX=1;
 	private final String ELEMENT="VetaO";
+	private final VetaV v;
 	
 	private double celk_sl4, celk_sl5, kc_dan_zah, kc_prij6, kc_prij6zahr, kc_zakldan8, kc_zd10, kc_ztrata2;
 	private int kc_poj6;
@@ -24,8 +25,11 @@ public class VetaO implements IVeta {
 
 	private double vynato710;
 	
-	public VetaO() {
-		//nic povinneho
+	public VetaO(){
+		v=null;
+	}
+	public VetaO(VetaV v) {
+		this.v=v;
 	}
 	
 	/**
@@ -135,7 +139,9 @@ public class VetaO implements IVeta {
 		if(kc_vynprij_6<0) kc_vynprij_6=0;
 		//double kc_zd6=kc_zd6p;
 		//double kc_uhrn=kc_zd7+kc_zakldan8+kc_zd9+kc_zd10;
-		double kc_uhrn=kc_zakldan8+kc_zd10;
+		double kc_uhrn;
+		if(v!=null) kc_uhrn=kc_zakldan8+kc_zd10+v.getKcZd9p();
+		else kc_uhrn=kc_zakldan8+kc_zd10;
 		double kc_vynprij=kc_uhrn-vynato710;
 		double kc_zakldan23;
 		if(kc_vynprij>0) kc_zakldan23=kc_vynprij_6+kc_vynprij;
@@ -170,7 +176,7 @@ public class VetaO implements IVeta {
 		}
 		//jinak musi byt vlozena veta T, ktera neni ocekavana
 		//VetaO.setAttribute("kc_zd7",kc_zd7+"");
-		//VetaO.setAttribute("kc_zd9", kc_zd9+"");
+		if(v!=null)VetaO.setAttribute("kc_zd9", v.getKcZd9p()+"");
 		if(kc_ztrata2!=0) VetaO.setAttribute("kc_ztrata2", kc_ztrata2+"");
 		return VetaO;
 	}

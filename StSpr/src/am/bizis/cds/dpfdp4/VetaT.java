@@ -358,4 +358,8 @@ public class VetaT implements IVeta {
 	public String[] getDependency() {
 		return null;
 	}
+	
+	public double getKcZd7p(){
+		return kc_zd7p=(kc_prij7-kc_vyd7)+kc_uhzvys-kc_uhsniz-kc_pod_so+kc_vyd_so+kc_pod_vaso-kc_vyd_vaso+kc_pod_komp;
+	}
 }

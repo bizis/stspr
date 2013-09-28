@@ -8,7 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -57,7 +56,6 @@ public class EPO {
 		reqs.add("VetaD");
 		reqs.add("VetaP");//Pro danovy subjekt musi byt vuplneno DIC nebo RC/IC
 		
-		int o=-1,i=0;
 		//vety
 		for(IVeta v:content){
 				if(v!=null){
@@ -70,57 +68,24 @@ public class EPO {
 						reqs.add(dep.toString());
 					}
 				}
-				i++;
 		}
 		
-		//kontrola: Priloha c. 2
-		double prijmy=0,vydaje=0,rozdil=0;
-		NodeList j=dpfdp4.getElementsByTagName("VetaJ");
-		for(i=0;i<j.getLength();i++){
-			NamedNodeMap nnm=j.item(i).getAttributes();
-			try{
-				prijmy+=Double.parseDouble(nnm.getNamedItem("prijmy10").getNodeValue());
-				vydaje+=Double.parseDouble(nnm.getNamedItem("vydaje10").getNodeValue());
-				double rozdil10=Double.parseDouble(nnm.getNamedItem("rozdil10").getNodeValue());
-				if(rozdil10>0) rozdil+=rozdil10;
-			}catch(NullPointerException e){
-				e.getStackTrace();
-			}
-		}
-		if(j.getLength()>0){
-			NamedNodeMap nnm=dpfdp4.getElementsByTagName("VetaV").item(0).getAttributes();
-			try{ 
-				nnm.getNamedItem("uhrn_prijmy10").setNodeValue(prijmy+"");
-				nnm.getNamedItem("kc_prij10").setNodeValue(prijmy+"");
-				nnm.getNamedItem("uhrn_vydaje10").setNodeValue(vydaje+"");
-				if(rozdil>0){
-					nnm.getNamedItem("kc_vyd10").setNodeValue(vydaje+"");
-					nnm.getNamedItem("kc_zd10p").setNodeValue((prijmy-vydaje)+"");
-				}
-				else{
-					nnm.getNamedItem("kc_vyd10").setNodeValue(rozdil+"");
-					nnm.getNamedItem("kc_zd10p").setNodeValue((prijmy-rozdil)+"");
-				}
-				nnm.getNamedItem("uhrn_rozdil10").setNodeValue(rozdil+"");
+		//if(j.getLength()>0){//je vlozena veta J - nastavim polozky vety V
+			//NamedNodeMap nnm=dpfdp4.getElementsByTagName("VetaV").item(0).getAttributes();
+
 				//najit VetaO, nastavit KcZd7 - uz mam udelany XML dokument a ted jej modifikuji
-				NamedNodeMap nnm0=dpfdp4.getElementsByTagName("VetaO").item(0).getAttributes();
+				/*NamedNodeMap nnm0=dpfdp4.getElementsByTagName("VetaO").item(0).getAttributes();
 				Element zd7=EPO.createElement("kc_zd7");
 				zd7.setNodeValue(nnm.getNamedItem("kc_zd7p").getNodeValue());
-				nnm0.setNamedItem(zd7);
-				Element zd9=EPO.createElement("kc_zd9");
-				zd9.setNodeValue(nnm.getNamedItem("kc_zd9p").getNodeValue());
-				nnm0.setNamedItem(zd9);
-				double uhrn=Double.parseDouble(nnm0.getNamedItem("kc_uhrn").getNodeValue())+Double.parseDouble(zd7.getNodeValue())+Double.parseDouble(zd9.getNodeValue());
-				nnm0.getNamedItem("kc_uhrn").setNodeValue(uhrn+"");
-			}catch(NullPointerException e){
-				e.getStackTrace();
-			}
-		}
+				nnm0.setNamedItem(zd7);*/
+				//double uhrn=Double.parseDouble(nnm0.getNamedItem("kc_uhrn").getNodeValue())+Double.parseDouble(zd7.getNodeValue())+Double.parseDouble(zd9.getNodeValue());
+				//nnm0.getNamedItem("kc_uhrn").setNodeValue(uhrn+"");
+		//}
 		
 		//vytvorim mnozinu PredepsanychPriloh z dpfdp4
 		HashSet<String> pps=new HashSet<String>();
 		NodeList nl=dpfdp4.getElementsByTagName("PredepsanaPriloha");//vsechny predepsane prilohy
-		for(i=0;i<nl.getLength();i++){
+		for(int i=0;i<nl.getLength();i++){
 			Node n=nl.item(i).getAttributes().getNamedItem("kod");//kod dane PP
 			if(n!=null) pps.add(n.getNodeValue());//vlozim do mnoziny
 		}

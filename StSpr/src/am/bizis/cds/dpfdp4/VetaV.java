@@ -17,7 +17,8 @@ import org.w3c.dom.Element;
 public class VetaV implements IVeta {
 
 	private final double kc_snizukon9, kc_zvysukon9,kc_prij9, kc_vyd9;
-	private double kc_rozdil9,kc_rezerv_k, kc_rezerv_z,kc_zd9p;
+	private final VetaJ[] vetaJ;
+	private double kc_rozdil9,kc_rezerv_k, kc_rezerv_z,kc_zd9p,prijmy10,vydaje10,rozdil10,rozdil;
 	private boolean vyd9proc=false, spol_jm_manz=false;
 	
 	/**
@@ -41,11 +42,12 @@ public class VetaV implements IVeta {
 	 * společného jmění manželů, zdaňují se jen u jednoho z nich a ten je uvede ve svém DAP. Údaje se uvádějí před úpravou 
 	 * o položky podle § 5, § 23 zákona a ostatní úpravy podle zákona.
 	 */
-	public VetaV(double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9) {
+	public VetaV(double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9, VetaJ[] vetaJ) {
 		this.kc_snizukon9=kc_snizukon9;
 		this.kc_zvysukon9=kc_zvysukon9;
 		this.kc_prij9=kc_prij9;
 		this.kc_vyd9=kc_vyd9;
+		this.vetaJ=vetaJ;
 	}
 	
 	
@@ -60,15 +62,30 @@ public class VetaV implements IVeta {
 		Document EPO=docBuilder.newDocument();
 		Element VetaV=EPO.createElement("VetaV");
 		
-		//tyto hodnoty se nastavi v EPO
-		VetaV.setAttribute("kc_prij10","");
-		VetaV.setAttribute("kc_vyd10","");
-		VetaV.setAttribute("kc_zd10p","");
-		VetaV.setAttribute("uhrn_prijmy10","");
-		VetaV.setAttribute("uhrn_rozdil10","");
-		VetaV.setAttribute("uhrn_vydaje10","");
+		//spocitame uhrn prijmu z vet J
+		prijmy10=0;
+		vydaje10=0;
+		rozdil=0;
+		for(VetaJ j:vetaJ){
+			prijmy10+=j.getPrijmy10();
+			vydaje10+=j.getVydaje10();
+			rozdil10=j.getRozdil10();
+			if(rozdil10>0) rozdil+=rozdil10;
+		}
 		
-		//tyto hodnoty se nastavi zde
+		if(prijmy10!=0){
+			VetaV.setAttribute("kc_prij10",prijmy10+"");
+			if(rozdil>0){
+				VetaV.setAttribute("kc_vyd10", vydaje10+"");
+				VetaV.setAttribute("kc_zd10p", (prijmy10-vydaje10)+"");
+			}else{
+				VetaV.setAttribute("kc_vyd10", rozdil10+"");
+				VetaV.setAttribute("kc_zd10p", (prijmy10-rozdil10)+"");
+			}
+			VetaV.setAttribute("uhrn_rozdil10",rozdil+"");
+			VetaV.setAttribute("uhrn_prijmy10",prijmy10+"");
+			VetaV.setAttribute("uhrn_vydaje10",vydaje10+"");
+		}
 		VetaV.setAttribute("kc_prij9",kc_prij9+""); 
 		if(kc_rezerv_k!=0) VetaV.setAttribute("kc_rezerv_k",kc_rezerv_k+"");
 		if(kc_rezerv_z!=0) VetaV.setAttribute("kc_rezerv_z",kc_rezerv_z+"");
@@ -117,15 +134,6 @@ public class VetaV implements IVeta {
 	public void setVyd9proc(boolean vyd9proc) {
 		this.vyd9proc = vyd9proc;
 	}
-
-	/**
-	 * @return Dílčí základ daně, daňová ztráta z pronájmu podle § 9 zákona (ř. 203 + ř. 204 - ř. 205)
-	 * Vypočtěte částku podle pokynů na řádku. Rozdíl menší než nula je dílčí ztrátou podle § 9 zákona. 
-	 * Údaj přeneste na ř. 39, 2. oddílu, základní části DAP na str. 2.
-	 */
-	public double getKc_zd9p() {
-		return this.kc_zd9p;
-	}
 	
 	/**
 	 * @param kc_rezerv_k Rezervy na konci zdaňovacího období
@@ -139,5 +147,14 @@ public class VetaV implements IVeta {
 	 */
 	public void setKc_rezerv_z(double kc_rezerv_z) {
 		this.kc_rezerv_z = kc_rezerv_z;
+	}
+	
+	/**
+	 * @return Dílčí základ daně, daňová ztráta z pronájmu podle § 9 zákona (ř. 203 + ř. 204 - ř. 205)
+	 * Vypočtěte částku podle pokynů na řádku. Rozdíl menší než nula je dílčí ztrátou podle § 9 zákona. 
+	 * Údaj přeneste na ř. 39, 2. oddílu, základní části DAP na str. 2.
+	 */
+	public double getKcZd9p(){
+		return (kc_prij9-kc_vyd9)+kc_zvysukon9-kc_snizukon9;
 	}
 }
