@@ -197,5 +197,41 @@ public class VetaO implements IVeta {
 	public String toString(){
 		return ELEMENT;
 	}
+	
+	public double getKcZakldan23(){
+		double kc_zd6p=kc_prij6+kc_poj6-kc_dan_zah;
+		double kc_vynprij_6=kc_zd6p-vynato6;
+		if(kc_vynprij_6<0) kc_vynprij_6=0;
+		double kc_uhrn;
+		if(v!=null) kc_uhrn=kc_zakldan8+kc_zd10+v.getKcZd9p();
+		else kc_uhrn=kc_zakldan8+kc_zd10;
+		double kc_vynprij=kc_uhrn-vynato710;
+		double kc_zakldan23;
+		if(kc_vynprij>0) kc_zakldan23=kc_vynprij_6+kc_vynprij;
+		else kc_zakldan23=kc_vynprij_6;
+		return kc_zakldan23;
+	}
+	
+	public double getKcZakldan(){
+		double kc_zd6p=kc_prij6+kc_poj6-kc_dan_zah;
+		double kc_vynprij_6=kc_zd6p-vynato6;
+		if(kc_vynprij_6<0) kc_vynprij_6=0;
+		double kc_uhrn;
+		if(v!=null) kc_uhrn=kc_zakldan8+kc_zd10+v.getKcZd9p();
+		else kc_uhrn=kc_zakldan8+kc_zd10;
+		double kc_vynprij=kc_uhrn-vynato710;
+		double kc_zakldan23;
+		if(kc_vynprij>0) kc_zakldan23=kc_vynprij_6+kc_vynprij;
+		else kc_zakldan23=kc_vynprij_6;
+		if(kc_ztrata2>kc_vynprij){
+			kc_ztrata2=kc_vynprij;
+			celk_sl5=celk_sl4-kc_ztrata2;
+		}
+		if(kc_ztrata2>kc_vynprij){
+			kc_ztrata2=kc_vynprij;
+			celk_sl5=celk_sl4-kc_ztrata2;
+		}
+		return kc_zakldan23-kc_ztrata2;
+	}
 
 }

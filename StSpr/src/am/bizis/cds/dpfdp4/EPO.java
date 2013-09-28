@@ -58,7 +58,8 @@ public class EPO {
 		
 		//vety
 		for(IVeta v:content){
-			   if(v.getClass().equals(VetaT.class)||v.getClass().equals(Vetac.class)){
+			   if(v.getClass().equals(VetaT.class)||v.getClass().equals(Vetac.class)||v.getClass().equals(VetaU.class)||
+					   v.getClass().equals(VetaU.class)||v.getClass().equals(VetaS.class)){
 				   v=null;
 				   //throw new IllegalArgumentException("Veta T nebyla ocekavana");
 			   }

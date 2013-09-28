@@ -29,9 +29,9 @@ public class VetaS implements IVeta {
 	private String text_op_dal;
 	private int m_uroky,m_dalsi, int_kc_zdzaokr;
 	
-	public VetaS(double kc_zakldan,double kc_zakldan23){
-		this.ZAKLAD=kc_zakldan;
-		this.ZAKLAD23=kc_zakldan23;
+	public VetaS(VetaO o){
+		this.ZAKLAD=o.getKcZakldan();
+		this.ZAKLAD23=o.getKcZakldan23();
 	}
 	/**
 	 * Odst. 8 zákona (úhrada za další vzdělávání)
@@ -194,11 +194,20 @@ public class VetaS implements IVeta {
 		if(kc_op28_5>0) dep.add("PP_POTUVER");
 		if(kc_op15_13>0) dep.add("PP_POTZIVP");
 		if(kc_op_dal>0) dep.add("OBECNA PRILOHA: Dalsi odpocty");
-		return (String[]) dep.toArray();
+		return dep.toArray(new String[0]);
 	}
 	@Override
 	public String toString(){
 		return ELEMENT;
 	}
 
+	public double getDaDan16(){
+		this.kc_odcelk=this.kc_op15_8+this.kc_op28_5+this.kc_op15_12+this.kc_op15_13+this.kc_op15_14+this.kc_dalsivzd+this.kc_op34_4+this.kc_op_dal;
+		this.kc_zdsniz=ZAKLAD-this.kc_odcelk;
+		if(this.kc_zdsniz<0) this.kc_zdsniz=0;
+		this.int_kc_zdzaokr=(int)Math.round(kc_zdsniz);
+		if(int_kc_zdzaokr%100>=50) this.int_kc_zdzaokr=(this.int_kc_zdzaokr/100+1)*100;
+		else this.kc_zdzaokr=(this.kc_zdzaokr/100);//TODO: TESTME
+		return this.kc_zdzaokr*SAZBA;
+	}
 }
