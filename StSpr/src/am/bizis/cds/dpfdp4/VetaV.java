@@ -16,8 +16,8 @@ import org.w3c.dom.Element;
  */
 public class VetaV implements IVeta {
 
-	private final double kc_prij10, kc_snizukon9, kc_zvysukon9,kc_prij9, kc_vyd9;
-	private double kc_rozdil9,kc_vyd10,kc_rezerv_k, kc_rezerv_z, kc_zd10p, kc_zd9p, uhrn_prijmy10, uhrn_rozdil10, uhrn_vydaje10;
+	private final double kc_snizukon9, kc_zvysukon9,kc_prij9, kc_vyd9;
+	private double kc_rozdil9,kc_rezerv_k, kc_rezerv_z,kc_zd9p;
 	private boolean vyd9proc=false, spol_jm_manz=false;
 	
 	/**
@@ -41,8 +41,7 @@ public class VetaV implements IVeta {
 	 * společného jmění manželů, zdaňují se jen u jednoho z nich a ten je uvede ve svém DAP. Údaje se uvádějí před úpravou 
 	 * o položky podle § 5, § 23 zákona a ostatní úpravy podle zákona.
 	 */
-	public VetaV(double kc_prij10,double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9) {
-		this.kc_prij10=kc_prij10;
+	public VetaV(double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9) {
 		this.kc_snizukon9=kc_snizukon9;
 		this.kc_zvysukon9=kc_zvysukon9;
 		this.kc_prij9=kc_prij9;
@@ -61,24 +60,25 @@ public class VetaV implements IVeta {
 		Document EPO=docBuilder.newDocument();
 		Element VetaV=EPO.createElement("VetaV");
 		
-		VetaV.setAttribute("kc_prij10",kc_prij10+"");
+		//tyto hodnoty se nastavi v EPO
+		VetaV.setAttribute("kc_prij10","");
+		VetaV.setAttribute("kc_vyd10","");
+		VetaV.setAttribute("kc_zd10p","");
+		VetaV.setAttribute("uhrn_prijmy10","");
+		VetaV.setAttribute("uhrn_rozdil10","");
+		VetaV.setAttribute("uhrn_vydaje10","");
+		
+		//tyto hodnoty se nastavi zde
 		VetaV.setAttribute("kc_prij9",kc_prij9+""); 
 		if(kc_rezerv_k!=0) VetaV.setAttribute("kc_rezerv_k",kc_rezerv_k+"");
 		if(kc_rezerv_z!=0) VetaV.setAttribute("kc_rezerv_z",kc_rezerv_z+"");
 		kc_rozdil9=kc_prij9-kc_vyd9;
 		VetaV.setAttribute("kc_rozdil9",kc_rozdil9+"");
 		VetaV.setAttribute("kc_snizukon9",kc_snizukon9+"");
-		if (kc_vyd10>kc_prij10) kc_vyd10=kc_prij10;
-		VetaV.setAttribute("kc_vyd10",kc_vyd10+"");
 		VetaV.setAttribute("kc_vyd9",kc_vyd9+"");
-		kc_zd10p=kc_prij10-kc_vyd10;//soucet kladnych rozdilu prijmu a vydaju
-		VetaV.setAttribute("kc_zd10p",kc_zd10p+"");
 		kc_zd9p=kc_rozdil9+kc_zvysukon9-kc_snizukon9;
 		VetaV.setAttribute("kc_zd9p",kc_zd9p+"");
 		VetaV.setAttribute("kc_zvysukon9",kc_zvysukon9+"");
-		VetaV.setAttribute("uhrn_prijmy10",uhrn_prijmy10+"");
-		VetaV.setAttribute("uhrn_rozdil10",uhrn_rozdil10+"");
-		VetaV.setAttribute("uhrn_vydaje10",uhrn_vydaje10+"");
 		if(vyd9proc) VetaV.setAttribute("vyd9proc", "A");
 		if(spol_jm_manz) VetaV.setAttribute("spol_jm_manz","A");
 		return VetaV;
@@ -119,42 +119,12 @@ public class VetaV implements IVeta {
 	}
 
 	/**
-	 * @param uhrn_vydaje10 Úhrn jednotlivých výdajů dle § 10 zákona
-	 */
-	public void setUhrn_vydaje10(double uhrn_vydaje10) {
-		this.uhrn_vydaje10 = uhrn_vydaje10;
-	}
-
-	/**
-	 * @param uhrn_rozdil10 Úhrn kladných rozdílů jednotlivých druhů příjmů
-	 */
-	public void setUhrn_rozdil10(double uhrn_rozdil10) {
-		this.uhrn_rozdil10 = uhrn_rozdil10;
-	}
-
-	/**
 	 * @return Dílčí základ daně, daňová ztráta z pronájmu podle § 9 zákona (ř. 203 + ř. 204 - ř. 205)
 	 * Vypočtěte částku podle pokynů na řádku. Rozdíl menší než nula je dílčí ztrátou podle § 9 zákona. 
 	 * Údaj přeneste na ř. 39, 2. oddílu, základní části DAP na str. 2.
 	 */
 	public double getKc_zd9p() {
 		return this.kc_zd9p;
-	}
-
-	/**
-	 * @return Dílčí základ daně připadající na ostatní příjmy podle § 10 zákona (ř. 207 - ř. 208)
-	 * Proveďte výpočet podle údajů v tiskopisu, uvedená částka by se měla rovnat úhrnu kladných rozdílů jednotlivých 
-	 * příjmů v tabulce ve sloupci 4. Údaj přeneste do ř. 40, 2. oddílu, základní části DAP na str. 2
-	 */
-	public double getKc_zd10p() {
-		return this.kc_zd10p;
-	}
-
-	/**
-	 * @param uhrn_prijmy10 Úhrn jednotlivých příjmů dle § 10 zákona
-	 */
-	public void setUhrn_prijmy10(double uhrn_prijmy10) {
-		this.uhrn_prijmy10 = uhrn_prijmy10;
 	}
 	
 	/**
@@ -164,30 +134,10 @@ public class VetaV implements IVeta {
 		this.kc_rezerv_k = kc_rezerv_k;
 	}
 	
-	/*
-	 * Rozdíl mezi příjmy a výdaji (ř. 201 - ř. 202) nebo výsledek hospodaření před zdaněním - (zisk, ztráta)
-	 * Uveďte výpočet podle údajů v tiskopisu. Údaje jsou uváděny před úpravou podle § 5, § 23 zákona a ostatní úpravy 
-	 * podle zákona. V případě, že výdaje přesahují příjmy nebo výsledek hospodaření před zdaněním je ztráta, částku 
-	 * označte znaménkem mínus.
-	 */
-	/*public void setKc_rozdil9(int kc_rozdil9) {
-		this.kc_rozdil9 = kc_rozdil9;
-	}*/
-	
 	/**
 	 * @param kc_rezerv_z Rezervy na začátku zdaňovacího období
 	 */
 	public void setKc_rezerv_z(double kc_rezerv_z) {
 		this.kc_rezerv_z = kc_rezerv_z;
-	}
-	
-	/**
-	 * @param kc_vyd10 	Výdaje podle § 10 zákona (maximálně do výše příjmů)
-	 * Uveďte součet částek z téže tabulky ze sloupce 3 podle jednotlivých druhů příjmů. Pokud u některého druhu příjmů 
-	 * převyšují výdaje příjmy, zahrňte do součtu výdaje maximálně do výše příjmů. Jsou-li výdaje spojené s jednotlivým 
-	 * druhem příjmů (kategorie „ostatní příjmy“) vyšší než příjem, k rozdílu se podle § 10 odst. 4 zákona nepřihlíží.
-	 */
-	public void setKc_vyd10(double kc_vyd10) {
-		this.kc_vyd10 = kc_vyd10;
 	}
 }

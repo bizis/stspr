@@ -87,13 +87,19 @@ public class EPO {
 		}
 		NamedNodeMap nnm=dpfdp4.getElementsByTagName("VetaV").item(0).getAttributes();
 		try{ 
-			//double vydaje10=Double.parseDouble(nnm.getNamedItem("uhrn_vydaje10").getNodeValue());
-			//double prijmy10=Double.parseDouble(nnm.getNamedItem("uhrn_prijmy10").getNodeValue());
-			//double rozdil10=Double.parseDouble(nnm.getNamedItem("uhrn_rozdil10").getNodeValue());
-			
 			nnm.getNamedItem("uhrn_prijmy10").setNodeValue(prijmy+"");
+			nnm.getNamedItem("kc_prij10").setNodeValue(prijmy+"");
 			nnm.getNamedItem("uhrn_vydaje10").setNodeValue(vydaje+"");
+			if(rozdil>0){
+				nnm.getNamedItem("kc_vyd10").setNodeValue(vydaje+"");
+				nnm.getNamedItem("kc_zd10p").setNodeValue((prijmy-vydaje)+"");
+			}
+			else{
+				nnm.getNamedItem("kc_vyd10").setNodeValue(rozdil+"");
+				nnm.getNamedItem("kc_zd10p").setNodeValue((prijmy-rozdil)+"");
+			}
 			nnm.getNamedItem("uhrn_rozdil10").setNodeValue(rozdil+"");
+			
 		}catch(NullPointerException e){
 			e.getStackTrace();
 		}
