@@ -10,6 +10,7 @@ public abstract class VetaN implements IVeta {
 	public VetaN(VetaD d) throws IllegalArgumentException{
 		//this.d=d;
 		this.kc_zbyvpred=(int) Math.round(d.getKc_zbyvpred());
+		if(this.kc_zbyvpred<=0) throw new IllegalArgumentException("Částka uvedená v Žádosti o vrácení přeplatku musí být větší než 0.");
 	}
 	@Override
 	public int getMaxPocet() {
