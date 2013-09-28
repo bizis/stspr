@@ -18,7 +18,7 @@ public class VetaO implements IVeta {
 	private final int MAX=1;
 	private final String ELEMENT="VetaO";
 	
-	private double celk_sl4, celk_sl5, kc_dan_zah, kc_prij6, kc_prij6zahr, kc_zakldan8, kc_zd10, kc_zd7, kc_zd9, kc_ztrata2;
+	private double celk_sl4, celk_sl5, kc_dan_zah, kc_prij6, kc_prij6zahr, kc_zakldan8, kc_zd10, kc_ztrata2;
 	private int kc_poj6;
 	private double vynato6=0.0;
 
@@ -26,15 +26,6 @@ public class VetaO implements IVeta {
 	
 	public VetaO() {
 		//nic povinneho
-	}
-	
-	/**
-	 * Dílčí základ daně nebo ztráta z podnikání a z jiné samostatné výdělečné činnosti 
-	 * podle § 7 zákona (ř. 113 přílohy č. 1 DAP) TODO
-	 * @param kc_zd7 
-	 */
-	public void setKcZd7(double kc_zd7){
-		this.kc_zd7=kc_zd7;
 	}
 	
 	/**
@@ -46,15 +37,6 @@ public class VetaO implements IVeta {
 	 */
 	public void setKcZakldan8(double kc_zakldan8){
 		this.kc_zakldan8=kc_zakldan8;
-	}
-	
-	/**
-	 * Dílčí základ daně nebo ztráta z pronájmu podle § 9 zákona (ř. 206 přílohy č. 2 DAP) TODO
-	 * Přeneste údaj z ř. 206 Přílohy č. 2 DAP.
-	 * @param kc_zd9
-	 */
-	public void setKcZd9(double kc_zd9){
-		this.kc_zd9=kc_zd9;
 	}
 	
 	/**
@@ -152,7 +134,8 @@ public class VetaO implements IVeta {
 		double kc_vynprij_6=kc_zd6p-vynato6;
 		if(kc_vynprij_6<0) kc_vynprij_6=0;
 		//double kc_zd6=kc_zd6p;
-		double kc_uhrn=kc_zd7+kc_zakldan8+kc_zd9+kc_zd10;
+		//double kc_uhrn=kc_zd7+kc_zakldan8+kc_zd9+kc_zd10;
+		double kc_uhrn=kc_zakldan8+kc_zd10;
 		double kc_vynprij=kc_uhrn-vynato710;
 		double kc_zakldan23;
 		if(kc_vynprij>0) kc_zakldan23=kc_vynprij_6+kc_vynprij;
@@ -187,7 +170,7 @@ public class VetaO implements IVeta {
 		}
 		//jinak musi byt vlozena veta T, ktera neni ocekavana
 		//VetaO.setAttribute("kc_zd7",kc_zd7+"");
-		VetaO.setAttribute("kc_zd9", kc_zd9+"");
+		//VetaO.setAttribute("kc_zd9", kc_zd9+"");
 		if(kc_ztrata2!=0) VetaO.setAttribute("kc_ztrata2", kc_ztrata2+"");
 		return VetaO;
 	}
@@ -200,7 +183,8 @@ public class VetaO implements IVeta {
 	@Override
 	public String[] getDependency() {
 		//if(this.kc_zd7!=0) return new String[]{"VetaT","VetaV"};
-		return new String[]{"VetaV"};
+		//return new String[]{"VetaV"};
+		return null;
 	}
 	
 	@Override

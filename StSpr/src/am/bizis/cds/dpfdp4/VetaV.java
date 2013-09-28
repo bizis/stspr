@@ -97,7 +97,7 @@ public class VetaV implements IVeta {
 	 */
 	@Override
 	public String[] getDependency() {
-		return new String[]{"VetaJ"};
+		return new String[]{"VetaJ","VetaO"};
 	}
 
 	/**
