@@ -58,7 +58,11 @@ public class EPO {
 		
 		//vety
 		for(IVeta v:content){
-				if(v!=null){
+			   if(v.getClass().equals(VetaT.class)||v.getClass().equals(Vetac.class)){
+				   v=null;
+				   //throw new IllegalArgumentException("Veta T nebyla ocekavana");
+			   }
+			   else if(v!=null){
 					Element n=(Element)EPO.adoptNode(v.getElement());
 					//kontrola, ze pocet vet jednotlivych typu nepresahuje maximalni hodnoty
 					if(dpfdp4.getElementsByTagName(n.getTagName()).getLength()<v.getMaxPocet()) dpfdp4.appendChild(n);
