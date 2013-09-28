@@ -15,12 +15,12 @@ import org.w3c.dom.Element;
 public class VetaNucet extends VetaN implements IVeta{
 
 	private final String ZVP_NAZ_BANK,ZVP_SPEC_SYMB;
-	private final double KC_PREPLATEK;
 	private final int ZVP_K_BANK,ZVP_PBU,C_KOMDS;
 	
-	public VetaNucet(double kc_preplatek, int zvp_k_bank, int zvp_pbu, int c_komds, String zvp_naz_bank, String zvp_spec_symb) {
+	public VetaNucet(VetaD d, int zvp_k_bank, int zvp_pbu, int c_komds, String zvp_naz_bank, String zvp_spec_symb) {
+		//if(kc_preplatek<=0) throw new IllegalArgumentException("Částka uvedená v Žádosti o vrácení přeplatku musí být větší než 0.");
+		super(d);
 		this.C_KOMDS=c_komds;
-		this.KC_PREPLATEK=kc_preplatek;
 		this.ZVP_K_BANK=zvp_k_bank;
 		this.ZVP_PBU=zvp_pbu;
 		this.ZVP_NAZ_BANK=zvp_naz_bank;
@@ -34,7 +34,7 @@ public class VetaNucet extends VetaN implements IVeta{
 		Document EPO=docBuilder.newDocument();
 		Element VetaN=EPO.createElement(super.toString());
 		VetaN.setAttribute("zp_vrac", "U");
-		VetaN.setAttribute("kc_preplatek",KC_PREPLATEK+"");
+		VetaN.setAttribute("kc_preplatek",super.getKcPreplatek()+"");
 		
 		VetaN.setAttribute("c_komds",C_KOMDS+"");
 		VetaN.setAttribute("zvp_k_bank", ZVP_K_BANK+"");

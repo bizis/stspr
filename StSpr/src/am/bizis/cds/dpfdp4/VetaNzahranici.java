@@ -16,14 +16,13 @@ import am.bizis.stspr.fo.Adresa;
  * @version 20130803
  */
 public class VetaNzahranici extends VetaN implements IVeta {
-	private final double KC_PREPLATEK;
 	private final String IBAN,BIC,MENA,NAZ_ADR_BANKY,NAZEV_PRIJ,SYM_PLVMPV;
 	private final Adresa BANKA,PRIJEMCE;
-	public VetaNzahranici(double kc_preplatek,String IBAN,String BIC,String mena,String naz_adr_banky,String nazev_prij,String sym_plvmpv,Adresa banka, Adresa prijemce) {
+	public VetaNzahranici(VetaD d,String IBAN,String BIC,String mena,String naz_adr_banky,String nazev_prij,String sym_plvmpv,Adresa banka, Adresa prijemce) {
+		super(d);
 		this.BANKA=banka;
 		this.BIC=BIC;//TODO validate
 		this.IBAN=IBAN;//TODO validate
-		this.KC_PREPLATEK=kc_preplatek;
 		this.MENA=mena;//TODO ciselnik
 		this.NAZ_ADR_BANKY=naz_adr_banky;
 		this.NAZEV_PRIJ=nazev_prij;
@@ -38,7 +37,7 @@ public class VetaNzahranici extends VetaN implements IVeta {
 		Document EPO=docBuilder.newDocument();
 		Element VetaN=EPO.createElement(super.toString());
 		VetaN.setAttribute("zp_vrac", "Z");
-		VetaN.setAttribute("kc_preplatek",KC_PREPLATEK+"");
+		VetaN.setAttribute("kc_preplatek",super.getKcPreplatek()+"");
 		
 		VetaN.setAttribute("c_nest_uctu",IBAN);
 		VetaN.setAttribute("id_banky", BIC);
@@ -59,6 +58,11 @@ public class VetaNzahranici extends VetaN implements IVeta {
 		
 		VetaN.setAttribute("sym_plvmpv", SYM_PLVMPV);
 		return VetaN;
+	}
+
+	@Override
+	public int getKcPreplatek() {
+		return this.getKcPreplatek();
 	}
 
 }

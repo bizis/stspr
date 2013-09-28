@@ -19,10 +19,9 @@ import am.bizis.stspr.fo.ISEOOsoba;
 public class VetaNadresa extends VetaN implements IVeta {
 
 	private final ISEOOsoba OSOBA;
-	private final double kc_preplatek;
 	
-	public VetaNadresa(double kc_preplatek, ISEOOsoba o) {
-		this.kc_preplatek=kc_preplatek;
+	public VetaNadresa(VetaD d, ISEOOsoba o) {
+		super(d);
 		this.OSOBA=o;
 	}
 	
@@ -33,7 +32,7 @@ public class VetaNadresa extends VetaN implements IVeta {
 		Document EPO=docBuilder.newDocument();
 		Element VetaN=EPO.createElement(super.toString());
 		VetaN.setAttribute("zp_vrac", "A");
-		VetaN.setAttribute("kc_preplatek",kc_preplatek+"");
+		VetaN.setAttribute("kc_preplatek",super.getKcPreplatek()+"");
 		
 		if(OSOBA.hasDruhe()) VetaN.setAttribute("zvp_jmeno",OSOBA.getKrestni()+" "+OSOBA.getDruhe());
 		else VetaN.setAttribute("zvp_jmeno",OSOBA.getKrestni());
@@ -50,5 +49,4 @@ public class VetaNadresa extends VetaN implements IVeta {
 		}	
 		return VetaN;
 	}
-
 }

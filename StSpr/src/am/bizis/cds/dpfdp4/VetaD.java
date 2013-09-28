@@ -606,4 +606,7 @@ public class VetaD implements IVeta{
 	public String toString(){
 		return ELEMENT;
 	}
+	public double getKcZbyvpred(){
+		return this.kc_zbyvpred;
+	}
 }
