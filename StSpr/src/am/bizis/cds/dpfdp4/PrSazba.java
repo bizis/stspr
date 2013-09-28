@@ -1,7 +1,7 @@
 package am.bizis.cds.dpfdp4;
 
 public enum PrSazba {
-	ZEMEDELSTVI_REMESLO(80),ZIVNOST(40),OSTATNI(40),PRONAJEM(30);
+	ZEMEDELSTVI_REMESLO(80),ZIVNOST(60),OSTATNI(40),PRONAJEM(30);
 	
 	int sazba;
 	PrSazba(int sazba){

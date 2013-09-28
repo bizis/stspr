@@ -277,16 +277,6 @@ public class VetaT implements IVeta {
 	}*/
 	
 	/**
-	 * @return Dílčí základ daně (ztráta) z příjmů podle § 7 zákona
-	 * (ř. 104 + ř. 105 - ř. 106 - ř. 107 + ř. 108 + ř. 109 - ř. 110 - ř. 111 + ř. 112)
-	 * Vypočtěte částku podle pokynů. Rozdíl menší než nula je dílčí ztrátou podle § 7 zákona. Údaj přeneste na ř. 37, 
-	 * 2. oddílu, základní části DAP na stranu 2.
-	 */
-	public double getKc_zd7p(){
-		return this.kc_zd7p;
-	}
-
-	/**
 	 * @param d_precin 	Datum přerušení činnosti
 	 * Uveďte datum přerušení činnosti.
 	 */
@@ -359,6 +349,12 @@ public class VetaT implements IVeta {
 		return null;
 	}
 	
+	/**
+	 * @return Dílčí základ daně (ztráta) z příjmů podle § 7 zákona
+	 * (ř. 104 + ř. 105 - ř. 106 - ř. 107 + ř. 108 + ř. 109 - ř. 110 - ř. 111 + ř. 112)
+	 * Vypočtěte částku podle pokynů. Rozdíl menší než nula je dílčí ztrátou podle § 7 zákona. Údaj přeneste na ř. 37, 
+	 * 2. oddílu, základní části DAP na stranu 2.
+	 */
 	public double getKcZd7p(){
 		return kc_zd7p=(kc_prij7-kc_vyd7)+kc_uhzvys-kc_uhsniz-kc_pod_so+kc_vyd_so+kc_pod_vaso-kc_vyd_vaso+kc_pod_komp;
 	}

@@ -18,6 +18,7 @@ public class VetaV implements IVeta {
 
 	private final double kc_snizukon9, kc_zvysukon9,kc_prij9, kc_vyd9;
 	private final VetaJ[] vetaJ;
+	private VetaT vetaT;
 	private double kc_rozdil9,kc_rezerv_k, kc_rezerv_z,kc_zd9p,prijmy10,vydaje10,rozdil10,rozdil;
 	private boolean vyd9proc=false, spol_jm_manz=false;
 	
@@ -48,6 +49,10 @@ public class VetaV implements IVeta {
 		this.kc_prij9=kc_prij9;
 		this.kc_vyd9=kc_vyd9;
 		this.vetaJ=vetaJ;
+	}
+	public VetaV(double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9, VetaJ[] vetaJ,VetaT t){
+		this(kc_snizukon9,kc_zvysukon9,kc_prij9,kc_vyd9,vetaJ);
+		this.vetaT=t;
 	}
 	
 	
@@ -98,6 +103,7 @@ public class VetaV implements IVeta {
 		VetaV.setAttribute("kc_zvysukon9",kc_zvysukon9+"");
 		if(vyd9proc) VetaV.setAttribute("vyd9proc", "A");
 		if(spol_jm_manz) VetaV.setAttribute("spol_jm_manz","A");
+		if(vetaT!=null) VetaV.setAttribute("kc_zd7",vetaT.getKcZd7p()+"");
 		return VetaV;
 	}
 
