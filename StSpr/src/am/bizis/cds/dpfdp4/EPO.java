@@ -82,7 +82,7 @@ public class EPO {
 				double rozdil10=Double.parseDouble(nnm.getNamedItem("rozdil10").getNodeValue());
 				if(rozdil10>0) rozdil+=rozdil10;
 			}catch(NullPointerException e){
-				
+				e.getStackTrace();
 			}
 		}
 		NamedNodeMap nnm=dpfdp4.getElementsByTagName("VetaV").item(0).getAttributes();
@@ -95,7 +95,7 @@ public class EPO {
 			nnm.getNamedItem("uhrn_vydaje10").setNodeValue(vydaje+"");
 			nnm.getNamedItem("uhrn_rozdil10").setNodeValue(rozdil+"");
 		}catch(NullPointerException e){
-			
+			e.getStackTrace();
 		}
 		
 		//vytvorim mnozinu PredepsanychPriloh z dpfdp4

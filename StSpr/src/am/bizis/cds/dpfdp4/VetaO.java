@@ -185,7 +185,8 @@ public class VetaO implements IVeta {
 			VetaO.setAttribute("kc_zd6", kc_zd6p+"");
 			VetaO.setAttribute("kc_zd6p",kc_zd6p+"");
 		}
-		VetaO.setAttribute("kc_zd7",kc_zd7+"");
+		//jinak musi byt vlozena veta T, ktera neni ocekavana
+		//VetaO.setAttribute("kc_zd7",kc_zd7+"");
 		VetaO.setAttribute("kc_zd9", kc_zd9+"");
 		if(kc_ztrata2!=0) VetaO.setAttribute("kc_ztrata2", kc_ztrata2+"");
 		return VetaO;
