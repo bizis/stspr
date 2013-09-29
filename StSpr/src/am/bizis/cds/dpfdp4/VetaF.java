@@ -10,6 +10,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.stspr.fo.OSVC;
+
 /**
  * @author alex
  * Věta F - Záznam o účastníku sdružení
@@ -21,16 +23,15 @@ public class VetaF implements IVeta {
 	
 	/**
 	 * Konstruktor vytvori vetu F
-	 * @param ucsdruz_dic  
-	 * @param ucsdruz_jmeno
-	 * @param ucsdruz_prijmeni
-	 * @param ucsdruz_podprij
-	 * @param ucsdruz_podvyd
+	 * @param ucsdruz účastník sdružení
+	 * @param ucsdruz_podprij Podíl na příjmech v %
+	 * @param ucsdruz_podvyd Podíl na výdajích v %
 	 */
-	public VetaF(String ucsdruz_dic, String ucsdruz_jmeno, String ucsdruz_prijmeni, double ucsdruz_podprij, double ucsdruz_podvyd) {
-		this.ucsdruz_dic=ucsdruz_dic;
-		this.ucsdruz_jmeno=ucsdruz_jmeno;
-		this.ucsdruz_prijmeni=ucsdruz_prijmeni;
+	public VetaF(OSVC ucsdruz, double ucsdruz_podprij, double ucsdruz_podvyd) {
+		this.ucsdruz_dic=ucsdruz.getDIC()+"";
+		if(ucsdruz.hasDruhe()) this.ucsdruz_jmeno=ucsdruz.getKrestni()+" "+ucsdruz.getDruhe();
+		else this.ucsdruz_jmeno=ucsdruz.getKrestni();
+		this.ucsdruz_prijmeni=ucsdruz.getPrijmeni();
 		this.ucsdruz_podprij=ucsdruz_podprij;
 		this.ucsdruz_podvyd=ucsdruz_podvyd;
 	}
