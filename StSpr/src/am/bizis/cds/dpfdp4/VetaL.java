@@ -111,4 +111,37 @@ public class VetaL implements IVeta {
 	public String toString(){
 		return "VetaL";
 	}
+	
+	/**
+	 * @return Rozdíl řádků (ř. 323 - ř. 326)
+	 * Na tomto řádku uveďte kladnou hodnotu výpočtu, která je částkou daně, jež můžete uplatnit podle 
+	 * § 24 odst. 2 písm. ch) zákona jako výdaj (náklad) v následujícím zdaňovacím období (ř. 323 – ř. 326). 
+	 * V případě, že rozdíl řádků je záporný, řádek proškrtněte.
+	 */
+	public double getRozOd12(){
+		if(o.getKcZakldan23()!=0) proczahr=(kc_prijzap-kc_vydzap)/o.getKcZakldan23()*100;
+		else proczahr=100;//pokud nemam prijmy (ani ze zahranici, mam 100% prijmu ze zahranici
+		if(proczahr<0) proczahr=0;
+		if(proczahr>100) proczahr=100;
+		kc_k_zapzahr=s.getDaDan16()*proczahr/100;
+		if(kc_k_zapzahr>da_zahr) da_uznzap=kc_k_zapzahr;
+		else da_uznzap=da_zahr;
+		return da_zahr-da_uznzap;
+	}
+	
+	/**
+	 * @return Daň uznaná k zápočtu (ř. 323 maximálně však do výše ř. 325)
+	 * Do tohoto řádku uveďte částku daně zaplacenou v zahraničí (ř. 323) maximálně však částku daně uznané k zápočtu 
+	 * (ř. 325).
+	 */
+	public double getDaUznZap(){
+		if(o.getKcZakldan23()!=0) proczahr=(kc_prijzap-kc_vydzap)/o.getKcZakldan23()*100;
+		else proczahr=100;//pokud nemam prijmy (ani ze zahranici, mam 100% prijmu ze zahranici
+		if(proczahr<0) proczahr=0;
+		if(proczahr>100) proczahr=100;
+		kc_k_zapzahr=s.getDaDan16()*proczahr/100;
+		if(kc_k_zapzahr>da_zahr) da_uznzap=kc_k_zapzahr;
+		else da_uznzap=da_zahr;
+		return da_uznzap;
+	}
 }
