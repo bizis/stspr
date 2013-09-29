@@ -1,57 +1,57 @@
 package am.bizis.cds.dpfdp4;
 
 /**
- * Vyhláška č.
+ * <p>Vyhláška č.<br />
  * Vyplňte číslo vyhlášky (první část), podle které byly účetní výkazy a následně vybrané 
- * údaje sestaveny. Uveďte následující označení:
+ * údaje sestaveny. Uveďte následující označení:</p>
  * 
- * 500 pro
+ * <p>500 pro<br />
  * Vyhlášku č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., 
  * o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli 
- * účtujícími v soustavě podvojného účetnictví, v platném znění.
+ * účtujícími v soustavě podvojného účetnictví, v platném znění.</p>
  * 
- * 501 pro
+ * <p>501 pro<br />
  * Vyhlášku č.501/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., 
  * o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou bankami a 
- * jinými finančními institucemi, v platném znění.
+ * jinými finančními institucemi, v platném znění.</p>
  * 
- * 502 pro
+ * <p>502 pro<br />
  * Vyhlášku č.502/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., 
  * o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou pojišťovnami,
- * v platném znění.
+ * v platném znění.</p>
  * 
- * 503 pro
+ * <p>503 pro<br />
  * Vyhlášku č.503/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., 
- * o účetnictví, ve znění pozdějších předpisů, pro zdravotní pojišťovny, v platném znění.
+ * o účetnictví, ve znění pozdějších předpisů, pro zdravotní pojišťovny, v platném znění.</p>
  * 
- * 504 pro
+ * <p>504 pro<br />
  * Vyhlášku č. 504/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., 
  * o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, u kterých hlavním 
  * předmětem činnosti není podnikání, pokud účtují v soustavě podvojného účetnictví, v 
- * platném znění.
+ * platném znění.</p>
  * 
- * 507 pro
+ * <p>507 pro<br />
  * Vyhlášku č. 507/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., 
  * o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky účtující v soustavě 
  * jednoduchého účetnictví, ve znění účinném do 31. prosince 2003, podle níž mohou doposud 
  * postupovat účetní jednotky vymezené § 38a zákona č. 563/1991 Sb., o účetnictví, v platném
- * znění.
+ * znění.</p>
  * 
- * 410 pro
+ * <p>410 pro<br />
  * Vyhlášku č. 410/2009 Sb., pro vybrané účetní jednotky, v platném znění, nebo jste účetní 
  * jednotkou podle § 38a zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů,
  * která využívá možnost vést účetnictví podle zákona č. 563/1991 Sb., o účetnictví, ve znění
  * zákona č. 117/1994 Sb., zákona č. 227/1997 Sb., zákona č. 492/2000 Sb., zákona č. 
  * 353/2001 Sb. a zákona č. 437/2003 Sb., a na kterou se vztahují ustanovení zákona č. 
  * 563/1991 Sb., o účetnictví, a jeho prováděcích právních předpisů, která upravují účtování
- * v soustavě jednoduchého účetnictví, ve znění účinném k 31. prosinci 2003.
+ * v soustavě jednoduchého účetnictví, ve znění účinném k 31. prosinci 2003.</p>
  * 
- * Položka obsahuje kritické kontroly: nesmí být vyplněn současně druhový a účelový výkaz 
+ * <p>Položka obsahuje kritické kontroly: nesmí být vyplněn současně druhový a účelový výkaz 
  * zisků a ztrát, pokud je zadána hodnota musí odpovídat masce položky, může být použito 
  * pouze číslo vyhlášky korespondující s danou písemností, může být použito pouze číslo 
  * vyhlášky korespondující s daným typem subjektu, pro zadané číslo vyhlášky musí být použity
  * odpovídající výkazy, pro vyhlášky kromě 500 musí být vyplněny všechny výkazy, číslo 
- * vyhlášky musí být vyplněno je-li zadán alespoň 1 výkaz.
+ * vyhlášky musí být vyplněno je-li zadán alespoň 1 výkaz.</p>
  * 
  * @author alex
  */

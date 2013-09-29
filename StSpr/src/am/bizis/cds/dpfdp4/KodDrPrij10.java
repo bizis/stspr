@@ -1,13 +1,13 @@
 package am.bizis.cds.dpfdp4;
 
 /**
- * Označení druhu příjmů podle § 10 odst. 1 zákona
- * A – příležitostná činnost
- * B - prodej nemovitostí
- * C - prodej movitých věcí
- * D - prodej cenných papírů
- * E - příjmy z převodu podle § 10 odst. 1, písm. c) zákona
- * F - jiné ostatní příjmy
+ * <p>Označení druhu příjmů podle § 10 odst. 1 zákona<br />
+ * A – příležitostná činnost<br />
+ * B - prodej nemovitostí<br />
+ * C - prodej movitých věcí<br />
+ * D - prodej cenných papírů<br />
+ * E - příjmy z převodu podle § 10 odst. 1, písm. c) zákona<br />
+ * F - jiné ostatní příjmy</p>
  * @author alex
  */
 public enum KodDrPrij10 {

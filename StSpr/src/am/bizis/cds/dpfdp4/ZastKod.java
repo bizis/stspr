@@ -3,20 +3,20 @@ package am.bizis.cds.dpfdp4;
 import am.bizis.stspr.OsobaTyp;
 
 /**
- * Kód zástupce
- * Číselný kód podle níže uvedených typů zástupců:
- * Fyzická osoba:
- * 1 - zákonný zástupce
- * 2 - ustanovený zástupce
- * 3 - společný zástupce, smluvní zástupce
- * 4a - obecný zmocněnec - fyzická osoba i právnická osoba
- * 4b - fyzická osoba daňový poradce nebo advokát
+ * <p>Kód zástupce<br />
+ * Číselný kód podle níže uvedených typů zástupců:</p>
+ * <p>Fyzická osoba:<br />
+ * 1 - zákonný zástupce<br />
+ * 2 - ustanovený zástupce<br />
+ * 3 - společný zástupce, smluvní zástupce<br />
+ * 4a - obecný zmocněnec - fyzická osoba i právnická osoba<br />
+ * 4b - fyzická osoba daňový poradce nebo advokát</p>
  * 
- * Právnická osoba:
- * 2 - ustanovený zástupce
- * 3 - společný zástupce, smluvní zástupce
- * 4a - obecný zmocněnec - fyzická osoba i právnická osoba
- * 4c -právnická osoba vykonávající daňové poradenství
+ * <p>Právnická osoba:<br />
+ * 2 - ustanovený zástupce<br />
+ * 3 - společný zástupce, smluvní zástupce<br />
+ * 4a - obecný zmocněnec - fyzická osoba i právnická osoba<br />
+ * 4c -právnická osoba vykonávající daňové poradenství</p>
  * 
  * @author alex
  */

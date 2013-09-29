@@ -1,12 +1,12 @@
 package am.bizis.cds.dpfdp4;
 
 /**
- * DAP
- * Typ daňového přiznání.
- * B - řádné
- * O - řádné-opravné
- * D - dodatečné
- * E - dodatečné-opravné
+ * <p>DAP<br />
+ * Typ daňového přiznání.<br />
+ * B - řádné<br />
+ * O - řádné-opravné<br />
+ * D - dodatečné<br />
+ * E - dodatečné-opravné</p>
  * @author alex
  *
  */
