@@ -13,6 +13,9 @@ import org.w3c.dom.Element;
 /**
  * @author alex
  * Věta W - Příloha č. 3
+ * 
+ * TODO uhrn_neuzndan lze pouzit v nasledujicim zdanovacim obdobi 
+ * (Částku daně můžete uplatnit podle § 24 odst. 2 písm. ch) zákona jako výdaj (náklad) v následujícím zdaňovacím období.)
  */
 public class VetaW implements IVeta {
 
@@ -43,6 +46,9 @@ public class VetaW implements IVeta {
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
 		Element VetaW=EPO.createElement("VetaW");
+		VetaW.setAttribute("da_zazahr",da_zazahr+"");
+		VetaW.setAttribute("uhrn_uzndan", uhrn_uzndan+"");
+		VetaW.setAttribute("uhrn_neuzndan", uhrn_neuzndan+"");
 		return VetaW;
 	}
 
