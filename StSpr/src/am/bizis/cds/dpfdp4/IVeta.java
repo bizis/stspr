@@ -4,6 +4,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Element;
 
+/**
+ * Veta Pisemnosti
+ * @author alex
+ */
 public interface IVeta {
 	/**
 	 * Vrati XML element dane vety obsahujici jiz nastavene jednotlive atributy (nebo nenastavene)

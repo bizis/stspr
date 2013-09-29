@@ -2,6 +2,24 @@ package am.bizis.cds.dpfdp4;
 
 import am.bizis.stspr.OsobaTyp;
 
+/**
+ * Kód zástupce
+ * Číselný kód podle níže uvedených typů zástupců:
+ * Fyzická osoba:
+ * 1 - zákonný zástupce
+ * 2 - ustanovený zástupce
+ * 3 - společný zástupce, smluvní zástupce
+ * 4a - obecný zmocněnec - fyzická osoba i právnická osoba
+ * 4b - fyzická osoba daňový poradce nebo advokát
+ * 
+ * Právnická osoba:
+ * 2 - ustanovený zástupce
+ * 3 - společný zástupce, smluvní zástupce
+ * 4a - obecný zmocněnec - fyzická osoba i právnická osoba
+ * 4c -právnická osoba vykonávající daňové poradenství
+ * 
+ * @author alex
+ */
 public enum ZastKod {
 	FOZAZA("1","Zakonny zastupce",OsobaTyp.FO), 
 	FOUZA("2","Ustanoveny zastupce",OsobaTyp.FO), 

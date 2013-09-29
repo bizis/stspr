@@ -18,7 +18,6 @@ import am.bizis.exception.MultipleElementsOfSameTypeException;
 /**
  * Trida EPO tvori z vet Pisemnost
  * @author alex
- * @version 20120915
  */
 public class EPO {
 
@@ -33,7 +32,7 @@ public class EPO {
 	 * @throws MissingElementException nesplnena zavislost: jeden element pozaduje vlozeni jineho (napr. predepsane prilohy, 
 	 * obecne prilohy, ...) - pozadovany element ovsem nebyl vlozen
 	 * @throws MultipleElementsOfSameTypeException element se vystytuje vicekrat, nez je maximalni dovoleny pocet jeho vyskytu
-	 * @ConditionException nesplnena podminka v nektere vete
+	 * @throws ConditionException nesplnena podminka v nektere vete
 	 */
 	public Document makeXML(IVeta[] content) throws ParserConfigurationException,MultipleElementsOfSameTypeException,MissingElementException,ConditionException{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

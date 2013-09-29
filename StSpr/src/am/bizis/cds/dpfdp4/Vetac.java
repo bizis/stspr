@@ -13,7 +13,6 @@ import org.w3c.dom.Element;
 /**
  * Tabulka dalších činností § 7 ZDP
  * @author alex
- *
  */
 public class Vetac implements IVeta {
 
@@ -96,5 +95,10 @@ public class Vetac implements IVeta {
 	 */
 	public void setSazba_dal(PrSazba sazba_dal) {
 		this.sazba_dal = sazba_dal;
+	}
+	
+	@Override
+	public String toString(){
+		return "Vetac";
 	}
 }

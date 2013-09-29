@@ -15,7 +15,6 @@ import am.bizis.exception.ConditionException;
  * Vytvori element VetaS pisemnosti DPFDP4 - Záznam III. Oddílu
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#S
  * @author alex
- * @version 20130803
  */
 public class VetaS implements IVeta {
 
@@ -29,6 +28,10 @@ public class VetaS implements IVeta {
 	private String text_op_dal;
 	private int m_uroky,m_dalsi, int_kc_zdzaokr;
 	
+	/**
+	 * Vytvori vetu O a vyplni povinne polozky
+	 * @param o Veta O, ze ktere bereme zaklad dane po odecteni ztraty a zaklad dane
+	 */
 	public VetaS(VetaO o){
 		this.ZAKLAD=o.getKcZakldan();
 		this.ZAKLAD23=o.getKcZakldan23();
@@ -137,6 +140,9 @@ public class VetaS implements IVeta {
 		this.m_dalsi=mesicu;
 	}
 	
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
+	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		this.kc_odcelk=this.kc_op15_8+this.kc_op28_5+this.kc_op15_12+this.kc_op15_13+this.kc_op15_14+this.kc_dalsivzd+this.kc_op34_4+this.kc_op_dal;
@@ -172,10 +178,16 @@ public class VetaS implements IVeta {
 		return VetaS;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
+	 */
 	@Override
 	public int getMaxPocet() {
 		return this.MAX;
 	}
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getDependency()
+	 */
 	@Override
 	public String[] getDependency() {
 		/*
@@ -201,6 +213,10 @@ public class VetaS implements IVeta {
 		return ELEMENT;
 	}
 
+	/**
+	 * Daň podle § 16 zákona
+	 * @return Daň podle § 16 zákona činí 15 % ze základu daně uvedeného na ř. 56.
+	 */
 	public double getDaDan16(){
 		this.kc_odcelk=this.kc_op15_8+this.kc_op28_5+this.kc_op15_12+this.kc_op15_13+this.kc_op15_14+this.kc_dalsivzd+this.kc_op34_4+this.kc_op_dal;
 		this.kc_zdsniz=ZAKLAD-this.kc_odcelk;

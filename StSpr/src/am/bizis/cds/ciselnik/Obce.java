@@ -22,6 +22,11 @@ import org.xml.sax.SAXException;
 
 import am.bizis.stspr.fo.Adresa;
 
+/**
+ * Ciselnik obci
+ * @author alex
+ *
+ */
 public class Obce {
 
 	private static final String URL_CISELNIK="http://adisepo.mfcr.cz/adistc/epo_ciselnik?C=obce";
@@ -29,6 +34,12 @@ public class Obce {
 	public Obce() {
 	}
 	
+	/**
+	 * Pro zadanou adresu vrati cislo obce z ciselniku
+	 * @param a Adresa
+	 * @return c_obce z ciselniku pro danou adresu
+	 * @throws NullPointerException dana obec v ciselniku nenalezena
+	 */
 	public static int getObec(Adresa a) throws NullPointerException{
 		int obec=0;
 		String obecOkres=a.getObec().toUpperCase()+" (OKRES "+a.getOkres().toUpperCase()+")";
@@ -42,6 +53,11 @@ public class Obce {
 		return obec;
 	}
 	
+	/**
+	 * Nacte ciselnik ze souboru
+	 * @param fXmlFile soubor stazeneho ciselniku
+	 * @return XML dokument - ciselnik obci
+	 */
 	public static Document loadCiselnik(File fXmlFile){
 		Document doc=null;
 		try {
@@ -53,6 +69,11 @@ public class Obce {
 		}
 		return doc;
 	}
+	
+	/**
+	 * Stahne ciselnik z MFCR
+	 * @return XML dokument - ciselnik obci
+	 */
 	public static Document downloadCiselnik(){
 		Document XMLdoc=null;
 		try{

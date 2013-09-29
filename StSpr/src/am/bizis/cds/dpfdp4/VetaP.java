@@ -26,7 +26,6 @@ import am.bizis.stspr.fo.Zpusobilost;
  * Vytvori element VetaP pisemnosti DPFDP4 - Zaznam o poplatnikovi
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#P
  * @author alex
- * @version 20130803
  */
 public class VetaP implements IVeta {
 	private final Set<CountryCode> EU;
@@ -47,8 +46,9 @@ public class VetaP implements IVeta {
 	private String zast_ev_cislo=null;
 	
 	/**
-	 * 
+	 * Vytvori vetu P s povinnymi polozkami
 	 * @param o Poplatnik dane z prijmu FO
+	 * @param c_prac_ufo Územní pracoviště v, ve, pro: sídlo územního pracoviště, na němž je nebo bude umístěn spis daňového subjektu (§ 13 zákona o Finanční správě České republiky)
 	 */
 	public VetaP(OSVC o,int c_prac_ufo) {
 		//Pro danovy subjekt musi byt vyplneno DIC nebo RC/IC
@@ -93,28 +93,6 @@ public class VetaP implements IVeta {
 		EU.add(CountryCode.ES);
 		EU.add(CountryCode.SE);
 	}
-
-	/**
-	 * Poplatnik dane z prijmu FO
-	 * @param osoba osobni udaje poplatnika
-	 */
-	/*public void setPoplatnik(OSVC osoba){
-		this.osoba=osoba;
-		this.krok=osoba.getAdresa();
-		this.zdrz=osoba.getAdresa();
-		if(!this.osoba.getZpusobilost().equals(Zpusobilost.PLNA)){
-			this.opravnena=this.osoba.getZpusobilost().getZastupce();
-			this.opr_postaveni=ZZST;
-		}
-	}*/
-	
-	/**
-	 * Územní pracoviště v, ve, pro);
-	 * @param c_pracufo sídlo územního pracoviště, na němž je nebo bude umístěn spis daňového subjektu (§ 13 zákona o Finanční správě České republiky)
-	 */
-	/*public void setCpracufo(int c_pracufo){
-		this.c_pracufo=c_pracufo;
-	}*/
 	
 	/**
 	 * Osoba opravnena podat k subjektu - pokud neni zpusobily k pravnm ukonum
@@ -128,27 +106,29 @@ public class VetaP implements IVeta {
 	}
 	
 	/**
-	 * @param Pobyt k poslednimu dni kalendarniho roku, za ktery se dan vymeruje (pokud ruzne od bydliste)
+	 * @param a Pobyt k poslednimu dni kalendarniho roku, za ktery se dan vymeruje (pokud ruzne od bydliste)
 	 */
 	public void setKrok(Adresa a){
 		this.krok=a;
 	}
 	
 	/**
-	 * @param Adresa mista pobytu na uzemi CR, kde se poplatnik obvykle ve zdanovacim obdobi zdrzoval - pokud neni bydliste na uzemi CR
+	 * @param a Adresa mista pobytu na uzemi CR, kde se poplatnik obvykle ve zdanovacim obdobi zdrzoval - pokud neni bydliste na uzemi CR
 	 */
 	public void setZdrz(Adresa a){
 		this.zdrz=a;
 	}
 	
 	/**
-	 * Evidencni cislo osvedceni danoveho poradce
-	 * @param evc
+	 * @param evc Evidencni cislo osvedceni danoveho poradce
 	 */
 	public void setEvCislo(String evc){
 		this.zast_ev_cislo=evc;
 	}
 	
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
+	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -251,6 +231,9 @@ public class VetaP implements IVeta {
 		return VetaP;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
+	 */
 	@Override
 	public int getMaxPocet() {
 		return MAX;
@@ -270,6 +253,9 @@ public class VetaP implements IVeta {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getDependency()
+	 */
 	@Override
 	public String[] getDependency() {
 		return null;

@@ -299,6 +299,9 @@ public class VetaT implements IVeta {
 		this.pr_prij7 = pr_prij7;
 	}
 	
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
+	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -339,16 +342,32 @@ public class VetaT implements IVeta {
 		return VetaT;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
+	 */
 	@Override
 	public int getMaxPocet() {
 		return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getDependency()
+	 */
 	@Override
 	public String[] getDependency() {
 		return null;
 	}
 	
+	@Override
+	public String toString(){
+		return "VetaT";
+	}
+	
+	/**
+	 * Vypočtěte částku podle pokynů. Rozdíl menší než nula je dílčí ztrátou podle § 7 zákona. 
+	 * Údaj přeneste na ř. 37, 2. oddílu, základní části DAP na stranu 2.
+	 * @return Dílčí základ daně (ztráta) z příjmů podle § 7 zákona (ř. 104 + ř. 105 - ř. 106 - ř. 107 + ř. 108 + ř. 109 - ř. 110 - ř. 111 + ř. 112)
+	 */
 	public double getKcZd7p(){
 		return kc_zd7p=(kc_prij7-kc_vyd7)+kc_uhzvys-kc_uhsniz-kc_pod_so+kc_vyd_so+kc_pod_vaso-kc_vyd_vaso+kc_pod_komp;
 	}

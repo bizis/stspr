@@ -35,6 +35,10 @@ public class Okec {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Nacte ciselnik ze souboru
+	 * @return XML dokument - ciselnik cinnosti
+	 */
 	private Document getCiselnik(){
 		Document XMLdoc=null;
 		try{
@@ -59,6 +63,11 @@ public class Okec {
 		}
 		return XMLdoc;
 	}
+	
+	/**
+	 * Vrati pole Stringu s nazvy cinnosti
+	 * @return nazvy cinnosti pro zobrazeni v GUI - uzivatel si vybere, metoda get Cnace pro dany String vrati c_nace
+	 */
 	public String[] getNazvy(){
 		Document ciselnik=getCiselnik();
 		NodeList vety=ciselnik.getElementsByTagName("Veta");
@@ -70,6 +79,11 @@ public class Okec {
 		return seznam.toArray(new String[seznam.size()]);
 	}
 	
+	/**
+	 * Vrati c_nace z ciselniku cinnosti pro dany String
+	 * @param nazev odpovida polozce z pole vraceneho getNazvy()
+	 * @return c_nace
+	 */
 	public int getCnace(String nazev){
 		int cnace=-255;
 		Document ciselnik=getCiselnik();

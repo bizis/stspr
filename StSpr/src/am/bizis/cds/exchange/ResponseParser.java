@@ -10,11 +10,15 @@ import am.bizis.exception.ResponseException;
 /**
  * ResponseParser overi vystup podatelny EPO
  * @author alex
- * @version 20130918
  */
 public class ResponseParser {
 
 	private final Document RESPONSE;
+	
+	/**
+	 * Vytvori response parser s XML docem, ktery jsme ziskali od serveru
+	 * @param response odpoved CDS MFCR
+	 */
 	public ResponseParser(Document response){
 		this.RESPONSE=response;
 	}

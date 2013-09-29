@@ -14,7 +14,6 @@ import am.bizis.stspr.fo.ISEOOsoba;
  * Vytvori element VetaA pisemnosti DPFDP4 - Záznam o vyživovaném dítěti, na které je uplatňováno daňové zvýhodnění
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#A
  * @author alex
- * @version 20130803
  */
 public class VetaA implements IVeta {
 	
@@ -23,6 +22,14 @@ public class VetaA implements IVeta {
 	private final String vyzdite_jmeno, vyzdite_prijmeni, vyzdite_r_cislo;
 	private final int vyzdite_pocmes, vyzdite_ztpp;
 	
+	/**
+	 * Vytvori Vetu A s osobnimi udaji ditete, poctem mesicu uplatnovaneho zvyhodneni a kolik z toho mesicu bylo dane dite
+	 * ZTP/P
+	 * @param vyzdite osobni udaje ditete
+	 * @param pocmes pocet mesicu uplatnovaneho zvyhodneni
+	 * @param ztpp pocet mesicu ZTP/P
+	 * @throws ConditionException pocet mesicu musi byt 0 az 12
+	 */
 	public VetaA(ISEOOsoba vyzdite,int pocmes, int ztpp) throws ConditionException{
 		if(vyzdite.hasDruhe()) this.vyzdite_jmeno=vyzdite.getKrestni()+" "+vyzdite.getDruhe();
 		else this.vyzdite_jmeno=vyzdite.getKrestni();
@@ -51,11 +58,17 @@ public class VetaA implements IVeta {
 	}
 
 	@Override
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
+	 */
 	public int getMaxPocet() {
 		return MAX;
 	}
 
 	@Override
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getDependency()
+	 */
 	public String[] getDependency() {
 		return null;
 	}

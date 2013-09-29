@@ -12,14 +12,14 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 /**
- * Umozni uzivateli vytahnout PrivateKey a X509Certificate ze zadaneho KeyStore
- * Postup:
- * 1) ziskat uznavany certifikat - napriklad na poste
- * 2) vytvorit keystore: $ keytool -v -importkeystore -srckeystorePrivate <cesta k cert_sign.p12> -srcstoretype PKCS12 -deststoretype <adresa vytvareneho jks> -deststoretype JKS
- * 3) zjistit alias: $ keytool -list -v -keystore <adresa vytvoreneho jks>|grep Alias (signkey#1)
- * 4) KeyStore ks=loadKS(<adresa vytvoreneho jks>, <heslo>);
- * 5a) PrivateKey pk=getPKfromKS(ks,<pkalias, napr."signkey#1">,<heslo klice ?>)
- * 5b) X509Certificate cert=getCertFromKS(ks,<pkalias, napr."signkey#1">)
+ * Umozni uzivateli vytahnout PrivateKey a X509Certificate ze zadaneho KeyStore<br />
+ * Postup:<br />
+ * 1) ziskat uznavany certifikat - napriklad na poste<br />
+ * 2) vytvorit keystore: $ keytool -v -importkeystore -srckeystore "cesta k cert_sign.p12' -srcstoretype PKCS12 -deststoretype "adresa vytvareneho jks"-deststoretype JKS<br />
+ * 3) zjistit alias: $ keytool -list -v -keystore <adresa vytvoreneho jks>|grep Alias (signkey#1)<br />
+ * 4) KeyStore ks=loadKS("adresa vytvoreneho jks", "heslo");<br />
+ * 5a) PrivateKey pk=getPKfromKS(ks,"pkalias, napr.'signkey#1'","heslo klice?")<br />
+ * 5b) X509Certificate cert=getCertFromKS(ks,"pkalias, napr.'signkey#1'")<br />
  * @author alex
  * @version 20130917
  */

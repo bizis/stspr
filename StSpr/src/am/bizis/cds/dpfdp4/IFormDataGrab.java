@@ -13,7 +13,6 @@ import taka.CountryCode;
  * Pokud neni nejaka polozka vyplnena vraci se vyjimka DataUnsetException, ktera zajisti, ze se dany element v XML danovem
  * priznani nevytvori (dojde k uspore objemu prenasenych dat apod.)
  * @author alex
- * @version 20130914
  */
 public interface IFormDataGrab {
 	//technikalie

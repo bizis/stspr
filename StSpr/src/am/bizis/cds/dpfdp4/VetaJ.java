@@ -7,12 +7,25 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Záznam o příjmech a výdajích dle § 10 zákona
+ * @author alex
+ */
 public class VetaJ implements IVeta {
 
 	private String	druh_prij10;
 	private Kod10 kod10;
 	private KodDrPrij10 kod_dr_prij10;
 	private double prijmy10, rozdil10, vydaje10;
+	
+	/**
+	 * Vytvori vetu J s povinnymi polozkami
+	 * @param druh_prij10 Slovní popis druhu příjmu podle § 10 odst. 1 zákona
+	 * @param kod_dr_prij10 Kód
+	 * @param prijmy10 Příjmy 
+	 * @param vydaje10 Výdaje
+	 * @throws IllegalArgumentException maximalni povolena velikost pro druh_prij10 je 50
+	 */
 	public VetaJ(String druh_prij10,KodDrPrij10 kod_dr_prij10,double prijmy10,double vydaje10) throws IllegalArgumentException{
 		if(druh_prij10.length()>50) throw new IllegalArgumentException("maximalni povolena velikost pro druh_prij10 je 50");
 		this.druh_prij10=druh_prij10;
@@ -75,6 +88,9 @@ public class VetaJ implements IVeta {
 		this.vydaje10=vydaje10;
 	}
 	
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
+	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -92,25 +108,47 @@ public class VetaJ implements IVeta {
 	}
 
 	@Override
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
+	 */
 	public int getMaxPocet() {
 		return 99;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getDependency()
+	 */
 	@Override
 	public String[] getDependency() {
 		return null;
 	}
-	
+	/**
+	 * Vrati prijmy
+	 * @return prijmy
+	 */
 	public double getPrijmy10(){
 		return this.prijmy10;
 	}
 	
+	/**
+	 * Vrati vydaje
+	 * @return vydaje
+	 */
 	public double getVydaje10(){
 		return this.vydaje10;
 	}
 	
+	/**
+	 * Vrati rozdil mezi prijmy a vydaji
+	 * @return rozdil mezi prijmy a vydaji
+	 */
 	public double getRozdil10(){
 		return this.prijmy10-this.vydaje10;
+	}
+	
+	@Override
+	public String toString(){
+		return "VetaJ";
 	}
 
 }

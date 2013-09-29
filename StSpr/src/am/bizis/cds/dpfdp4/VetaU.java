@@ -17,9 +17,7 @@ import org.w3c.dom.Element;
 public class VetaU implements IVeta {
 
 	private double kc_dpfmz02, kc_dpfmz03, kc_dpfmz04, kc_dpfmz05a, kc_dpfmz06, kc_dpfmz08, kc_dpfmz10, kc_dpfmz11, kc_dpfmz18, kc_z_dpfmz02, kc_z_dpfmz03, kc_z_dpfmz04, kc_z_dpfmz05a, kc_z_dpfmz06, kc_z_dpfmz08, kc_z_dpfmz10, kc_z_dpfmz11;
-	/**
-	 * 
-	 */
+	
 	public VetaU() {
 		// TODO Auto-generated constructor stub
 	}
@@ -67,6 +65,11 @@ public class VetaU implements IVeta {
 	@Override
 	public String[] getDependency() {
 		return null;
+	}
+	
+	@Override
+	public String toString(){
+		return "VetaU";
 	}
 
 	/**

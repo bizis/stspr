@@ -14,17 +14,23 @@ import am.bizis.stspr.fo.ISEOOsoba;
  * Vytvori element VetaN pisemnosti DPFDP4 - Zadost o vraceni preplatku, pro vraceni preplatku na adresu
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#N
  * @author alex
- * @version 20130803
  */
 public class VetaNadresa extends VetaN implements IVeta {
 
 	private final ISEOOsoba OSOBA;
-	
+	/**
+	 * Vytvori vetu N pro vraceni preplatku na adresu se zadanymi povinnymi polozkami
+	 * @param d VetaD, ze ktere bereme vysi preplatku
+	 * @param o Osoba, ktere bude preplatek vyplacen
+	 */
 	public VetaNadresa(VetaD d, ISEOOsoba o) {
 		super(d);
 		this.OSOBA=o;
 	}
 	
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
+	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

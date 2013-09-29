@@ -28,7 +28,6 @@ import am.bizis.exception.MultipleElementsOfSameTypeException;
  * pouziti: new EPOFactory(IFormDataGrab).getEPO(getContent()); vrati XML dokument -> ten poslat na CDS MF
  * 
  * @author alex
- * @version 20130915
  */
 
 /*

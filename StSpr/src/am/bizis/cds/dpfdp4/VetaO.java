@@ -11,7 +11,6 @@ import org.w3c.dom.Element;
  * Vytvori element VetaO pisemnosti DPFDP4 - Záznam II. Oddílu
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#O
  * @author alex
- * @version 20130803
  */
 public class VetaO implements IVeta {
 
@@ -33,35 +32,32 @@ public class VetaO implements IVeta {
 	}
 	
 	/**
-	 * Dílčí základ daně z kapitálového majetku podle § 8 zákona
+	 * @param kc_zakldan8 Dílčí základ daně z kapitálového majetku podle § 8 zákona
 	 * Vyplňte úhrn příjmů z kapitálového majetku podle § 8 zákona, které zahrnují příjmy ze
 	 * zdrojů na území České republiky i příjmy ze zdrojů v zahraničí, a to přepočtené na 
 	 * Kč, které nejsou zdaněny zvláštní sazbou daně podle § 36 zákona.
-	 * @param kc_zakldan8
 	 */
 	public void setKcZakldan8(double kc_zakldan8){
 		this.kc_zakldan8=kc_zakldan8;
 	}
 	
 	/**
-	 * Dílčí základ daně z ostatních příjmů podle § 10 zákona (ř. 209 přílohy č. 2 DAP) TODO
+	 * @param kc_zd10 Dílčí základ daně z ostatních příjmů podle § 10 zákona (ř. 209 přílohy č. 2 DAP) TODO
 	 * Přeneste údaj z ř. 209 Přílohy č. 2 DAP.
-	 * @param kc_zd10
 	 */
 	public void setKcZd10(double kc_zd10){
 		this.kc_zd10=kc_zd10;
 	}
 	
 	/**
-	 * Úhrn příjmů od všech zaměstnavatelů
-	 * @param kc_prij6
+	 * @param kc_prij6 Úhrn příjmů od všech zaměstnavatelů
 	 */
 	public void setKcPrij6(double kc_prij6){
 		this.kc_prij6=kc_prij6;
 	}
 	
 	/**
-	 * Úhrn povinného pojistného podle § 6 odst. 13 zákona
+	 * @param kc_poj6 Úhrn povinného pojistného podle § 6 odst. 13 zákona
 	 * Uveďte pojistné na sociální zabezpečení a příspěvek na státní politiku zaměstnanosti
 	 * a pojistné na všeobecné zdravotní pojištění, které je z příjmů uvedených na ř. 31
 	 * povinen platit podle zvláštních právních předpisů (zákon č. 589/1992 Sb. a zákon 
@@ -70,27 +66,23 @@ public class VetaO implements IVeta {
 	 * odpovídající povinnému pojistnému se uvádí i u zaměstnance, u kterého povinnost 
 	 * platit povinné pojistné zaměstnavatel nemá (např. jde-li o příjmy za zdrojů v 
 	 * zahraničí). Povinné pojistné se zaokrouhluje na celé koruny směrem nahoru.
-	 * 
-	 * @param kc_poj6
 	 */
 	public void setKcPoj6(double kc_poj6){
 		this.kc_poj6=(int) Math.round(kc_poj6);
 	}
 	
 	/**
-	 * Daň zaplacená v zahraničí podle § 6 odst. 14 zákona
+	 * @param kc_dan_zah Daň zaplacená v zahraničí podle § 6 odst. 14 zákona
 	 * Jste-li poplatník podle § 2 odst. 2 zákona (daňový rezident) a máte příjmy ze zdrojů
 	 * v zahraničí, uveďte na tento řádek daň zaplacenou z těchto příjmů, jak je uvedeno v 
 	 * § 6 odst. 14 zákona
-	 * 
-	 * @param kc_dan_zah
 	 */
 	public void setKcDanZah(double kc_dan_zah){
 		this.kc_dan_zah=kc_dan_zah;
 	}
 	
 	/**
-	 * Úhrn příjmů plynoucích ze zahraničí zvýšený o povinné pojistné podle § 6 odst. 13 
+	 * @param kc_prij6zahr Úhrn příjmů plynoucích ze zahraničí zvýšený o povinné pojistné podle § 6 odst. 13 
 	 * zákona
 	 * Uveďte na tento řádek část příjmů z ř. 31, u kterých neměl plátce daně povinnost 
 	 * srazit zálohy na daň dle § 38h zákona zvýšený o povinné pojistné podle § 6 odst. 13 
@@ -107,31 +99,35 @@ public class VetaO implements IVeta {
 	}
 	
 	/**
-	 * úhrn vyňatých příjmů ze zdrojů v zahraničí podle § 6
-	 * @param vynato6
+	 * @param vynato6 úhrn vyňatých příjmů ze zdrojů v zahraničí podle § 6
 	 */
 	public void setVynato6(double vynato6){
 		this.vynato6=vynato6;
 	}
 	
 	/**
-	 * Úhrn dílčích základů daně podle § 7 až § 10 zákona po vynětí (ř. 41 - úhrn vyňatých příjmů ze zdrojů v zahraničí podle § 7 až § 10 zákona
+	 * @param vynato710 Úhrn dílčích základů daně podle § 7 až § 10 zákona po vynětí (ř. 41 - úhrn vyňatých příjmů ze zdrojů v zahraničí podle § 7 až § 10 zákona
 	 * nebo ř. 41)
 	 * Na tomto řádku uveďte rozdíl úhrnu dílčích základů daně podle § 7 až § 10 zákona (ř. 41) a úhrnu vyňatých příjmů ze zdrojů v zahraničí 
 	 * podle § 7 až § 10 zákona. Kladnou hodnotu lze dále použít pro odečet ztráty z předcházejících zdaňovacích období podle § 34 odst. 1 
 	 * zákona. V případě, že nemáte příjmy ze zdrojů v zahraničí, které se vyjímají ze zdanění, přeneste údaj z ř. 41. Záporná částka je 
 	 * ztrátou, kterou přeneste na ř. 61, 4. oddílu, základní části DAP na stranu 2.
-	 * @param vynato710
 	 */
 	public void setVynato710(double vynato710){
 		this.vynato710=vynato710;
 	}
-	
+	/**
+	 * @param celk_sl4 Celková výše daňové ztráty uplatněné v tomto zdaňovacím období
+	 * Uveďte celkovou výši daňové ztráty uplatněné v tomto ZO.
+	 */
 	public void setCelkSl4(double celk_sl4){
 		this.celk_sl4=celk_sl4;
 		this.kc_ztrata2=celk_sl4;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
+	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		double kc_zd6p=kc_prij6+kc_poj6-kc_dan_zah;
@@ -181,11 +177,17 @@ public class VetaO implements IVeta {
 		return VetaO;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
+	 */
 	@Override
 	public int getMaxPocet() {
 		return MAX;
 	}
 
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getDependency()
+	 */
 	@Override
 	public String[] getDependency() {
 		//if(this.kc_zd7!=0) return new String[]{"VetaT","VetaV"};
@@ -198,6 +200,12 @@ public class VetaO implements IVeta {
 		return ELEMENT;
 	}
 	
+	/**
+	 * Vyplněný úhrn je základ daně podle zákona a zákona o správě daní a poplatků. 
+	 * Pokud je ř. 41a záporný, uveďte pouze hodnotu z ř. 36a. 
+	 * To znamená, že základ daně je tvořen pouze dílčím základem daně podle § 6 zákona.
+	 * @return Základ daně (ř. 36a + kladná hodnota z ř. 41a)  
+	 */
 	public double getKcZakldan23(){
 		double kc_zd6p=kc_prij6+kc_poj6-kc_dan_zah;
 		double kc_vynprij_6=kc_zd6p-vynato6;
@@ -212,6 +220,9 @@ public class VetaO implements IVeta {
 		return kc_zakldan23;
 	}
 	
+	/**
+	 * @return Základ daně po odečtení ztráty (ř. 42 - ř. 44)
+	 */
 	public double getKcZakldan(){
 		double kc_zd6p=kc_prij6+kc_poj6-kc_dan_zah;
 		double kc_vynprij_6=kc_zd6p-vynato6;

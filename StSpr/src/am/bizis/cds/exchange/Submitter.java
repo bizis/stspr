@@ -50,12 +50,11 @@ import am.bizis.exception.ResultException;
 import am.bizis.security.crypto.KeyStoreAPI;
 
 /**
- * Odeslani elektronickeho podani na Generalni Financni Reditelstvi
- * prozatimni pouziti: Submitter.submit(new EPOFactory(IFormDataGrab).getEPO(getContent()), <URI keystore>, <heslo keystore>, <alias klice>, <heslo klice>);
- * V KeyStoreAPI je popsano, jak uznavany certifikat (napr. Postsignum) ulozit do KeyStore  
- * toto se zavola mezirozhranim mezi formou a Submitterem - to overi odpoved a vrati zpravu uzivateli
+ * Odeslani elektronickeho podani na Generalni Financni Reditelstvi<br />
+ * prozatimni pouziti: Submitter.submit(new EPOFactory(IFormDataGrab).getEPO(getContent()), "URI keystore", "heslo keystore", "alias klice", "heslo klice");<br />
+ * V KeyStoreAPI je popsano, jak uznavany certifikat (napr. Postsignum) ulozit do KeyStore<br />  
+ * toto se zavola mezirozhranim mezi formou a Submitterem - to overi odpoved a vrati zpravu uzivateli<br />
  * @author alex
- * @version 20140918
  */
 public class Submitter {
 

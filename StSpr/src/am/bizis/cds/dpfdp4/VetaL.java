@@ -27,6 +27,9 @@ public class VetaL implements IVeta {
 	
 	
 	/**
+	 * Vytvori vetu L s povinnymi atributy
+	 * @param s VetaS - zaznam III. oddilu - nutna pro vypocet nekterych polozek
+	 * @param o Veta O - zaznam II. oddilu - nutna pro vypocet nekterych polozek
 	 * @param kc_prijzap Příjmy ze zdrojů v zahraničí, u nichž se použije metoda zápočtu
 	 * Na tomto řádku uveďte úhrn příjmů ze zdrojů v zahraničí, na které se podle smluv o zamezení dvojího zdanění uplatňuje metoda zápočtu. Příjmy podle § 6 zákona
 	 * uveďte v souladu s § 6 odst.14 zákona.
@@ -103,5 +106,9 @@ public class VetaL implements IVeta {
 	 */
 	public void setKc_vydzap(int kc_vydzap) {
 		this.kc_vydzap = kc_vydzap;
+	}
+	@Override
+	public String toString(){
+		return "VetaL";
 	}
 }

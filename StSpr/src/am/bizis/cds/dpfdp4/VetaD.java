@@ -22,7 +22,6 @@ import taka.CountryCode;
  * Vytvori element VetaD pisemnosti DPFDP4 - Zaznam o DAP
  * popis polozek: https://adisepo.mfcr.cz/adistc/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPFDP4#D
  * @author alex
- * @version 20130909
  */
 public class VetaD implements IVeta{
 	private final String DOKUMENT="DP4";
@@ -44,6 +43,31 @@ public class VetaD implements IVeta{
 	private boolean pln_moc, prop_zahr;
 	private UVVyhl uv_vyhl;
 	
+	/**
+	 * Vytvori vetu D s povinnymi polozkami
+	 * @param audit Zákonná povinnost ověření účetní závěrky auditorem
+	 * Hodnota může být pouze:
+	 * A - zákonná povinnost ověřit účetní závěrku auditorem, 
+	 * N - není zákonná povinnost ověřit účetní závěrku auditorem.
+	 * @param c_ufo_cil Sidlo mistne prislusneho spravce dane
+	 * Místní příslušnost se řídí u fyzické osoby místem pobytu v České republice, jinak místem,
+	 * kde se převážně zdržuje, tj. v němž pobývá nejvíce dnů v roce. Místem pobytu fyzické 
+	 * osoby se rozumí adresa místa trvalého pobytu. Nelze-li takto určit místní příslušnost, 
+	 * postupuje se podle ustanovení § 13 zákona č. 280/2009 Sb., daňový řád, ve znění pozdějších
+	 * předpisů. Vyplňte číslo FÚ podle registrace daňového přiznání, nebo výběrem ze seznamu.
+	 * Pro hodnotu této položky použijte číselník Územní finanční orgány (ufo). Z číselníku se 
+	 * vkládá položka c_ufo.
+	 * Položka obsahuje kritické kontroly: musí být vyplněno číslo existujícího FÚ (-> beru z ciselniku), nesmí se 
+	 * jednat o zaniklý FÚ.
+	 * @param dap_typ Typ daňového přiznání.
+	 * @param pln_moc DAP zpracoval a předkládá daňový poradce na základě plné moci k 
+	 * zastupování, která byla podána správci daně před uplynutím neprodloužené lhůty
+	 * @param rok daňovací období
+	 * Uveďte rok, za který je DAP podáváno.
+	 * Položka obsahuje kritické kontroly: rok může nabývat hodnot 2009 nebo 2010 a dále nelze 
+	 * vložit DAP na rok vyšší než je rok z data úmrtí poplatníka.
+	 * @throws ParseException nebude-li mozne z roku vytvorit data 31.12.'rok' nebo 1.1.'rok'
+	 */
 	public VetaD(char audit,int c_ufo_cil,DAPTyp dap_typ, boolean pln_moc,int rok) throws ParseException {
 		this.audit=audit;
 		this.c_ufo_cil=c_ufo_cil;
@@ -73,7 +97,7 @@ public class VetaD implements IVeta{
 	 * Pro hodnotu této položky použijte číselník Územní finanční orgány (ufo). Z číselníku se 
 	 * vkládá položka c_ufo.
 	 * Položka obsahuje kritické kontroly: musí být vyplněno číslo existujícího FÚ (-> beru z ciselniku), nesmí se 
-	 * jednat o zaniklý FÚ. TODO
+	 * jednat o zaniklý FÚ.
 	 */
 	public void setC_ufo_cil(int c_ufo_cil) {
 		this.c_ufo_cil = c_ufo_cil;
@@ -458,6 +482,9 @@ public class VetaD implements IVeta{
 		return this.kc_zbyvpred;
 	}
 	
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
+	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
 		int MINDANBONUS=100;
@@ -590,10 +617,16 @@ public class VetaD implements IVeta{
 		return VetaD;
 	}
 	@Override
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
+	 */
 	public int getMaxPocet() {
 		return MAX;
 	}
 	@Override
+	/* (non-Javadoc)
+	 * @see am.bizis.cds.dpfdp4.IVeta#getDependency()
+	 */
 	public String[] getDependency() {
 		List<String> seznam=new LinkedList<String>();
 		if(this.kc_zbyvpred<0) seznam.add("VetaN");
@@ -606,6 +639,10 @@ public class VetaD implements IVeta{
 	public String toString(){
 		return ELEMENT;
 	}
+	/**
+	 * Vrati castku preplatku na dani pro vetu N
+	 * @return preplatek na dani (Kc_zbyvpred)
+	 */
 	public double getKcZbyvpred(){
 		return this.kc_zbyvpred;
 	}

@@ -23,8 +23,6 @@ public class VetaV implements IVeta {
 	private boolean vyd9proc=false, spol_jm_manz=false;
 	
 	/**
-	 * @param kc_prij10 Příjmy podle § 10 zákona
-	 * Uveďte součet částek z tabulky ze sloupce 2 podle jednotlivých druhů příjmů.
 	 * @param kc_snizukon9 Úhrn částek podle § 5, § 23 zákona a ostatní úpravy podle zákona snižující rozdíl mezi příjmy a 
 	 * výdaji nebo výsledkem hospodaření před zdaněním - (zisk, ztráta)
 	 * Uveďte úhrn částek snižujících rozdíl mezi příjmy a výdaji nebo výsledek hospodaření před zdaněním.
@@ -42,6 +40,7 @@ public class VetaV implements IVeta {
 	 * spoluvlastnických podílů nebo podle poměru dohodnutého ve smlouvě. Pokud příjmy z pronájmu plynou manželům ze 
 	 * společného jmění manželů, zdaňují se jen u jednoho z nich a ten je uvede ve svém DAP. Údaje se uvádějí před úpravou 
 	 * o položky podle § 5, § 23 zákona a ostatní úpravy podle zákona.
+	 * @param vetaJ vety J
 	 */
 	public VetaV(double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9, VetaJ[] vetaJ) {
 		this.kc_snizukon9=kc_snizukon9;
@@ -50,6 +49,28 @@ public class VetaV implements IVeta {
 		this.kc_vyd9=kc_vyd9;
 		this.vetaJ=vetaJ;
 	}
+	
+	/**
+	 * @param kc_snizukon9 Úhrn částek podle § 5, § 23 zákona a ostatní úpravy podle zákona snižující rozdíl mezi příjmy a 
+	 * výdaji nebo výsledkem hospodaření před zdaněním - (zisk, ztráta)
+	 * Uveďte úhrn částek snižujících rozdíl mezi příjmy a výdaji nebo výsledek hospodaření před zdaněním.
+	 * @param kc_zvysukon9 Úhrn částek podle § 5, § 23 zákona a ostatní úpravy podle zákona zvyšující rozdíl mezi příjmy a 
+	 * výdaji nebo výsledek hospodaření před zdaněním - (zisk, ztráta)
+	 * Uveďte úhrn částek zvyšujících rozdíl mezi příjmy a výdaji nebo výsledek hospodaření před zdaněním.
+	 * @param kc_prij9 Příjmy podle § 9 zákona
+	 * Uveďte na ř. 201 příjmy z pronájmu evidované podle § 9 odst. 6 zákona v záznamech o příjmech a výdajích případně v 
+	 * účetnictví.
+	 * @param kc_vyd9 Výdaje podle § 9 zákona
+	 * Uveďte na ř. 202 výdaje z pronájmu evidované podle § 9 odst. 6 zákona v záznamech o příjmech a výdajích případně v 
+	 * účetnictví.
+	 * V případě, že se jedná o příjmy dosažené dvěma a více poplatníky z titulu spoluvlastnictví k věci, potom společné 
+	 * výdaje vynaložené na jejich dosažení, zajištění a udržení se rozdělují mezi poplatníky podle jejich 
+	 * spoluvlastnických podílů nebo podle poměru dohodnutého ve smlouvě. Pokud příjmy z pronájmu plynou manželům ze 
+	 * společného jmění manželů, zdaňují se jen u jednoho z nich a ten je uvede ve svém DAP. Údaje se uvádějí před úpravou 
+	 * o položky podle § 5, § 23 zákona a ostatní úpravy podle zákona.
+	 * @param vetaJ vety J
+	 * @param t Veta T
+	 */
 	public VetaV(double kc_snizukon9,double kc_zvysukon9,double kc_prij9,double kc_vyd9, VetaJ[] vetaJ,VetaT t){
 		this(kc_snizukon9,kc_zvysukon9,kc_prij9,kc_vyd9,vetaJ);
 		this.vetaT=t;
@@ -162,5 +183,10 @@ public class VetaV implements IVeta {
 	 */
 	public double getKcZd9p(){
 		return (kc_prij9-kc_vyd9)+kc_zvysukon9-kc_snizukon9;
+	}
+	
+	@Override
+	public String toString(){
+		return "VetaV";
 	}
 }

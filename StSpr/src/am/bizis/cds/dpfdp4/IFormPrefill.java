@@ -3,7 +3,6 @@ package am.bizis.cds.dpfdp4;
 /**
  * Rozhrani popisujici prednaplneni graficke formy DPDPF
  * @author alex
- * @version 20130904
  */
 public interface IFormPrefill {
 	/**
@@ -12,7 +11,7 @@ public interface IFormPrefill {
 	 * 
 	 * pro GUI: am.bizis.cds.ciselnik.UFO.getNazuUFO() ti vrati pole, ze ktereho user neco vybere
 	 * akorat se musi vymyslet, jak se chyti to cislo - asi nejake upravy metod tridy UFO
-	 * @param c_ufo_cil
+	 * @param FO
 	 */
 	public void setUFO(String FO);
 	

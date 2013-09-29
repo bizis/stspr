@@ -28,7 +28,6 @@ import org.bouncycastle.util.Store;
 /**
  * Podepise data (PKCS#7) uzitim BouncyCastle
  * @author alex
- * @version 20130914
  *
  */
 public class PKCS7 {
