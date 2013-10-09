@@ -44,7 +44,6 @@ public class VetaA implements IVeta {
 
 	@Override
 	public Element getElement() throws ParserConfigurationException {
-		
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
