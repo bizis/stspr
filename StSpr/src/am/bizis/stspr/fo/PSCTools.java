@@ -8,7 +8,7 @@ import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import am.bizis.exception.IllegalContentTypeException;
 import am.bizis.exception.PostNotFoundException;
@@ -45,7 +45,7 @@ public class PSCTools {
 					Pattern p2=Pattern.compile("					(.*)");
 					Matcher m2=p2.matcher(in.readLine());
 					if (m2.matches()) html=m2.group(1);
-					html=StringEscapeUtils.unescapeHtml(StringEscapeUtils.unescapeXml(html));
+					html=StringEscapeUtils.unescapeHtml4(StringEscapeUtils.unescapeXml(html));
 					matches++;
 				}
 			}
