@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
 import taka.CountryCode;
+import am.bizis.cds.IVeta;
 import am.bizis.exception.ConditionException;
 import am.bizis.exception.DataUnsetException;
 import am.bizis.exception.MissingElementException;

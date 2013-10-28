@@ -1,5 +1,7 @@
 package am.bizis.cds.dpfdp4;
 import java.lang.Math;
+
+import am.bizis.cds.IVeta;
 /**
  * Zobecnena veta N - Žádost o vrácení přeplatku
  * @author alex

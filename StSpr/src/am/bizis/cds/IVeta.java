@@ -1,4 +1,4 @@
-package am.bizis.cds.dpfdp4;
+package am.bizis.cds;
 
 import javax.xml.parsers.ParserConfigurationException;
 

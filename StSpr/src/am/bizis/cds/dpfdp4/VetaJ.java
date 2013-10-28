@@ -7,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.cds.IVeta;
+
 /**
  * Záznam o příjmech a výdajích dle § 10 zákona
  * @author alex

@@ -10,6 +10,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.cds.IVeta;
+
 /**
  * Věta M - Příloha pro poplatníky uplatňující odčitatelnou položku dle § 34 odst.1 zákona
  * @author alex

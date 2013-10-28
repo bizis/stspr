@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.cds.IVeta;
+
 /**
  * Priloha c. 1
  * @author alex

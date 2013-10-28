@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import taka.CountryCode;
+import am.bizis.cds.IVeta;
 import am.bizis.cds.ciselnik.Obce;
 import am.bizis.exception.ConditionException;
 import am.bizis.stspr.IPodnik;

@@ -10,6 +10,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.cds.IVeta;
+
 /**
  * Věta b - Příjmy podle § 6 zákona - údaje dle jednotlivých zaměstnavatelů
  * @author alex

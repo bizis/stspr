@@ -10,6 +10,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import am.bizis.cds.IVeta;
+
 /**
  * @author alex
  * Záznam úpravy podle § 23,§ 5 zákona zvyšující VH nebo rozdíl mezi P a V
