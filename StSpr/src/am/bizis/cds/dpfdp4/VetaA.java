@@ -2,11 +2,8 @@ package am.bizis.cds.dpfdp4;
 
 import java.util.Hashtable;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import am.bizis.cds.IVeta;

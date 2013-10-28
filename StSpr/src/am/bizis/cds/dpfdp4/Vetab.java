@@ -3,11 +3,10 @@
  */
 package am.bizis.cds.dpfdp4;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.Hashtable;
+
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import am.bizis.cds.IVeta;
@@ -18,11 +17,12 @@ import am.bizis.cds.IVeta;
  */
 public class Vetab implements IVeta {
 
-	private double kc_poj6p, kc_prij6p, kc_vyplbonusp, kc_zalzavcp;
+	private Hashtable<String,String> ht;
 	/**
 	 * 
 	 */
 	public Vetab() {
+		ht=new Hashtable<String,String>();
 		// zadne povinne polozky
 	}
 	
@@ -30,28 +30,32 @@ public class Vetab implements IVeta {
 	 * @param kc_poj6p Úhrn povinného pojistného podle § 6 odst. 13 zákona
 	 */
 	public void setKcPoj6p(double kc_poj6p){
-		this.kc_poj6p=kc_poj6p;
+		if(ht.containsKey("kc_poj6p")) ht.remove("kc_poj6p");
+		ht.put("kc_poj6p",kc_poj6p+"");
 	}
 	
 	/**
 	 * @param kc_prij6p Úhrn příjmů ze závislé činnosti a funkčních požitků
 	 */
 	public void setKcPrij6p(double kc_prij6p){
-		this.kc_prij6p=kc_prij6p;
+		if(ht.containsKey("kc_prij6p")) ht.remove("kc_prij6p");
+		ht.put("kc_prij6p", kc_prij6p+"");
 	}
 	
 	/**
 	 * @param kc_vyplbonusp Úhrn vyplacených měsíčních daňových bonusů podle § 35d ZDP
 	 */
 	public void setKcVyplbonusp(double kc_vyplbonusp){
-		this.kc_vyplbonusp=kc_vyplbonusp;
+		if(ht.containsKey("kc_vyplbonusp")) ht.remove("kc_vyplbonusp");
+		ht.put("kc_vyplbonusp",kc_vyplbonusp+"");
 	}
 	
 	/**
 	 * @param kc_zalzavcp Sražená záloha na daň v úhrnné výši
 	 */
 	public void setKcZalzavcp(double kc_zalzavcp){
-		this.kc_zalzavcp=kc_zalzavcp;
+		if(ht.containsKey("kc_zalzavcp")) ht.remove("kc_zalzavcp");
+		ht.put("kc_zalzavcp",kc_zalzavcp+"");
 	}
 
 	/* (non-Javadoc)
@@ -59,15 +63,7 @@ public class Vetab implements IVeta {
 	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-		Document EPO=docBuilder.newDocument();
-		Element Vetab=EPO.createElement("Vetab");
-		Vetab.setAttribute("kc_poj6p", kc_poj6p+"");
-		Vetab.setAttribute("kc_prij6p", kc_prij6p+"");
-		Vetab.setAttribute("kc_vyplbonus",kc_vyplbonusp+"");
-		Vetab.setAttribute("kc_zalzavcp",kc_zalzavcp+"");
-		return Vetab;
+		return Veta.getElement("Vetab", ht);
 	}
 
 	/* (non-Javadoc)
