@@ -4,8 +4,25 @@
  */
 package db.bizis.cds.form.dpfo;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.bouncycastle.cms.CMSException;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.w3c.dom.Document;
+
+import am.bizis.cds.dpfdp4.EPOFactory;
 import am.bizis.cds.dpfdp4.IFormDataGrab;
 import am.bizis.cds.dpfdp4.IFormPrefill;
+import am.bizis.cds.exchange.Submitter;
 
 /**
  *
@@ -340,4 +357,22 @@ public class Form extends javax.swing.JFrame implements IFormDataGrab, IFormPref
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
+    
+    /**
+     * Metoda onSubmit se zavola jako akce na stisknuti tlacitka odeslat formu uzivatelem
+     */
+    private void onSubmit(){
+    	EPOFactory EF=new EPOFactory(this);
+    	try {
+			Document response=Submitter.submit(EF.getEPO(EF.getContent()), null, null, null, null, null, null);
+			//nejak s tim nalozit
+		} catch (UnrecoverableKeyException | KeyManagementException
+				| NoSuchAlgorithmException | CertificateException
+				| KeyStoreException | OperatorCreationException | NullPointerException
+				| NoSuchProviderException | IOException | TransformerException
+				| CMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }
