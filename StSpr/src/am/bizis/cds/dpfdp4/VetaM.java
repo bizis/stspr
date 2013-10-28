@@ -68,13 +68,13 @@ public class VetaM implements IVeta {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
 		Document EPO=docBuilder.newDocument();
-		Element VetaR=EPO.createElement("VetaR");
-		VetaR.setAttribute("prilztr_sl1",prilztr_sl1);
-		VetaR.setAttribute("prilztr_sl2",prilztr_sl2+"");
-		VetaR.setAttribute("prilztr_sl3", prilztr_sl3+"");
-		VetaR.setAttribute("prilztr_sl4",prilztr_sl4+"");
-		VetaR.setAttribute("prilztr_sl5", prilztr_sl5+"");
-		return VetaR;
+		Element VetaM=EPO.createElement("VetaM");
+		VetaM.setAttribute("prilztr_sl1",prilztr_sl1);
+		VetaM.setAttribute("prilztr_sl2",prilztr_sl2+"");
+		VetaM.setAttribute("prilztr_sl3", prilztr_sl3+"");
+		VetaM.setAttribute("prilztr_sl4",prilztr_sl4+"");
+		VetaM.setAttribute("prilztr_sl5", prilztr_sl5+"");
+		return VetaM;
 	}
 
 	/* (non-Javadoc)
