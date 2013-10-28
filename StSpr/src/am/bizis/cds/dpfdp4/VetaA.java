@@ -1,5 +1,7 @@
 package am.bizis.cds.dpfdp4;
 
+import java.util.Hashtable;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,8 +22,7 @@ public class VetaA implements IVeta {
 	
 	private final int MAX=99;
 	private final String ELEMENT="VetaA";
-	private final String vyzdite_jmeno, vyzdite_prijmeni, vyzdite_r_cislo;
-	private final int vyzdite_pocmes, vyzdite_ztpp;
+	private final Hashtable<String,String> attrs;
 	
 	/**
 	 * Vytvori Vetu A s osobnimi udaji ditete, poctem mesicu uplatnovaneho zvyhodneni a kolik z toho mesicu bylo dane dite
@@ -32,29 +33,21 @@ public class VetaA implements IVeta {
 	 * @throws ConditionException pocet mesicu musi byt 0 az 12
 	 */
 	public VetaA(ISEOOsoba vyzdite,int pocmes, int ztpp) throws ConditionException{
-		if(vyzdite.hasDruhe()) this.vyzdite_jmeno=vyzdite.getKrestni()+" "+vyzdite.getDruhe();
-		else this.vyzdite_jmeno=vyzdite.getKrestni();
-		this.vyzdite_prijmeni=vyzdite.getPrijmeni();
-		this.vyzdite_r_cislo=vyzdite.getRodneCislo().toString();//TODO: textova reprezentace, nutno zachovat vodici nuly
+		attrs=new Hashtable<String,String>();
+		if(vyzdite.hasDruhe()) attrs.put("vyzdite_jmeno",vyzdite.getKrestni()+" "+vyzdite.getDruhe());
+		else attrs.put("vyzdite_jmeno",vyzdite.getKrestni());
+		attrs.put("vyzdite_prijmeni",vyzdite.getPrijmeni());
+		attrs.put("vyzdite_r_cislo",vyzdite.getRodneCislo().toString());//TODO: textova reprezentace, nutno zachovat vodici nuly
 		if((pocmes<0)||(pocmes>12)) throw new ConditionException("Pocet mesicu musi byt 0 az 12");
-		this.vyzdite_pocmes=pocmes;
+		else attrs.put("vyzdite_pocmes",pocmes+"");
 		if((ztpp<0)||(ztpp>12)) throw new ConditionException("Pocet mesicu musi byt 0 az 12");
 		if(ztpp>pocmes) ztpp=pocmes;
-		this.vyzdite_ztpp=ztpp;
+		attrs.put("vyzdite_ztpp",ztpp+"");
 	}
 
 	@Override
 	public Element getElement() throws ParserConfigurationException {
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-		Document EPO=docBuilder.newDocument();
-		Element VetaA=EPO.createElement(ELEMENT);
-		VetaA.setAttribute("vyzdite_jmeno", vyzdite_jmeno);
-		VetaA.setAttribute("vyzdite_prijmeni",vyzdite_prijmeni);
-		VetaA.setAttribute("vyzdite_r_cislo", vyzdite_r_cislo);
-		VetaA.setAttribute("vyzdite_pocmes",vyzdite_pocmes+"");
-		if(vyzdite_ztpp!=0) VetaA.setAttribute("vyzdite_ztpp", vyzdite_ztpp+"");
-		return VetaA;
+		return Veta.getElement(ELEMENT, attrs);
 	}
 
 	@Override
