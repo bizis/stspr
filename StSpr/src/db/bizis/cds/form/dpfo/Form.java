@@ -4,11 +4,14 @@
  */
 package db.bizis.cds.form.dpfo;
 
+import am.bizis.cds.dpfdp4.IFormDataGrab;
+import am.bizis.cds.dpfdp4.IFormPrefill;
+
 /**
  *
  * @author Virai
  */
-public class Form extends javax.swing.JFrame {
+public class Form extends javax.swing.JFrame implements IFormDataGrab, IFormPrefill {
 
     /**
      * Creates new form Form
