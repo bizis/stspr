@@ -3,11 +3,10 @@
  */
 package am.bizis.cds.dpfdp4;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.Hashtable;
+
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import am.bizis.cds.IVeta;
@@ -18,17 +17,16 @@ import am.bizis.cds.IVeta;
  */
 public class VetaC implements IVeta {
 
-	private final int kc_uprzvys_235;
-	private final String uprzvys_235;
-	
+	private final Hashtable<String,String> ht;
 	/**
 	 * Konstruktor vytvori element Veta C
 	 * @param kc_uprzvys_235 Částka úpravy podle § 5, § 23 zvyšující výsledek hospodaření nebo rozdíl mezi příjmy a výdaji
 	 * @param uprzvys_235 Popis úpravy podle § 5, § 23 zákona zvyšující výsledek hospodaření nebo rozdíl mezi příjmy a výdaji.
 	 */
 	public VetaC(int kc_uprzvys_235,String uprzvys_235) {
-		this.kc_uprzvys_235=kc_uprzvys_235;
-		this.uprzvys_235=uprzvys_235;
+		ht=new Hashtable<String,String>();
+		ht.put("kc_uprzvys_235",kc_uprzvys_235+"");
+		ht.put("uprzvys_235", uprzvys_235);
 	}
 
 	/* (non-Javadoc)
@@ -36,13 +34,7 @@ public class VetaC implements IVeta {
 	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-		Document EPO=docBuilder.newDocument();
-		Element VetaC=EPO.createElement("VetaC");
-		VetaC.setAttribute("kc_uprzvys_235", kc_uprzvys_235+"");
-		VetaC.setAttribute("uprzvys_235",uprzvys_235);
-		return VetaC;
+		return Veta.getElement("VetaC", ht);
 	}
 
 	/* (non-Javadoc)

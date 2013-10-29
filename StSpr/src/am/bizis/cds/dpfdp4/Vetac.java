@@ -3,11 +3,10 @@
  */
 package am.bizis.cds.dpfdp4;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.Hashtable;
+
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import am.bizis.cds.IVeta;
@@ -18,13 +17,12 @@ import am.bizis.cds.IVeta;
  */
 public class Vetac implements IVeta {
 
-	private int c_nace_dal=-1;
-	private double prijmy7, vydaje7;
-	private PrSazba sazba_dal;
+	private Hashtable<String,String> ht;
 	/**
 	 * 
 	 */
 	public Vetac() {
+		ht=new Hashtable<String,String>();
 		//zadne povinne polozky
 	}
 
@@ -33,17 +31,7 @@ public class Vetac implements IVeta {
 	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-		Document EPO=docBuilder.newDocument();
-		Element Vetac=EPO.createElement("Vetac");
-		
-		if(c_nace_dal!=-1) Vetac.setAttribute("c_nace_dal", c_nace_dal+"");
-		if(prijmy7!=0) Vetac.setAttribute("prijmy7",prijmy7+"");
-		if(vydaje7!=0) Vetac.setAttribute("vydaje7", vydaje7+"");
-		if(sazba_dal!=null) Vetac.setAttribute("sazba_dal", sazba_dal.getSazba()+"");
-		
-		return Vetac;
+		return Veta.getElement("Vetac", ht);
 	}
 
 	/* (non-Javadoc)
@@ -69,21 +57,24 @@ public class Vetac implements IVeta {
 	 * Položka obsahuje kritickou kontrolu: musí být vyplněn existující kód nace.
 	 */
 	public void setC_nace_dal(int c_nace_dal) {
-		this.c_nace_dal = c_nace_dal;
+		if(ht.containsKey("c_nace_dal")) ht.remove("c_nace_dal");
+		ht.put("c_nace_dal", c_nace_dal+"");
 	}
 
 	/**
 	 * @param prijmy7 Příjmy
 	 */
 	public void setPrijmy7(double prijmy7) {
-		this.prijmy7 = prijmy7;
+		if(ht.containsKey("prijmy7")) ht.remove("prijmy7");
+		ht.put("prijmy7", prijmy7+"");
 	}
 
 	/**
 	 * @param vydaje7 Výdaje
 	 */
 	public void setVydaje7(double vydaje7){
-		this.vydaje7 = vydaje7;
+		if(ht.containsKey("vydaje7")) ht.remove("vydaje7");
+		ht.put("vydaje7", vydaje7+"");
 	}
 
 	/**
@@ -96,7 +87,8 @@ public class Vetac implements IVeta {
 	 * autorské honoráře) a 30 % z příjmu z pronájmu majetku zařazeného v obchodním majetku.
 	 */
 	public void setSazba_dal(PrSazba sazba_dal) {
-		this.sazba_dal = sazba_dal;
+		if(ht.containsKey("sazba_dal")) ht.remove("sazba_dal");
+		ht.put("sazba_dal", sazba_dal.sazba+"");
 	}
 	
 	@Override

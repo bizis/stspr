@@ -3,6 +3,8 @@
  */
 package am.bizis.cds.dpfdp4;
 
+import java.util.Hashtable;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,10 +26,12 @@ public class Vetad implements IVeta {
 	private double dan_seznam, prijmy_seznam, zapl_dan;
 	private CountryCode k_stat_zdroj;
 	private String ident_udaje;
+	private Hashtable<String,String> ht;
 	/**
 	 * 
 	 */
 	public Vetad() {
+		ht=new Hashtable<String,String>();
 	}
 
 	/**
@@ -36,7 +40,8 @@ public class Vetad implements IVeta {
 	 * zahraničního správce daně, uveďte předpokládanou výši daně uplatněnou v daňovém přiznání.
 	 */
 	public void setDanSeznam(double dan_seznam){
-		this.dan_seznam=dan_seznam;
+		if(ht.containsKey("dan_seznam")) ht.remove("dan_seznam");
+		ht.put("dan_seznam", dan_seznam+"");
 	}
 	
 	/**
@@ -46,7 +51,8 @@ public class Vetad implements IVeta {
 	 * souladu s § 6 odst.14 zákona
 	 */
 	public void setPrijmySeznam(double prijmy_seznam){
-		this.prijmy_seznam=prijmy_seznam;
+		if(ht.containsKey("prijmy_seznam")) ht.remove("prijmy_seznam");
+		ht.put("prijmy_seznam",prijmy_seznam+"");
 	}
 	
 	/**
@@ -54,7 +60,8 @@ public class Vetad implements IVeta {
 	 * Uveďte částku daně zaplacené v tomto státě v místní měně.
 	 */
 	public void setZaplDan(double zapl_dan){
-		this.zapl_dan=zapl_dan;
+		if(ht.containsKey("zapl_dan")) ht.remove("zapl_dan");
+		ht.put("zapl_dan",zapl_dan+"");
 	}
 	
 	/**
@@ -62,7 +69,8 @@ public class Vetad implements IVeta {
 	 * Uveďte stát zdroje zahraničních příjmů.
 	 */
 	public void setKStatZdroj(CountryCode k_stat_zdroj){
-		this.k_stat_zdroj=k_stat_zdroj;
+		if(ht.containsKey("k_stat_zdroj")) ht.remove("k_stat_zdroj");
+		ht.put("k_stat_zdroj", k_stat_zdroj.getAlpha2());
 	}
 	
 	/**
@@ -72,23 +80,15 @@ public class Vetad implements IVeta {
 	 * podání daňového přiznání k dispozici.
 	 */
 	public void setIdentUdaje(String ident_udaje){
-		this.ident_udaje=ident_udaje;
+		if(ht.containsKey("ident_udaje")) ht.remove("ident_udaje");
+		ht.put("ident_udaje",ident_udaje);
 	}
 	/* (non-Javadoc)
 	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
 	 */
 	@Override
 	public Element getElement() throws ParserConfigurationException {
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-		Document EPO=docBuilder.newDocument();
-		Element Vetad=EPO.createElement("Vetad");
-		Vetad.setAttribute("ident_udaje", ident_udaje);
-		Vetad.setAttribute("k_stat_zdroj", k_stat_zdroj.getAlpha2());
-		Vetad.setAttribute("zapl_dan", zapl_dan+"");
-		Vetad.setAttribute("dan_seznam",dan_seznam+"");
-		Vetad.setAttribute("prijmy_seznam",prijmy_seznam+"");
-		return Vetad;
+		return Veta.getElement("Vetad", ht);
 	}
 
 	/* (non-Javadoc)
@@ -106,5 +106,12 @@ public class Vetad implements IVeta {
 	public String[] getDependency() {
 		return null;
 	}
+	
+	@Override
+	public String toString(){
+		return "Vetad";
+	}
+	
+	
 
 }

@@ -81,5 +81,10 @@ public class Vetab implements IVeta {
 	public String[] getDependency() {
 		return null;
 	}
-
+	
+	@Override
+	public String toString()
+	{
+		return "Vetab";
+	}
 }
