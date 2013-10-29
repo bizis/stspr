@@ -107,7 +107,7 @@ public class EPO {
 		if(dpfdp4.getElementsByTagName("ObecnaPriloha").getLength()<obecna) throw new MissingElementException("ObecnaPriloha");
 
 		//TODO: VetaB
-		Element VetaB=getVetaB();
+		//Element VetaB=getVetaB();
 		//EPO.appendChild(VetaB);
 		
 		return EPO;
@@ -123,13 +123,13 @@ public class EPO {
 	 * @return VetaB
 	 * @throws ParserConfigurationException
 	 */
-	private Element getVetaB() throws ParserConfigurationException{
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-		Document EPO=docBuilder.newDocument();
-		Element VetaB=EPO.createElement("VetaB");
+	//private Element getVetaB() throws ParserConfigurationException{
+	//	DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+	//	DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
+	//	Document EPO=docBuilder.newDocument();
+	//	Element VetaB=EPO.createElement("VetaB");
 		
-		return VetaB;
-	}
+	//	return VetaB;
+	//}
 
 }

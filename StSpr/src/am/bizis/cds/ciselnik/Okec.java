@@ -20,8 +20,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import am.bizis.exception.IllegalCUFOException;
-
 /**
  * Ciselnik cinnosti (okec)
  * @author alex
