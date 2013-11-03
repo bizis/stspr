@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import am.bizis.cds.IVeta;
+import am.bizis.cds.Veta;
 
 import taka.CountryCode;
 
