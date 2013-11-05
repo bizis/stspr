@@ -70,7 +70,8 @@ public class VetaD implements IVeta{
 	 * @throws ParseException nebude-li mozne z roku vytvorit data 31.12.'rok' nebo 1.1.'rok'
 	 */
 	public VetaD(char audit,int c_ufo_cil,DAPTyp dap_typ, boolean pln_moc,int rok) throws ParseException {
-		this.audit=audit;
+		if (audit=='A'|audit=='N') this.audit=audit;
+		else throw new IllegalArgumentException("Povolene hodnoty jsou 'A' a 'N'");
 		this.c_ufo_cil=c_ufo_cil;
 		this.dap_typ=dap_typ;
 		this.pln_moc=pln_moc;
@@ -646,5 +647,11 @@ public class VetaD implements IVeta{
 	 */
 	public double getKcZbyvpred(){
 		return this.kc_zbyvpred;
+	}
+	/**
+	 * @return zakonna povinnost overeni zaverky auditorem
+	 */
+	public char getAudit() {
+		return audit;
 	}
 }
