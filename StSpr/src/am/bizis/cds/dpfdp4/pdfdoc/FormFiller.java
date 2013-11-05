@@ -1,5 +1,6 @@
 package am.bizis.cds.dpfdp4.pdfdoc;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import am.bizis.cds.dpfdp4.VetaD;
@@ -7,14 +8,25 @@ import am.bizis.cds.dpfdp4.VetaD;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 
 public class FormFiller{
 	
 	private final AcroFields FORM;
+	private PdfStamper stamper;
+	private PdfReader reader;
 	
-	public FormFiller(String formURI) throws IOException{
+	public FormFiller(String formURI,String resultURI) throws IOException,DocumentException{
 		PdfReader reader=new PdfReader(formURI);
-		this.FORM=reader.getAcroFields();
+		PdfStamper stamper=new PdfStamper(reader, new FileOutputStream(resultURI));
+		this.FORM=stamper.getAcroFields();
+	}
+	
+	@Override
+	public void finalize() throws Throwable{
+		reader.close();
+		stamper.close();
+		super.finalize();
 	}
 
 	public void PopulateD(VetaD d) throws DocumentException,IOException{
