@@ -68,7 +68,7 @@ public class UFO {
 	/**
 	 * Pro zadane UFO vrati cufo do XML priznani
 	 * @param nazu_ufo
-	 * @return
+	 * @return cufo
 	 * @throws ParseException 
 	 * @throws DOMException 
 	 * @throws NumberFormatException 
@@ -90,7 +90,7 @@ public class UFO {
 	
 	/**
 	 * UI dostane pole pro vyber prislusneho UFO
-	 * @return
+	 * @return pole nazvu UFO
 	 * @throws ParseException 
 	 * @throws DOMException 
 	 * @throws NumberFormatException

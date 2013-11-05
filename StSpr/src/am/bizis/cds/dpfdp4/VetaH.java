@@ -24,9 +24,7 @@ public class VetaH implements IVeta {
 	
 	/**
 	 * Konstruktor vytvori element vety H
-	 * @param rozdos_dic 	DIČ osoby, která rozděluje příjmy a výdaje
-	 * @param rozdos_jmeno  Jméno osoby, která rozděluje příjmy a výdaje
-	 * @param rozdos_prijmeni 	Příjmení osoby, která rozděluje příjmy a výdaje
+	 * @param rozdos	   osoba, která rozděluje příjmy a výdaje
 	 * @param rozdos_podil Podíl na příjmech a výdajích v %
 	 */
 	public VetaH(OSVC rozdos,double rozdos_podil) {

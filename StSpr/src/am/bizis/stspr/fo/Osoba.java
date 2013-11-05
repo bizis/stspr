@@ -151,7 +151,7 @@ public class Osoba {
 	}
 
 	/**
-	 * @param datovaschrannka the datovaschrannka to set
+	 * @param datovaschranka the datovaschranka to set
 	 */
 	public void setDatovaSchranka(String datovaschranka) {
 		this.datovaschranka = datovaschranka;

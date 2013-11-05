@@ -149,7 +149,7 @@ public class RodneCislo {
 	/**
 	 * Prevzata kontrola spravnosti z konstruktoru, zjednodusena pro odpoved ano/ne
 	 * @param rc
-	 * @return
+	 * @return zda je dane rodne cislo platne
 	 */
 	public static boolean jePlatne(String rc){
 		boolean ret=true;

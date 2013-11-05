@@ -209,7 +209,7 @@ public class ISEOOsoba extends Osoba {
 	}
 
 	/**
-	 * @param asociace the asociace to set
+	 * @param o asociace
 	 */
 	public void setAsociace(Osoba o) throws IllegalArgumentException{
 		if((this.stav==Stav.MANZELSTVI)&&o.getPohlavi()!=this.getPohlavi()) this.asociace=o;

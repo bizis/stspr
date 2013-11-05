@@ -24,12 +24,7 @@ public class VetaG implements IVeta {
 	
 	/**
 	 * Konstruktor vytvori element Veta G
-	 * @param spolos_dic 	DIČ (RČ) spolupracující osoby
-	 * Vyplňte kmenovou (číselnou) část daňového identifikačního čísla (DIČ) spolupracující osoby.
-	 * Položka obsahuje kritické kontroly: existuje více záznamů spolupracujících osob se stejným DIČ; 
-	 * DIČ spolupracující osoby musí být vyplněno; DIČ spolupracující osoby musí být platné.
-	 * @param spolos_jmeno 	Jméno spolupracující osoby
-	 * @param spolos_prijmeni Příjmení spolupracující osoby
+	 * @param spolos Spolupracujici osoba
 	 * @param spolos_podil Podíl na příjmech a výdajích v %
 	 */
 	public VetaG(OSVC spolos,double spolos_podil) {

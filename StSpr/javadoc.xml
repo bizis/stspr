@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" author="true" classpath="lib/httpclient-4.3.1.jar:lib/bcprov-jdk15on-149.jar:lib/bcpkix-jdk15on-149.jar:lib/commons-logging-1.1.3.jar:lib/pdfbox-1.8.2.jar:lib/httpcore-4.3.jar:lib/commons-lang3-3.1.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="am.bizis.exception,am.bizis.cds.dpfdp4,am.bizis.stspr.fo,am.bizis.cds,am.bizis.cds.ciselnik,am.bizis.cds.exchange,am.bizis.db,am.bizis.ucto.vykaz,taka,eu.javaspecialists.hmk,db.bizis.cds.form.dpfo,am.bizis.security.crypto,am.bizis.ucto,am.bizis.stspr,am.bizis.stspr.po,am.bizis.cds.dphdp3,am.bizis.cds.dphshv" source="1.7" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

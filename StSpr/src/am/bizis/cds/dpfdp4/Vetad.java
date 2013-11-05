@@ -5,17 +5,13 @@ package am.bizis.cds.dpfdp4;
 
 import java.util.Hashtable;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import taka.CountryCode;
 import am.bizis.cds.IVeta;
 import am.bizis.cds.Veta;
-
-import taka.CountryCode;
 
 /**
  * Seznam pro poplatníky uplatňující nárok na vyloučení dvojího zdanění podle § 38f odst. 10 ZDP
@@ -23,10 +19,6 @@ import taka.CountryCode;
  *
  */
 public class Vetad implements IVeta {
-
-	private double dan_seznam, prijmy_seznam, zapl_dan;
-	private CountryCode k_stat_zdroj;
-	private String ident_udaje;
 	private Hashtable<String,String> ht;
 	/**
 	 * 

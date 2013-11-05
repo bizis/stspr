@@ -41,7 +41,7 @@ public class PKCS7 {
 	 * Podepise pole bajtu
 	 * @param data
 	 * @param signCert
-	 * @return
+	 * @return podepsana data
 	 * @throws CertificateEncodingException
 	 * @throws OperatorCreationException
 	 * @throws CMSException
