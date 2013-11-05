@@ -654,4 +654,30 @@ public class VetaD implements IVeta{
 	public char getAudit() {
 		return audit;
 	}
+	
+	/**
+	 * @return Datum
+	 */
+	public String getDduvpod(){
+		return d_duvpod==null ? null : DF.format(d_duvpod);
+	}
+	/**
+	 * @return udaje ke dni
+	 */
+	public String getDuv(){
+		return d_uv==null ? null : DF.format(d_uv);
+	}
+	/**
+	 * @return Datum zjisteni
+	 */
+	public String getDzjist(){
+		return d_zjist==null ? null : DF.format(d_zjist);
+	}
+	
+	/**
+	 * @return 	Daň celkem zaokrouhlená na celé Kč nahoru (ř. 58)
+	 */
+	public String getDaCelod13(){
+		return da_celod13+"";
+	}
 }
