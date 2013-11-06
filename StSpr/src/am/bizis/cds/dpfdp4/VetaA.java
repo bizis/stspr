@@ -44,11 +44,6 @@ public class VetaA implements IVeta {
 	}
 
 	@Override
-	public Element getElement() throws ParserConfigurationException {
-		return Veta.getElement(ELEMENT, attrs);
-	}
-
-	@Override
 	/* (non-Javadoc)
 	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
 	 */
@@ -67,6 +62,11 @@ public class VetaA implements IVeta {
 	@Override
 	public String toString(){
 		return ELEMENT;
+	}
+
+	@Override
+	public Hashtable<String, String> getAttrs() {
+		return attrs;
 	}
 
 }

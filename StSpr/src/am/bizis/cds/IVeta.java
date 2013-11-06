@@ -1,20 +1,12 @@
 package am.bizis.cds;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Element;
+import java.util.Hashtable;
 
 /**
  * Veta Pisemnosti
  * @author alex
  */
 public interface IVeta {
-	/**
-	 * Vrati XML element dane vety obsahujici jiz nastavene jednotlive atributy (nebo nenastavene)
-	 * @return XML Element dane vety
-	 * @throws ParserConfigurationException
-	 */
-	Element getElement() throws ParserConfigurationException;
 	
 	/**
 	 * Nejvyse kolikrat se dany element muze v podani vyskytovat
@@ -34,4 +26,10 @@ public interface IVeta {
 	 */
 	@Override
 	String toString();
+	
+	/**
+	 * Vrati hashovaci tabulku nazev polozky - hodnota
+	 * @return atributy vety
+	 */
+	Hashtable<String,String> getAttrs();
 }

@@ -2,8 +2,12 @@ package am.bizis.cds.dpfdp4.pdfdoc;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import am.bizis.cds.dpfdp4.VetaD;
+import am.bizis.cds.IVeta;
+import am.bizis.cds.dpfdp4.VetaA;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
@@ -12,30 +16,24 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 public class FormFiller{
 	
-	private final AcroFields FORM;
-	private PdfStamper stamper;
-	private PdfReader reader;
-	
-	public FormFiller(String formURI,String resultURI) throws IOException,DocumentException{
+	public static void populate(String formURI,String resultURI,IVeta[] vety) throws IOException, DocumentException{
 		PdfReader reader=new PdfReader(formURI);
 		PdfStamper stamper=new PdfStamper(reader, new FileOutputStream(resultURI));
-		this.FORM=stamper.getAcroFields();
-	}
-	
-	@Override
-	public void finalize() throws Throwable{
+		AcroFields form=stamper.getAcroFields();
+		Set<String> fields=form.getFields().keySet();
+		for(IVeta v:vety){
+			if(v.getClass().getPackage().equals(VetaA.class.getPackage())){//je to sice nehezke, ale zabrani to pouziti jineho formulare
+				for (String key:fields){
+					Matcher ma=Pattern.compile("Pisemnost\\[0\\]\\.Page[0-9]\\[0\\]\\.([a-z0-9_])\\[0\\]").matcher(key);
+					if (ma.matches()){
+						String element=ma.group(0);
+						if(v.getAttrs().containsKey(element)) form.setField(element, v.getAttrs().get(element));
+						else System.err.println("Nenalezeno: "+element);
+					}else System.err.println("Nekorektni radka vstupu: "+key);
+				}
+			} else System.err.println("Toto se aplikuje pouze na tridy z balicku "+VetaA.class.getPackage().getName());
+		}
 		reader.close();
 		stamper.close();
-		super.finalize();
-	}
-
-	public void PopulateD(VetaD d) throws DocumentException,IOException{
-		FORM.setField("Pisemnost[0].Page1[0].audit[0]",d.getAudit()+"");
-		//c_ufo_cil
-		FORM.setField("Pisemnost[0].Page1[0].d_duvpod[0]",d.getDduvpod());
-		FORM.setField("Pisemnost[0].Page4[0].d_uv[0]",d.getDuv());
-		FORM.setField("Pisemnost[0].Page1[0].d_zjist[0]", d.getDzjist());
-		FORM.setField("Pisemnost[0].Page3[0].TableManzelka[0].Row1[0].manz_jmeno[0]", d.getManzJmeno());
-		FORM.setField("Pisemnost[0].Page2[0].Table58-61[0].Row60[0].da_celod13[0]",d.getDaCelod13());
 	}
 }

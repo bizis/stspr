@@ -12,6 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import am.bizis.cds.IVeta;
+import am.bizis.cds.Veta;
 import am.bizis.exception.ConditionException;
 import am.bizis.exception.MissingElementException;
 import am.bizis.exception.MultipleElementsOfSameTypeException;
@@ -64,7 +65,7 @@ public class EPO {
 				   //throw new IllegalArgumentException("Veta T nebyla ocekavana");
 			   }
 			   else if(v!=null){
-					Element n=(Element)EPO.adoptNode(v.getElement());
+					Element n=(Element)EPO.adoptNode(Veta.getElement(v.toString(), v.getAttrs()));
 					//kontrola, ze pocet vet jednotlivych typu nepresahuje maximalni hodnoty
 					if(dpfdp4.getElementsByTagName(n.getTagName()).getLength()<v.getMaxPocet()) dpfdp4.appendChild(n);
 					else throw new MultipleElementsOfSameTypeException(n.getTagName());

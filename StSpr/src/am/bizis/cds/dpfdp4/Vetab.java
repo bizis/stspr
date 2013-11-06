@@ -60,14 +60,6 @@ public class Vetab implements IVeta {
 	}
 
 	/* (non-Javadoc)
-	 * @see am.bizis.cds.dpfdp4.IVeta#getElement()
-	 */
-	@Override
-	public Element getElement() throws ParserConfigurationException {
-		return Veta.getElement("Vetab", ht);
-	}
-
-	/* (non-Javadoc)
 	 * @see am.bizis.cds.dpfdp4.IVeta#getMaxPocet()
 	 */
 	@Override
@@ -87,5 +79,10 @@ public class Vetab implements IVeta {
 	public String toString()
 	{
 		return "Vetab";
+	}
+
+	@Override
+	public Hashtable<String, String> getAttrs() {
+		return ht;
 	}
 }
